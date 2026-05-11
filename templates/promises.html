@@ -1,0 +1,93 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Our Promises | Triratna Jewels</title>
+    <meta name="description"
+        content="Discover the core promises of Triratna Jewels: Ethical Sourcing, Lifetime Quality, and Transparency.">
+
+    <!-- ICONS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <!-- CUSTOM STYLES -->
+    <link rel="stylesheet" href="{% static 'css/editorial_pages.css' %}?v=1.0">
+</head>
+
+<body>
+
+    <!-- NAV -->
+    <nav class="tr-nav">
+        <span class="logo-text">TRIRATNA JEWELS</span>
+        <div style="display:flex; gap: 20px;">
+            <a href="{% url 'home' %}" title="Home"><i class="fa-solid fa-house"></i></a>
+            <a href="{% url 'catalog' %}" title="Collection"><i class="fa-solid fa-gem"></i></a>
+        </div>
+    </nav>
+    <!-- SECTION 1: REFINED HERO -->
+    <section class="tr-header-refined">
+        <div class="tr-bg-title">TJ</div>
+        
+        <div class="tr-refined-split">
+            <div class="tr-refined-text">
+                <span class="sub-label">Commitment</span>
+                <h1>A Legacy of<br>Eternal Trust</h1>
+                <p style="font-family: 'Inter', sans-serif; font-size: 0.85rem; letter-spacing: 2px; color: var(--bronze); text-transform: uppercase;">The Vows of Triratna Jewels</p>
+            </div>
+            <div class="tr-refined-image">
+                <img src="{% static 'images/triratna_lifestyle.png' %}" alt="Brand Vows">
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 2: THE COMMITMENT -->
+    <section class="tr-story">
+        <div class="tr-story-left">
+            <img src="{% static 'images/triratna_lifestyle.png' %}" alt="Elegant jewelry box">
+        </div>
+        <div class="tr-story-right" style="background-color: white;">
+            <h2>OUR PROMISE</h2>
+            <p>
+                A TRIRATNA JEWELS CREATION IS A PROMISE OF ELEGANCE THAT TRANSCENDS TIME. BEYOND THE GOLD AND THE GEMS,
+                WE PROVIDE A COMMITMENT TO EXCELLENCE THAT BEGINS THE MOMENT WE SOURCE OUR MATERIALS AND LASTS FOR
+                GENERATIONS.
+            </p>
+            <p>
+                WE STAND BY EVERY PIECE WE CREATE, OFFERING A SEAMLESS BLEND OF TRADITIONAL VALUES AND MODERN
+                RESPONSIBILITY. OUR PROMISES ARE THE FOUNDATION UPON WHICH WE BUILD LIFELONG RELATIONSHIPS WITH OUR
+                DISCERNING CLIENTELE.
+            </p>
+            <div class="tr-accent-line"></div>
+        </div>
+    </section>
+
+    <!-- SECTION 3: THE VIRTUES -->
+    <section class="tr-philosophy" style="background-color: var(--soft-peach);">
+        <h2 style="font-size: 2.5rem; letter-spacing: 4px; text-transform: uppercase;">A Legacy of Trust</h2>
+        <div class="tr-philosophy-grid">
+            <div class="tr-phi-item">
+                <h3>ETHICAL SOURCING</h3>
+                <p>WE ENSURE THAT EVERY DIAMOND AND GEMSTONE IS SOURCED RESPONSIBLY. WE ONLY PARTNER WITH SUPPLIERS WHO
+                    ADHERE TO THE STRICTEST ETHICAL AND ENVIRONMENTAL STANDARDS.</p>
+            </div>
+            <div class="tr-phi-item">
+                <h3>LIFETIME QUALITY</h3>
+                <p>WE GUARANTEE THE CRAFTSMANSHIP OF OUR PIECES FOR LIFE. TRIRATNA PROVIDES EXPERT CARE,
+                    RE-POLISHING, AND MAINTENANCE SERVICES TO ENSURE YOUR JEWEL REMAINS RADIANT ALWAYS.</p>
+            </div>
+            <div class="tr-phi-item">
+                <h3>FULL DISCLOSURE</h3>
+                <p>WE BELIEVE IN ABSOLUTE TRANSPARENCY. EVERY DETAIL OF YOUR PURCHASE, FROM CARAT WEIGHT TO MATERIAL
+                    PURITY, IS CLEARLY DOCUMENTED AND CERTIFIED FOR YOUR PEACE OF MIND.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    {% include "editorial_footer.html" %}
+
+</body>
+
+</html>

@@ -1,0 +1,98 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us | Triratna Jewels</title>
+    <meta name="description"
+        content="Get in touch with Triratna Jewels for bespoke designs, inquiries, and luxury jewelry services.">
+
+    <!-- ICONS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <!-- CUSTOM STYLES -->
+    <link rel="stylesheet" href="{% static 'css/editorial_pages.css' %}?v=1.0">
+</head>
+
+<body>
+
+    <!-- NAV -->
+    <nav class="tr-nav">
+        <span class="logo-text">TRIRATNA JEWELS</span>
+        <div style="display:flex; gap: 20px;">
+            <a href="{% url 'home' %}" title="Home"><i class="fa-solid fa-house"></i></a>
+            <a href="{% url 'catalog' %}" title="Collection"><i class="fa-solid fa-gem"></i></a>
+        </div>
+    </nav>
+    <!-- SECTION 1: REFINED HERO -->
+    <section class="tr-header-refined">
+        <div class="tr-bg-title">TJ</div>
+        
+        <div class="tr-refined-split">
+            <div class="tr-refined-text">
+                <span class="sub-label">Assistance</span>
+                <h1>Connect With<br>Our Triratna</h1>
+                <p style="font-family: 'Inter', sans-serif; font-size: 0.85rem; letter-spacing: 2px; color: var(--bronze); text-transform: uppercase;">Inquiries & Bespoke Services</p>
+            </div>
+            <div class="tr-refined-image">
+                <img src="{% static 'images/triratna_contact.png' %}" alt="Contact Our Concierge">
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION: CONTACT CONTAINER -->
+    <section class="tr-contact-container">
+        <div class="tr-contact-info">
+            <h2>GET IN TOUCH</h2>
+            <div style="margin-top: 40px; font-size: 1.1rem; line-height: 2;">
+                <p>📍 TRIRATNA JEWELS, AHMEDABAD, GUJARAT</p>
+                <p>📞 +91 70162 07722</p>
+                <p>✉️ INFO@TRIRATNAJEWELS.COM</p>
+                <p>🕘 10:00 AM – 9:00 PM (IST)</p>
+            </div>
+
+            <div style="margin-top: 60px;">
+                <h3 class="playfair" style="font-size: 1.5rem; margin-bottom: 20px;">FOLLOW OUR JOURNEY</h3>
+                <div style="display:flex; gap: 20px; font-size: 1.5rem;">
+                    <a href="#" style="color: black;"><i class="fa-brands fa-instagram"></i></a>
+                    <a href="#" style="color: black;"><i class="fa-brands fa-facebook"></i></a>
+                    <a href="#" style="color: black;"><i class="fa-brands fa-whatsapp"></i></a>
+                </div>
+            </div>
+        </div>
+
+        <div class="tr-story-right"
+            style="background: white; flex: 1.5; padding: 60px; box-shadow: 0 40px 100px rgba(0,0,0,0.05);">
+            <h2 style="font-size: 2.5rem; letter-spacing: 2px;">SEND A MESSAGE</h2>
+
+            {% if messages %}
+            <div class="messages" style="margin-bottom: 20px;">
+                {% for message in messages %}
+                <div class="message {{ message.tags }}"
+                    style="padding: 15px; background: #fdfcf8; border: 1px solid var(--bronze); margin-bottom: 15px;">
+                    {{ message }}
+                </div>
+                {% endfor %}
+            </div>
+            {% endif %}
+
+            <form class="tr-contact-form" method="POST">
+                {% csrf_token %}
+                <input type="text" name="name" placeholder="YOUR NAME"
+                    value="{{ request.session.first_name|default:'' }}" required>
+                <input type="email" name="email" placeholder="YOUR EMAIL" value="{{ request.session.email|default:'' }}"
+                    required>
+                <textarea name="message" placeholder="YOUR MESSAGE" rows="5" required></textarea>
+                <button type="submit">SEND MESSAGE</button>
+            </form>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    {% include "editorial_footer.html" %}
+
+</body>
+
+</html>

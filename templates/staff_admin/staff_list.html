@@ -1,0 +1,87 @@
+{% extends 'staff_admin/base.html' %}
+{% block title %}Staff Members{% endblock %}
+{% block page_title %}Staff Management{% endblock %}
+
+{% block content %}
+<div class="data-section">
+    <div class="data-header">
+        <h3><i class="fa-solid fa-user-shield" style="color:var(--gold);margin-right:8px;"></i>Staff Members ({{ staff_members|length }})</h3>
+    </div>
+
+    <!-- Add Staff (Only for Managers) -->
+    {% if staff.role == 'manager' %}
+    <form method="POST" action="{% url 'staff_manage_add' %}" class="inline-form">
+        {% csrf_token %}
+        <input type="text" name="name" placeholder="Staff Name" required style="max-width:180px;">
+        <input type="email" name="email" placeholder="Email" required style="max-width:220px;">
+        <input type="password" name="password" placeholder="Password" required style="max-width:180px;">
+        <select name="role" style="max-width:150px;">
+            <option value="sales" selected>Sales Staff</option>
+            <option value="inventory">Inventory Staff</option>
+        </select>
+        <button type="submit" class="btn-gold"><i class="fa-solid fa-plus"></i> Add Staff</button>
+    </form>
+    {% endif %}
+
+    <table class="data-table">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Role</th>
+                <th>Status</th>
+                <th>Joined</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for member in staff_members %}
+            <tr>
+                <td>
+                    <div style="display:flex;align-items:center;gap:10px;">
+                        <div style="width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,var(--gold-dark),var(--gold));display:flex;align-items:center;justify-content:center;color:#0f0f1a;font-weight:700;font-size:13px;">
+                            {{ member.name|first|upper }}
+                        </div>
+                        <span style="font-weight:600;">{{ member.name }}</span>
+                    </div>
+                </td>
+                <td>{{ member.email }}</td>
+                <td>{{ member.get_role_display }}</td>
+                <td>
+                    <span class="status-badge {% if member.is_active %}active{% else %}inactive{% endif %}">
+                        {% if member.is_active %}Active{% else %}Inactive{% endif %}
+                    </span>
+                </td>
+                <td>{{ member.created_at|date:"d M Y" }}</td>
+                <td>
+                    <div class="table-actions">
+                        {% if staff.role == 'manager' and member.role != 'manager' %}
+                        <a href="{% url 'staff_manage_toggle' member.pk %}" title="{% if member.is_active %}Deactivate{% else %}Activate{% endif %}">
+                            <i class="fa-solid {% if member.is_active %}fa-ban{% else %}fa-check{% endif %}"></i>
+                        </a>
+                        <a href="{% url 'staff_manage_delete' member.pk %}" class="delete-btn" title="Delete"
+                            onclick="return confirm('Delete staff \'{{ member.name }}\'?')">
+                            <i class="fa-solid fa-trash"></i>
+                        </a>
+                        {% elif member.role == 'manager' %}
+                        <span style="font-size:12px;color:#888;">Owner Only</span>
+                        {% else %}
+                        <span style="font-size:12px;color:#888;">No Access</span>
+                        {% endif %}
+                    </div>
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="6">
+                    <div class="table-empty">
+                        <i class="fa-solid fa-user-shield"></i>
+                        <p>No staff members. Add one above!</p>
+                    </div>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

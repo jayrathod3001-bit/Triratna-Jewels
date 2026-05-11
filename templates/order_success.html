@@ -1,0 +1,466 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Selection Confirmed | Triratna Jewels</title>
+
+    <!-- ICONS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <!-- GOOGLE FONTS -->
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;600;700&family=Italiana&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --bronze: #8e6d51;
+            --luxury-gold: #d4af37;
+            --charcoal: #1a1a1a;
+            --glass-bg: rgba(255, 255, 255, 0.03);
+            --glass-border: rgba(255, 255, 255, 0.05);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #000;
+            color: white;
+            font-family: 'Inter', sans-serif;
+            min-height: 100vh;
+            overflow-x: hidden;
+            background-image: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.9)), url("{% static 'images/luxury_thank_you_bg.png' %}");
+            background-attachment: fixed;
+            background-size: cover;
+            background-position: center;
+        }
+
+        /* Standard Header */
+        .tr-nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 90px;
+            padding: 0 8%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 2000;
+            transition: 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
+            background: rgba(0, 0, 0, 0.15);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .tr-nav.scrolled {
+            height: 70px;
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(20px);
+            box-shadow: 0 5px 30px rgba(0, 0, 0, 0.05);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        .tr-nav .logo-text {
+            font-family: 'Inter', sans-serif;
+            font-size: 1.1rem;
+            letter-spacing: 5px;
+            color: white;
+            text-decoration: none;
+            transition: 0.5s;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        .tr-nav.scrolled .logo-text {
+            color: var(--charcoal);
+            letter-spacing: 5px;
+        }
+
+        .tr-nav-icon {
+            color: white;
+            font-size: 1.1rem;
+            text-decoration: none;
+            transition: 0.4s;
+        }
+
+        .tr-nav.scrolled .tr-nav-icon {
+            color: var(--charcoal);
+        }
+
+        /* Success Container */
+        .tr-success-wrapper {
+            max-width: 1000px;
+            margin: 140px auto 100px;
+            padding: 0 5%;
+        }
+
+        .tr-success-hero {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .tr-success-hero i {
+            font-size: 4rem;
+            color: var(--luxury-gold);
+            margin-bottom: 20px;
+            display: block;
+        }
+
+        .tr-success-hero h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 3.5rem;
+            margin-bottom: 15px;
+            font-weight: 400;
+        }
+
+        .tr-success-hero p {
+            color: rgba(255, 255, 255, 0.6);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            font-size: 0.9rem;
+        }
+
+        /* Invoice Card */
+        .tr-invoice-card {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(25px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 60px;
+            border-radius: 4px;
+            position: relative;
+        }
+
+        .tr-invoice-header {
+            display: flex;
+            justify-content: space-between;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding-bottom: 40px;
+            margin-bottom: 40px;
+        }
+
+        .tr-inv-meta h2 {
+            font-size: 1.8rem;
+            font-family: 'Playfair Display', serif;
+            color: var(--luxury-gold);
+            margin-bottom: 10px;
+        }
+
+        .tr-inv-meta span {
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .tr-status-badge {
+            padding: 8px 20px;
+            border-radius: 50px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .status-paid { background: rgba(40, 167, 69, 0.1); color: #28a745; border: 1px solid rgba(40, 167, 69, 0.2); }
+        .status-pending { background: rgba(255, 193, 7, 0.1); color: #ffc107; border: 1px solid rgba(255, 193, 7, 0.2); }
+
+        .tr-inv-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 40px;
+            margin-bottom: 60px;
+        }
+
+        .tr-inv-group h4 {
+            color: var(--luxury-gold);
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 15px;
+        }
+
+        .tr-inv-group p {
+            font-size: 1rem;
+            color: rgba(255, 255, 255, 0.9);
+            line-height: 1.6;
+        }
+
+        /* Items Table */
+        .tr-inv-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 60px;
+        }
+
+        .tr-inv-table th {
+            text-align: left;
+            padding: 15px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .tr-inv-table td {
+            padding: 25px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+            font-size: 1rem;
+        }
+
+        .tr-inv-table .tr-price-col {
+            text-align: right;
+            font-family: 'Playfair Display', serif;
+            font-size: 1.1rem;
+        }
+
+        /* Summary Section */
+        .tr-inv-footer {
+            display: flex;
+            justify-content: flex-end;
+        }
+
+        .tr-summary-box {
+            width: 350px;
+        }
+
+        .tr-summary-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 12px 0;
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        .tr-summary-row.total {
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: white;
+            font-size: 1.4rem;
+            font-family: 'Playfair Display', serif;
+        }
+
+        /* Terms Section */
+        .tr-voucher-terms {
+            margin-top: 60px;
+            padding: 30px;
+            background: rgba(212, 175, 55, 0.05);
+            border-left: 3px solid var(--luxury-gold);
+        }
+
+        .tr-voucher-terms h4 {
+            color: var(--luxury-gold);
+            margin-bottom: 15px;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+        }
+
+        .tr-voucher-terms li {
+            margin-bottom: 10px;
+            font-size: 0.85rem;
+            color: rgba(255, 255, 255, 0.7);
+            list-style: none;
+            position: relative;
+            padding-left: 20px;
+        }
+
+        .tr-voucher-terms li::before {
+            content: "•";
+            position: absolute;
+            left: 0;
+            color: var(--luxury-gold);
+        }
+
+        /* Actions */
+        .tr-inv-actions {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            margin-top: 60px;
+        }
+
+        .tr-btn {
+            padding: 18px 40px;
+            text-decoration: none;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            transition: 0.4s;
+            cursor: pointer;
+            border-radius: 4px;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .tr-btn-primary {
+            background: var(--luxury-gold);
+            color: black;
+            border: none;
+        }
+
+        .tr-btn-outline {
+            background: transparent;
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .tr-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        @media print {
+            .tr-nav, .tr-inv-actions { display: none !important; }
+            body { background: white !important; color: black !important; padding: 0; margin: 0; }
+            .tr-invoice-card { background: white !important; border: none; box-shadow: none; padding: 20px; }
+            .tr-inv-meta h2, .tr-summary-row.total { color: black !important; }
+        }
+
+        @media (max-width: 768px) {
+            .tr-inv-grid { grid-template-columns: 1fr; }
+            .tr-inv-header { flex-direction: column; gap: 20px; }
+            .tr-success-hero h1 { font-size: 2.5rem; }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- NAVIGATION -->
+    <nav class="tr-nav" id="mainNav">
+        <a href="{% url 'home' %}" class="logo-text">TRIRATNA JEWELS</a>
+        <div style="display:flex; gap: 30px; align-items: center;">
+            <a href="{% url 'home' %}" title="Home" class="tr-nav-icon"><i class="fa-solid fa-house"></i></a>
+            <a href="{% url 'wishlist_view' %}" title="Wishlist" class="tr-nav-icon"><i class="fa-regular fa-heart"></i></a>
+            <a href="{% url 'cart_view' %}" title="Cart" class="tr-nav-icon"><i class="fa-solid fa-shopping-bag"></i></a>
+        </div>
+    </nav>
+
+    <div class="tr-success-wrapper">
+        <div class="tr-success-hero">
+            <i class="fa-solid fa-circle-check"></i>
+            <h1>Brilliance Reserved</h1>
+            <p>Your journey with Triratna Jewels has begun</p>
+        </div>
+
+        <div class="tr-invoice-card">
+            <div class="tr-invoice-header">
+                <div class="tr-inv-meta">
+                    <span>Selection Reference</span>
+                    <h2>#{{ order.id|stringformat:"05d" }}</h2>
+                </div>
+                <div>
+                    {% if order.payment_method == 'online' %}
+                    <span class="tr-status-badge status-paid"><i class="fa-solid fa-shield-check"></i> Paid Online</span>
+                    {% else %}
+                    <span class="tr-status-badge status-pending"><i class="fa-regular fa-clock"></i> Pay at Shop</span>
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="tr-inv-grid">
+                <div class="tr-inv-group">
+                    <h4>Consignee</h4>
+                    <p>{{ order.user.first_name }} {{ order.user.last_name }}</p>
+                    <p style="opacity: 0.6; font-size: 0.9rem;">{{ order.user.email }}</p>
+                </div>
+                <div class="tr-inv-group">
+                    <h4>Reservation Date</h4>
+                    <p>{{ order.order_date|date:"F j, Y" }}</p>
+                </div>
+                <div class="tr-inv-group">
+                    <h4>Pickup Schedule</h4>
+                    <p>{{ order.pickup_date|date:"F j, Y" }}</p>
+                    <p style="opacity: 0.6; font-size: 0.9rem;">At {{ order.pickup_time|time:"H:i" }}</p>
+                </div>
+            </div>
+
+            <table class="tr-inv-table">
+                <thead>
+                    <tr>
+                        <th>Masterpiece</th>
+                        <th>Qty</th>
+                        <th class="tr-price-col">Amount</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in order.items.all %}
+                    <tr>
+                        <td>
+                            <div style="font-weight: 600;">{{ item.jewellery.name }}</div>
+                            <div style="font-size: 0.75rem; color: rgba(255,255,255,0.4); margin-top: 5px;">REF: TR-{{ item.jewellery.id|stringformat:"04d" }}</div>
+                        </td>
+                        <td>{{ item.quantity }}</td>
+                        <td class="tr-price-col">₹ {{ item.price|floatformat:2 }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
+            <div class="tr-inv-footer">
+                <div class="tr-summary-box">
+                    <div class="tr-summary-row">
+                        <span>Base Selection Total</span>
+                        <span>₹ {{ order.base_amount|floatformat:2 }}</span>
+                    </div>
+                    <div class="tr-summary-row">
+                        <span>Craftsmanship Fees ({{ making_percent|default:"3" }}%)</span>
+                        <span>₹ {{ order.making_charges|floatformat:2 }}</span>
+                    </div>
+                    <div class="tr-summary-row">
+                        <span>Government Taxes (GST 5%)</span>
+                        <span>₹ {{ order.gst_amount|floatformat:2 }}</span>
+                    </div>
+                    <div class="tr-summary-row total">
+                        <span>Grand Total</span>
+                        <span>₹ {{ order.total_amount|floatformat:2 }}</span>
+                    </div>
+                </div>
+            </div>
+
+            {% if order.payment_method == 'pay_at_shop' %}
+            <div class="tr-voucher-terms">
+                <h4><i class="fa-solid fa-circle-info"></i> Boutique Protocol:</h4>
+                <ul>
+                    <li>This is a <strong>Pay at Shop Voucher</strong>. Final billing will be issued at the boutique.</li>
+                    <li>Final valuation will align with the <strong>metal rates on your pickup date</strong>.</li>
+                    <li>The above total is a sophisticated estimate based on current market rates.</li>
+                    <li>Please present this digital or printed reference during your boutique visit.</li>
+                </ul>
+            </div>
+            {% endif %}
+
+            <div style="text-align: center; margin-top: 60px; color: rgba(255,255,255,0.3); font-style: italic; font-size: 0.9rem;">
+                "Crafting legacies, one masterpiece at a time."
+            </div>
+        </div>
+
+        <div class="tr-inv-actions">
+            <a href="{% url 'download_invoice' order.id %}" class="tr-btn tr-btn-primary">
+                <i class="fa-solid fa-file-pdf"></i> Save Document
+            </a>
+            <a href="{% url 'home' %}" class="tr-btn tr-btn-outline" style="border-color: var(--luxury-gold); color: var(--luxury-gold);">
+                Continue Discovery
+            </a>
+        </div>
+    </div>
+
+    <script>
+        window.addEventListener('scroll', () => {
+            const nav = document.getElementById('mainNav');
+            if (window.scrollY > 50) nav.classList.add('scrolled');
+            else nav.classList.remove('scrolled');
+        });
+    </script>
+</body>
+
+</html>

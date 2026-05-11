@@ -1,0 +1,426 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Confirm Cancellation | Triratna Jewels</title>
+
+    <!-- ICONS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <!-- GOOGLE FONTS -->
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;600;700&family=Italiana&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --luxury-gold: #d4af37;
+            --charcoal: #1a1a1a;
+            --bronze: #8e6d51;
+            --luxury-red: #c43a3a;
+            --glass-white: rgba(255, 255, 255, 0.03);
+            --glass-border: rgba(255, 255, 255, 0.08);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #000;
+            color: white;
+            font-family: 'Inter', sans-serif;
+            min-height: 100vh;
+            overflow-x: hidden;
+            background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.9)), url("{% static 'images/luxury_cancel_bg.png' %}");
+            background-attachment: fixed;
+            background-size: cover;
+            background-position: center;
+        }
+
+        /* Standard Cinematic Header */
+        .tr-nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 90px;
+            padding: 0 8%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 2000;
+            transition: 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
+            background: rgba(0, 0, 0, 0.2);
+            backdrop-filter: blur(15px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .tr-nav .logo-text {
+            font-family: 'Inter', sans-serif;
+            font-size: 1.1rem;
+            letter-spacing: 5px;
+            color: white;
+            text-decoration: none;
+            transition: 0.5s;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        .tr-nav-icon {
+            color: white;
+            font-size: 1.1rem;
+            text-decoration: none;
+            transition: 0.4s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+        }
+
+        /* Layout - Unified with Profile */
+        .tr-layout-wrapper {
+            max-width: 1200px;
+            margin: 140px auto 100px;
+            padding: 0 5%;
+            animation: fadeIn 1s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .tr-main-card {
+            background: rgba(255, 255, 255, 0.02);
+            backdrop-filter: blur(40px);
+            border: 1px solid var(--glass-border);
+            border-radius: 8px;
+            overflow: hidden;
+            display: grid;
+            grid-template-columns: 320px 1fr;
+            min-height: 700px;
+            box-shadow: 0 40px 100px rgba(0,0,0,0.5);
+            position: relative;
+        }
+
+        /* Sidebar - Same as Profile */
+        .tr-sidebar {
+            background: rgba(255, 255, 255, 0.02);
+            padding: 80px 40px;
+            text-align: center;
+            border-right: 1px solid var(--glass-border);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .tr-user-info h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            margin-bottom: 40px;
+            font-weight: 400;
+        }
+
+        .tr-side-menu {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .tr-policy-list {
+            list-style: none;
+            text-align: left;
+            margin: 20px 0;
+            font-size: 0.75rem;
+            color: rgba(255,255,255,0.6);
+        }
+        .tr-policy-list li { margin-bottom: 8px; display: flex; justify-content: space-between; }
+
+        .tr-menu-link {
+            padding: 18px 25px;
+            color: rgba(255, 255, 255, 0.5);
+            text-decoration: none;
+            font-size: 0.8rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            border-radius: 4px;
+            transition: 0.4s;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            border: 1px solid transparent;
+        }
+
+        .tr-menu-link:hover, .tr-menu-link.active {
+            background: rgba(255, 255, 255, 0.03);
+            color: white;
+            border-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .tr-menu-link.active i { color: var(--luxury-red); }
+
+        /* Confirmation Content */
+        .tr-content-main {
+            padding: 80px;
+            position: relative;
+            z-index: 10;
+        }
+
+        .tr-section-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.8rem;
+            margin-bottom: 5px;
+            font-weight: 400;
+        }
+
+        .tr-section-subtitle {
+            font-size: 0.75rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: rgba(255, 255, 255, 0.4);
+            margin-bottom: 40px;
+        }
+
+        /* Order Info Bar */
+        .tr-info-bar {
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 4px;
+            padding: 20px 30px;
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 40px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .tr-info-item span {
+            display: block;
+            font-size: 0.65rem;
+            letter-spacing: 1px;
+            color: var(--bronze);
+            text-transform: uppercase;
+            margin-bottom: 5px;
+        }
+
+        .tr-info-item strong { font-size: 0.9rem; color: white; }
+
+        /* Item Row */
+        .tr-item-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .tr-item-img {
+            width: 60px; height: 60px;
+            object-fit: cover;
+            border-radius: 4px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            margin-right: 20px;
+        }
+
+        .tr-item-name { font-weight: 600; font-size: 1rem; }
+        .tr-item-specs { font-size: 0.75rem; color: rgba(255, 255, 255, 0.4); text-transform: uppercase; letter-spacing: 1px; }
+
+        /* Refund Box */
+        .tr-refund-box {
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 4px;
+            padding: 40px;
+            margin-top: 40px;
+        }
+
+        .tr-calc-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 12px 0;
+            font-size: 0.95rem;
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        .tr-calc-row.total {
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            margin-top: 15px;
+            padding-top: 25px;
+            font-size: 1.5rem;
+            color: white;
+            font-family: 'Playfair Display', serif;
+        }
+
+        .tr-refund-amount { color: #28a745; font-weight: 700; }
+
+        .tr-alert-box {
+            margin-top: 25px;
+            padding: 15px 20px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .alert-error { background: rgba(196, 58, 58, 0.1); color: var(--luxury-red); border: 1px solid rgba(196, 58, 58, 0.2); }
+        .alert-success { background: rgba(40, 167, 69, 0.1); color: #28a745; border: 1px solid rgba(40, 167, 69, 0.2); }
+
+        .tr-btn-danger {
+            width: 100%;
+            padding: 20px;
+            background: var(--luxury-red);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            font-weight: 700;
+            font-size: 0.8rem;
+            margin-top: 40px;
+            cursor: pointer;
+            transition: 0.5s;
+        }
+
+        .tr-btn-danger:hover { background: #e64545; transform: translateY(-3px); box-shadow: 0 15px 40px rgba(196, 58, 58, 0.3); }
+
+        /* Modal */
+        .tr-modal-overlay {
+            display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0, 0, 0, 0.85); backdrop-filter: blur(10px); z-index: 9999;
+            justify-content: center; align-items: center;
+        }
+
+        .tr-modal-content {
+            background: var(--charcoal); border: 1px solid var(--glass-border); padding: 50px;
+            max-width: 450px; text-align: center; border-radius: 8px;
+        }
+
+        @media (max-width: 1024px) {
+            .tr-main-card { grid-template-columns: 1fr; }
+            .tr-sidebar { border-right: none; border-bottom: 1px solid var(--glass-border); padding: 60px 40px; }
+            .tr-content-main { padding: 60px 40px; }
+            .tr-info-bar { flex-direction: column; gap: 20px; }
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav class="tr-nav" id="mainNav">
+        <span class="logo-text">TRIRATNA JEWELS</span>
+        <div style="display:flex; gap: 35px; align-items: center; height: 100%;">
+            <a href="{% url 'home' %}" title="Home" class="tr-nav-icon"><i class="fa-solid fa-house"></i></a>
+            <a href="{% url 'catalog' %}" title="Collection" class="tr-nav-icon"><i class="fa-solid fa-gem"></i></a>
+            <a href="{% url 'wishlist_view' %}" title="Wishlist" class="tr-nav-icon"><i class="fa-regular fa-heart"></i></a>
+            <a href="{% url 'cart_view' %}" title="Cart" class="tr-nav-icon"><i class="fa-solid fa-shopping-bag"></i></a>
+        </div>
+    </nav>
+
+    <div class="tr-layout-wrapper">
+        <div class="tr-main-card">
+            <!-- SIDEBAR -->
+            <aside class="tr-sidebar">
+                <div class="tr-user-info">
+                    <h2>{{ request.session.first_name }}</h2>
+                </div>
+
+                <nav class="tr-side-menu">
+                    <a href="javascript:void(0)" onclick="navigateAccount('{% url 'profile_view' %}')" class="tr-menu-link">
+                        <i class="fa-solid fa-id-card"></i> Account Suite
+                    </a>
+                    <a href="javascript:void(0)" onclick="navigateAccount('{% url 'order_history' %}')" class="tr-menu-link">
+                        <i class="fa-solid fa-bag-shopping"></i> My Selections
+                    </a>
+                    <a href="{% url 'edit_profile' %}?edit=1" class="tr-menu-link">
+                        <i class="fa-solid fa-pen-to-square"></i> Edit Identity
+                    </a>
+                    <a href="{% url 'cancel_order_form' %}" class="tr-menu-link active">
+                        <i class="fa-solid fa-ban"></i> Cancel Order
+                    </a>
+                    <a href="{% url 'logout' %}" class="tr-menu-link" style="color: #ff4d4d; margin-top: 40px;">
+                        <i class="fa-solid fa-power-off"></i> Sign Out
+                    </a>
+                </nav>
+            </aside>
+
+            <!-- MAIN CONTENT AREA -->
+            <main class="tr-content-main">
+                <h1 class="tr-section-title">Review Cancellation</h1>
+                <p class="tr-section-subtitle">Reference #{{ order.id|stringformat:"05d" }}</p>
+
+                <div class="tr-info-bar">
+                    <div class="tr-info-item"><span>Selection Date</span><strong>{{ order.order_date|date:"d M Y" }}</strong></div>
+                    <div class="tr-info-item"><span>Payment Mode</span><strong>Online</strong></div>
+                    <div class="tr-info-item"><span>Time Elapsed</span><strong>{{ hours_passed }} Hours</strong></div>
+                </div>
+
+                {% for item in items %}
+                <div class="tr-item-row">
+                    <div style="display: flex; align-items: center;">
+                        {% if item.jewellery.image %}
+                        <img src="{{ item.jewellery.image.url }}" class="tr-item-img">
+                        {% endif %}
+                        <div>
+                            <div class="tr-item-name">{{ item.jewellery.name }}</div>
+                            <div class="tr-item-specs">{{ item.jewellery.weight }}g · {{ item.jewellery.karat }}</div>
+                        </div>
+                    </div>
+                    <div style="text-align: right;">
+                        <div style="font-size: 0.7rem; color: rgba(255,255,255,0.4);">QTY: {{ item.quantity }}</div>
+                        <div class="tr-item-name">₹ {{ item.line_total|floatformat:2 }}</div>
+                    </div>
+                </div>
+                {% endfor %}
+
+                <div class="tr-refund-box">
+                    <div class="tr-calc-row"><span>Original Total</span><span>₹ {{ order.total_amount|floatformat:2 }}</span></div>
+
+                    {% if refund_status == 'none' %}
+                    <div class="tr-alert-box alert-error">
+                        <i class="fa-solid fa-circle-exclamation"></i>
+                        <span><strong>{{ refund_message }}</strong></span>
+                    </div>
+                    {% else %}
+                    <div class="tr-calc-row"><span>Cancellation Fee ({{ charge_percent }}%)</span><span style="color: var(--luxury-red);">- ₹ {{ cancellation_charge|floatformat:2 }}</span></div>
+                    <div class="tr-calc-row total"><span>Final Refund</span><span class="tr-refund-amount">₹ {{ refund_amount|floatformat:2 }}</span></div>
+                    <div class="tr-alert-box alert-success"><i class="fa-solid fa-circle-check"></i>
+                    <div>
+                        <span>{{ refund_message }}</span>
+                        <p style="font-size: 0.6rem; margin-top: 5px; text-transform: uppercase; letter-spacing: 1px; opacity: 0.8;">Refund apply online payment only</p>
+                    </div>
+                </div>
+
+                    <form method="POST" action="{% url 'cancel_order_process' order.id %}" id="cancelForm">
+                        {% csrf_token %}<input type="hidden" name="email" value="{{ email }}">
+                        <button type="button" onclick="showCancelModal()" class="tr-btn-danger"><i class="fa-solid fa-ban"></i> Authorize Termination</button>
+                    </form>
+                    {% endif %}
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div class="tr-modal-overlay" id="confirmModal">
+        <div class="tr-modal-content">
+            <i class="fa-solid fa-triangle-exclamation" style="font-size: 3rem; color: #ffc107; margin-bottom: 20px;"></i>
+            <h3>Irreversible Action</h3>
+            <p>Confirm order termination? This cannot be undone.</p>
+            <div style="display: flex; gap: 15px;">
+                <button onclick="hideCancelModal()" style="flex:1; padding:15px; border-radius:4px; font-weight:700; cursor:pointer; background:rgba(255,255,255,0.1); color:white; border:none; text-transform:uppercase;">No</button>
+                <button onclick="document.getElementById('cancelForm').submit()" style="flex:1; padding:15px; border-radius:4px; font-weight:700; cursor:pointer; background:var(--luxury-red); color:white; border:none; text-transform:uppercase;">Yes, Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function showCancelModal() { document.getElementById('confirmModal').style.display = 'flex'; }
+        function hideCancelModal() { document.getElementById('confirmModal').style.display = 'none'; }
+    </script>
+</body>
+
+</html>

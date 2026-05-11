@@ -1,0 +1,132 @@
+/* ================= HERO ================= */
+
+.contact-hero {
+    background: linear-gradient(135deg, #fff6e5, #efe1c1);
+    text-align: center;
+    padding: 140px 20px 100px;
+}
+
+.contact-hero h1 {
+    font-size: 52px;
+    letter-spacing: 2px;
+    color: #1a2a6c;
+}
+
+.contact-hero p {
+    margin-top: 12px;
+    font-size: 18px;
+    color: #1a2a6c;
+}
+
+/* ================= CONTENT ================= */
+
+.contact-content {
+    max-width: 900px;
+    margin: auto;
+    padding: 80px 20px;
+}
+
+.contact-block {
+    margin-bottom: 70px;
+}
+
+.contact-block h2 {
+    font-size: 28px;
+    margin-bottom: 25px;
+    position: relative;
+    color: #c9a227;
+}
+
+.contact-block h2::after {
+    content: "";
+    width: 60px;
+    height: 3px;
+    background: linear-gradient(90deg, #c9a227, #ead216);
+    display: block;
+    margin-top: 10px;
+}
+
+/* ================= DETAILS ================= */
+
+.contact-details {
+    font-size: 16px;
+}
+
+.contact-item {
+    margin-bottom: 18px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    color: #c9a227;
+}
+
+.contact-item i {
+    color: #c9a227;
+    font-size: 18px;
+}
+
+/* ================= FORM ================= */
+
+.contact-form {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+.contact-form input,
+.contact-form textarea {
+    padding: 14px;
+    font-size: 15px;
+    border: 1px solid #d8cfae;
+    outline: none;
+    font-family: inherit;
+}
+
+.contact-form textarea {
+    min-height: 120px;
+    resize: none;
+}
+
+.contact-form button {
+    width: fit-content;
+    padding: 14px 40px;
+    background: linear-gradient(90deg, #c9a227, #ead216);
+    border: none;
+    color: #1a2a6c;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+/* ================= SIGNATURE ================= */
+
+.contact-signature {
+    text-align: center;
+    padding-bottom: 100px;
+    font-style: italic;
+    color: #c9a227;
+    font-size: 18px;
+}
+
+/* ================= FOOTER FIX ================= */
+
+.site-footer {
+    background: #fff6e5;
+    border-top: 1px solid #e6d9b8;
+}
+
+.footer-bottom {
+    border-top: 1px solid #e6d9b8;
+    color: #1a2a6c;
+}
+
+/* ================= RESPONSIVE ================= */
+
+@media (max-width: 768px) {
+    .contact-hero h1 {
+        font-size: 40px;
+    }
+
+    .contact-content {
+        padding: 60px 20px;
+    }
+}

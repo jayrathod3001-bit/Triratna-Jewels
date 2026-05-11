@@ -1,0 +1,88 @@
+{% extends 'staff_admin/base.html' %}
+{% block title %}Orders{% endblock %}
+{% block page_title %}Order Management{% endblock %}
+
+{% block content %}
+<div class="data-section">
+    <div class="data-header">
+        <h3><i class="fa-solid fa-bag-shopping" style="color:var(--gold);margin-right:8px;"></i>All Orders ({{ orders|length }})</h3>
+    </div>
+
+    <!-- Filters -->
+    <form method="GET" class="data-filters" style="padding:15px 22px;border-bottom:1px solid var(--border);">
+        <input type="text" name="search" placeholder="Search order ID, name, email..." value="{{ search }}">
+        <select name="status" onchange="this.form.submit()">
+            <option value="">All Status</option>
+            <option value="paid" {% if status_filter == 'paid' %}selected{% endif %}>Paid</option>
+            <option value="pending" {% if status_filter == 'pending' %}selected{% endif %}>Pending</option>
+        </select>
+        <select name="method" onchange="this.form.submit()">
+            <option value="">All Methods</option>
+            <option value="pay_at_shop" {% if method_filter == 'pay_at_shop' %}selected{% endif %}>Pay at Shop</option>
+            <option value="online" {% if method_filter == 'online' %}selected{% endif %}>Online</option>
+        </select>
+        <button type="submit" class="btn-search"><i class="fa-solid fa-search"></i> Search</button>
+        {% if search or status_filter or method_filter %}
+        <a href="{% url 'staff_order_list' %}" class="btn-clear"><i class="fa-solid fa-xmark"></i> Clear</a>
+        {% endif %}
+    </form>
+
+    <table class="data-table">
+        <thead>
+            <tr>
+                <th>Order ID</th>
+                <th>Customer</th>
+                <th>Items</th>
+                <th>Total</th>
+                <th>Method</th>
+                <th>Date</th>
+                <th>Payment</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for order in orders %}
+            <tr>
+                <td style="font-weight:700;color:var(--gold);">#{{ order.id }}</td>
+                <td>
+                    <div>{{ order.user.first_name }} {{ order.user.last_name }}</div>
+                    <div style="font-size:11px;color:var(--text-muted);">{{ order.user.email }}</div>
+                </td>
+                <td>{{ order.items.count }} item{{ order.items.count|pluralize }}</td>
+                <td style="font-weight:700;">₹{{ order.total_amount|floatformat:0 }}</td>
+                <td>
+                    {% if order.payment_method == 'pay_at_shop' %}
+                    <span style="color:var(--accent-orange);"><i class="fa-solid fa-shop"></i> Shop</span>
+                    {% else %}
+                    <span style="color:var(--accent-blue);"><i class="fa-solid fa-globe"></i> Online</span>
+                    {% endif %}
+                </td>
+                <td>
+                    <div>{{ order.order_date|date:"d M Y" }}</div>
+                    <div style="font-size:11px;color:var(--text-muted);">{{ order.order_date|date:"h:i A" }}</div>
+                </td>
+                <td>
+                    <span class="status-badge {% if order.is_paid %}paid{% else %}pending{% endif %}">
+                        {% if order.is_paid %}Paid{% else %}Pending{% endif %}
+                    </span>
+                </td>
+                <td>
+                    <div class="table-actions">
+                        <a href="{% url 'staff_order_detail' order.pk %}" title="View Details"><i class="fa-solid fa-eye"></i></a>
+                    </div>
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="8">
+                    <div class="table-empty">
+                        <i class="fa-solid fa-bag-shopping"></i>
+                        <p>No orders found</p>
+                    </div>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

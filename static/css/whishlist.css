@@ -1,0 +1,198 @@
+body {
+    background-color: #f7f7f7 !important;
+    color: #333;
+}
+
+.wishlist-container {
+    max-width: 1200px;
+    margin: 60px auto;
+    padding: 20px;
+    font-family: 'Playfair Display', serif;
+}
+
+.wishlist-header {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.wishlist-header h1 {
+    font-size: 32px;
+    color: #1a2a6c;
+    /* Navy Blue */
+    position: relative;
+    display: inline-block;
+    padding-bottom: 10px;
+}
+
+.wishlist-header h1::after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    bottom: 0;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 3px;
+    background: #ead216;
+    /* Gold */
+}
+
+.wishlist-table-wrapper {
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+    overflow-x: auto;
+}
+
+.wishlist-table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 800px;
+}
+
+.wishlist-table th {
+    background: #fdfdfd;
+    color: #1a2a6c;
+    text-align: left;
+    padding: 20px 15px;
+    font-weight: 600;
+    border-bottom: 1px solid #eee;
+    text-transform: uppercase;
+    font-size: 14px;
+    letter-spacing: 1px;
+}
+
+.wishlist-table td {
+    padding: 20px 15px;
+    border-bottom: 1px solid #f9f9f9;
+    vertical-align: middle;
+}
+
+.product-cell {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.product-img {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+    border-radius: 4px;
+    background: #f9f9f9;
+}
+
+.product-name h3 {
+    margin: 0;
+    font-size: 18px;
+    color: #1a2a6c;
+}
+
+.product-name p {
+    margin: 5px 0 0;
+    font-size: 13px;
+    color: #888;
+}
+
+.price-cell {
+    font-size: 18px;
+    font-weight: 500;
+    color: #1a2a6c;
+}
+
+.stock-status {
+    color: #2ecc71;
+    /* Green for in stock */
+    font-weight: 500;
+    font-size: 14px;
+}
+
+.added-on {
+    font-size: 13px;
+    color: #888;
+}
+
+.action-cell {
+    text-align: center;
+}
+
+.qty-cell {
+    font-size: 16px;
+    color: #1a2a6c;
+    font-weight: 500;
+}
+
+.add-to-cart-btn {
+    background: #ead216;
+    /* Gold */
+    color: #1a2a6c;
+    /* Navy Blue */
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.3s;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 14px;
+}
+
+.add-to-cart-btn:hover {
+    background: #d4af37;
+    color: #fff;
+}
+
+.remove-wishlist {
+    color: #f44336;
+    text-decoration: none;
+    font-size: 18px;
+    margin-left: 15px;
+    transition: 0.3s;
+}
+
+.remove-wishlist:hover {
+    transform: scale(1.2);
+}
+
+.empty-wishlist {
+    text-align: center;
+    padding: 80px 20px;
+}
+
+.empty-wishlist i {
+    font-size: 64px;
+    color: #ddd;
+    margin-bottom: 20px;
+}
+
+.empty-wishlist h2 {
+    color: #1a2a6c;
+    margin-bottom: 20px;
+}
+
+.continue-btn {
+    display: inline-block;
+    background: #1a2a6c;
+    color: gold;
+    padding: 12px 30px;
+    border-radius: 4px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: 0.3s;
+}
+
+.continue-btn:hover {
+    background: #253b8e;
+    color: #fff;
+}
+
+@media (max-width: 768px) {
+    .wishlist-container {
+        margin: 40px auto;
+    }
+
+    .product-img {
+        width: 60px;
+        height: 60px;
+    }
+}

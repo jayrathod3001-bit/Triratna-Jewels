@@ -1,0 +1,65 @@
+{% extends 'staff_admin/base.html' %}
+{% block title %}Banners{% endblock %}
+{% block page_title %}Banner Management{% endblock %}
+
+{% block content %}
+<div class="data-section">
+    <div class="data-header">
+        <h3><i class="fa-solid fa-images" style="color:var(--gold);margin-right:8px;"></i>All Banners ({{ banners|length }})</h3>
+    </div>
+
+    <!-- Add Banner Form -->
+    <form method="POST" action="{% url 'staff_banner_add' %}" enctype="multipart/form-data" class="inline-form" style="flex-wrap:wrap;">
+        {% csrf_token %}
+        <select name="page" required style="max-width:150px;">
+            <option value="home">Home Page</option>
+            <option value="about">About Page</option>
+            <option value="contact">Contact Page</option>
+        </select>
+        <input type="text" name="heading" placeholder="Heading (optional)">
+        <input type="text" name="subheading" placeholder="Subheading (optional)">
+        <input type="text" name="button_text" placeholder="Button text (optional)" style="max-width:130px;">
+        <input type="text" name="button_link" placeholder="Button link (optional)" style="max-width:150px;">
+        <input type="file" name="image" accept="image/*" required style="max-width:220px;">
+        <label style="display:flex;align-items:center;gap:6px;color:var(--text-secondary);font-size:13px;cursor:pointer;">
+            <input type="checkbox" name="is_active" checked style="accent-color:var(--gold);"> Active
+        </label>
+        <button type="submit" class="btn-gold"><i class="fa-solid fa-plus"></i> Add Banner</button>
+    </form>
+
+    <!-- Banner Grid -->
+    <div class="banner-grid">
+        {% for banner in banners %}
+        <div class="banner-card">
+            {% if banner.image %}
+            <img src="{{ banner.image.url }}" alt="Banner">
+            {% endif %}
+            <div class="banner-info">
+                <h4>{{ banner.heading|default:"No Heading" }}</h4>
+                <p>Page: <strong>{{ banner.get_page_display }}</strong> · {{ banner.subheading|default:"" }}</p>
+                <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px;">
+                    <span class="status-badge {% if banner.is_active %}active{% else %}inactive{% endif %}">
+                        {% if banner.is_active %}Active{% else %}Inactive{% endif %}
+                    </span>
+                </div>
+                <div class="banner-actions">
+                    <a href="{% url 'staff_banner_toggle' banner.pk %}" class="action-btn btn-outline" style="font-size:11px;padding:5px 10px;">
+                        <i class="fa-solid {% if banner.is_active %}fa-eye-slash{% else %}fa-eye{% endif %}"></i>
+                        {% if banner.is_active %}Deactivate{% else %}Activate{% endif %}
+                    </a>
+                    <a href="{% url 'staff_banner_delete' banner.pk %}" class="action-btn btn-outline delete-btn" style="font-size:11px;padding:5px 10px;"
+                        onclick="return confirm('Delete this banner?')">
+                        <i class="fa-solid fa-trash"></i> Delete
+                    </a>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <div class="table-empty" style="grid-column:1/-1;">
+            <i class="fa-solid fa-images"></i>
+            <p>No banners yet. Add one above!</p>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,476 @@
+/* 
+   Triratna Jewels - About Us
+   High-end Editorial Layout
+*/
+
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Inter:wght@300;400;600&family=Italiana&display=swap');
+
+:root {
+    --bronze: #8e6d51;
+    --champagne: #f7e7ce;
+    --muted-rose: #d8a48f;
+    --charcoal: #1a1a1a;
+    --soft-peach: #f4d4c4;
+    --gold-text: #d4af37;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: #fdfcf8;
+    color: var(--charcoal);
+    font-family: 'Inter', sans-serif;
+    line-height: 1.6;
+    overflow-x: hidden;
+}
+
+h1, h2, .playfair {
+    font-family: 'Playfair Display', serif;
+}
+
+/* Section 1: Dynamic Hero */
+.tr-dynamic-header {
+    width: 100%;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    position: relative;
+    padding: 100px 8%;
+    background-color: #fdfcf8;
+}
+
+.tr-bg-title {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-family: 'Italiana', serif;
+    font-size: 40vw;
+    font-weight: 400;
+    font-style: italic;
+    color: rgba(142, 109, 81, 0.04);
+    z-index: 0;
+    pointer-events: none;
+    white-space: nowrap;
+    letter-spacing: -2vw; /* Creating an overlapping monogram effect */
+}
+
+.tr-hero-split {
+    display: grid;
+    grid-template-columns: 1fr 1.2fr;
+    gap: 80px;
+    width: 100%;
+    z-index: 10;
+    align-items: center;
+}
+
+.tr-hero-text h1 {
+    font-size: 5.5rem;
+    line-height: 1.1;
+    margin-bottom: 30px;
+    color: var(--charcoal);
+    text-transform: uppercase;
+    letter-spacing: -2px;
+}
+
+/* VARIATION: Typographic Only (Catalog/Promises) */
+.tr-header-typo {
+    width: 100%;
+    min-height: 60vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    position: relative;
+    padding: 100px 8%;
+    background-color: #fdfcf8;
+}
+
+.tr-header-typo h1 {
+    font-size: 8rem;
+    font-family: 'Playfair Display', serif;
+    text-transform: uppercase;
+    letter-spacing: -5px;
+    line-height: 0.9;
+    z-index: 10;
+    color: var(--charcoal);
+}
+
+.tr-header-typo .sub-label {
+    position: absolute;
+    top: 30%;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 0.8rem;
+    letter-spacing: 8px;
+    text-transform: uppercase;
+    color: var(--bronze);
+}
+
+/* VARIATION: Minimalist (Contact/Legal) */
+.tr-header-minimal {
+    width: 100%;
+    min-height: 40vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 120px 10% 40px;
+    background-color: #fdfcf8;
+    border-bottom: 1px solid #eee;
+}
+
+.tr-header-minimal h1 {
+    font-size: 4rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 20px;
+}
+
+.tr-header-minimal p {
+    font-size: 0.9rem;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--bronze);
+}
+
+/* VARIATION: Refined (Photo + Text Balanced) */
+.tr-header-refined {
+    width: 100%;
+    min-height: 70vh;
+    display: flex;
+    align-items: center;
+    position: relative;
+    padding: 120px 8% 60px;
+    background-color: #fdfcf8;
+}
+
+.tr-refined-split {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr;
+    gap: 60px;
+    width: 100%;
+    z-index: 10;
+    align-items: center;
+}
+
+.tr-refined-text h1 {
+    font-size: clamp(3rem, 6vw, 5rem);
+    line-height: 1.1;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+}
+
+.tr-refined-text .sub-label {
+    font-size: 0.8rem;
+    letter-spacing: 6px;
+    text-transform: uppercase;
+    color: var(--bronze);
+    margin-bottom: 15px;
+    display: block;
+}
+
+.tr-refined-image {
+    position: relative;
+    height: 50vh; /* Not full screen */
+    overflow: hidden;
+    box-shadow: 20px 20px 60px rgba(0,0,0,0.08);
+}
+
+.tr-refined-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0.95;
+    transition: transform 1.2s ease;
+}
+
+.tr-header-refined:hover .tr-refined-image img {
+    transform: scale(1.1);
+}
+
+.tr-hero-image-wrapper img {
+    width: 100%;
+    height: 70vh;
+    object-fit: cover;
+    box-shadow: 30px 30px 0 var(--soft-peach);
+}
+
+.tr-floating-pillars {
+    position: absolute;
+    bottom: 50px;
+    right: 8%;
+    display: flex;
+    gap: 40px;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.75rem;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--bronze);
+    z-index: 20;
+}
+
+/* Section 2: The Story */
+.tr-story {
+    display: flex;
+    min-height: 80vh;
+    flex-wrap: wrap;
+}
+
+.tr-story-left {
+    flex: 1;
+    min-width: 50%;
+    background-color: var(--charcoal);
+}
+
+.tr-story-left img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    opacity: 0.9;
+}
+
+.tr-story-right {
+    flex: 1;
+    min-width: 50%;
+    background-color: var(--soft-peach);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 10% 8%;
+    position: relative;
+}
+
+.tr-story-right h2 {
+    font-size: 4rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    margin-bottom: 2rem;
+    letter-spacing: 5px;
+    color: #000;
+}
+
+.tr-story-right p {
+    font-size: 1.1rem;
+    max-width: 500px;
+    color: #333;
+    letter-spacing: 1px;
+    margin-bottom: 2rem;
+    text-transform: uppercase;
+    line-height: 1.8;
+}
+
+.tr-accent-line {
+    width: 80px;
+    height: 2px;
+    background-color: #000;
+}
+
+/* Section: Philosophy */
+.tr-philosophy {
+    padding: 120px 8%;
+    background-color: #fff;
+    text-align: center;
+}
+
+.tr-philosophy-grid {
+    display: flex;
+    justify-content: space-between;
+    gap: 40px;
+    margin-top: 60px;
+}
+
+.tr-phi-item {
+    flex: 1;
+    padding: 30px;
+}
+
+.tr-phi-item h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.8rem;
+    margin-bottom: 1.5rem;
+    letter-spacing: 2px;
+}
+
+.tr-phi-item p {
+    font-size: 0.95rem;
+    color: #555;
+    line-height: 1.8;
+}
+
+/* Section 3: Gallery */
+.tr-gallery {
+    padding: 100px 5%;
+    background-color: #fdfcf8;
+}
+
+.tr-grid {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr;
+    grid-template-rows: repeat(2, 400px);
+    gap: 30px;
+}
+
+.tr-grid-item {
+    overflow: hidden;
+    position: relative;
+    border-radius: 4px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+}
+
+.tr-grid-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.8s ease;
+}
+
+.tr-grid-item:hover img {
+    transform: scale(1.05);
+}
+
+.tr-main-image {
+    grid-row: span 2;
+}
+
+/* Custom Nav Overrides */
+.tr-nav {
+    position: absolute;
+    top: 0;
+    width: 100%;
+    padding: 30px 5%;
+    display: flex;
+    justify-content: space-between;
+    z-index: 10;
+}
+
+.tr-nav .logo-text {
+    color: var(--charcoal);
+    font-weight: 600;
+    text-decoration: none;
+    letter-spacing: 2px;
+}
+
+.tr-nav i {
+    color: var(--charcoal);
+    font-size: 1.2rem;
+}
+
+/* Section: Editorial Text (Legal/Info) */
+.tr-editorial-text {
+    padding: 100px 10%;
+    background-color: #fff;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.tr-editorial-text h2 {
+    font-size: 3rem;
+    margin-bottom: 2.5rem;
+    text-transform: uppercase;
+    letter-spacing: 5px;
+    text-align: center;
+}
+
+.tr-editorial-text p, .tr-editorial-text ul {
+    font-size: 1.05rem;
+    line-height: 2;
+    color: #444;
+    margin-bottom: 2rem;
+    text-align: justify;
+}
+
+/* Section: Luxury Form */
+.tr-contact-container {
+    padding: 100px 10%;
+    background-color: var(--soft-peach);
+    display: flex;
+    gap: 100px;
+}
+
+.tr-contact-info {
+    flex: 1;
+}
+
+.tr-contact-info h2 {
+    font-size: 3.5rem;
+    margin-bottom: 2rem;
+}
+
+.tr-contact-form {
+    flex: 1.5;
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+}
+
+.tr-contact-form input, .tr-contact-form textarea {
+    width: 100%;
+    padding: 20px;
+    background-color: transparent;
+    border: none;
+    border-bottom: 1px solid var(--bronze);
+    font-family: 'Inter', sans-serif;
+    font-size: 1rem;
+    outline: none;
+    transition: 0.3s;
+}
+
+.tr-contact-form input:focus, .tr-contact-form textarea:focus {
+    border-bottom-color: black;
+}
+
+.tr-contact-form button {
+    margin-top: 20px;
+    padding: 20px 60px;
+    background-color: var(--charcoal);
+    color: white;
+    border: none;
+    font-family: 'Playfair Display', serif;
+    font-size: 1.1rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    cursor: pointer;
+    transition: 0.3s;
+    width: fit-content;
+}
+
+.tr-contact-form button:hover {
+    background-color: #000;
+}
+
+/* Responsive */
+@media (max-width: 991px) {
+    .tr-story {
+        flex-direction: column;
+    }
+    .tr-story-left, .tr-story-right {
+        min-width: 100%;
+        min-height: 50vh;
+    }
+    .tr-story-right h2 {
+        font-size: 3rem;
+    }
+    .tr-philosophy-grid {
+        flex-direction: column;
+        gap: 20px;
+    }
+    .tr-phi-item {
+        padding: 10px;
+    }
+    .tr-grid {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto;
+    }
+    .tr-main-image {
+        grid-row: span 1;
+        height: 500px;
+    }
+    .tr-grid-item {
+        height: 400px;
+    }
+}

@@ -1,0 +1,754 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ jewellery.name }} | Triratna Jewels</title>
+
+    <!-- ICONS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <!-- GOOGLE FONTS -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;600&family=Italiana&display=swap"
+        rel="stylesheet">
+
+    <!-- CUSTOM STYLES -->
+    <link rel="stylesheet" href="{% static 'css/editorial_pages.css' %}?v=1.1">
+
+    <style>
+        :root {
+            --bronze: #8e6d51;
+            --charcoal: #1a1a1a;
+            --soft-peach: #f4d4c4;
+            --light-grey: #f9f9f9;
+        }
+
+        body {
+            background-color: #fdfcf8;
+            color: var(--charcoal);
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+        }
+
+        /* Fixed Navigation */
+        .tr-nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 30px 8%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            transition: 0.5s ease;
+            background: transparent;
+        }
+
+        .tr-nav.scrolled {
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(20px);
+            padding: 20px 8%;
+            box-shadow: 0 5px 30px rgba(0, 0, 0, 0.03);
+        }
+
+        .tr-nav .logo-text {
+            color: var(--charcoal);
+            font-weight: 700;
+            text-decoration: none;
+            letter-spacing: 5px;
+            font-size: 1.1rem;
+        }
+
+        /* Badges */
+        .badge {
+            position: absolute;
+            top: -8px;
+            right: -10px;
+            background: var(--bronze);
+            color: white;
+            font-size: 0.65rem;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+
+        /* Hero Section */
+        .tr-product-hero {
+            padding: 140px 8% 60px;
+            min-height: 80vh;
+            display: flex;
+            align-items: center;
+            background: linear-gradient(to bottom, #ffffff, #fdfcf8);
+        }
+
+        .tr-hero-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 100px;
+            width: 100%;
+            align-items: center;
+        }
+
+        .tr-hero-text h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 4.5rem;
+            margin-bottom: 20px;
+            font-weight: 400;
+            color: var(--charcoal);
+            line-height: 1.1;
+        }
+
+        .tr-sku-label {
+            font-size: 0.75rem;
+            letter-spacing: 4px;
+            color: var(--bronze);
+            text-transform: uppercase;
+            margin-bottom: 15px;
+            display: block;
+            font-weight: 600;
+        }
+
+        .tr-hero-price {
+            font-family: 'Playfair Display', serif;
+            font-size: 3rem;
+            margin-bottom: 45px;
+            color: var(--charcoal);
+        }
+
+        .tr-btn-group {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 60px;
+        }
+
+        .tr-main-btn {
+            background: var(--charcoal);
+            color: white;
+            padding: 22px 60px;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            border: none;
+            cursor: pointer;
+            transition: 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .tr-main-btn:hover {
+            background: var(--bronze);
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(142, 109, 81, 0.2);
+        }
+
+        .tr-wish-btn {
+            width: 70px;
+            height: 70px;
+            border: 1px solid #eee;
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.4rem;
+            cursor: pointer;
+            transition: 0.4s;
+            border-radius: 2px;
+        }
+
+        .tr-wish-btn:hover {
+            border-color: var(--bronze);
+            color: var(--bronze);
+        }
+
+        .tr-wish-btn.filled {
+            color: #d9534f;
+            border-color: #d9534f;
+            background: #fff;
+        }
+
+        .tr-hero-image-box {
+            background: #fff;
+            padding: 30px;
+            box-shadow: 0 40px 100px rgba(0, 0, 0, 0.05);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 8px;
+            transition: 0.5s;
+            height: 600px;
+            overflow: hidden;
+        }
+
+        .tr-hero-image-box:hover {
+            transform: scale(1.02);
+        }
+
+        .tr-hero-image-box img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+            transition: 0.8s cubic-bezier(0.165, 0.84, 0.44, 1);
+        }
+
+        /* Simplified Specs UI */
+        .tr-anatomy-section {
+            padding: 120px 8%;
+            background: #fff;
+        }
+
+        .tr-spec-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 2px;
+            background: #f0f0f0;
+            border: 1px solid #f0f0f0;
+        }
+
+        .tr-spec-card {
+            background: white;
+            padding: 60px 30px;
+            text-align: center;
+            transition: 0.4s;
+        }
+
+        .tr-spec-card:hover {
+            background: #fdfcf8;
+            z-index: 10;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.05);
+        }
+
+        .tr-spec-info {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.2rem;
+            margin-top: 15px;
+            color: var(--charcoal);
+        }
+
+        /* Profile Dropdown */
+        .tr-profile-wrapper {
+            position: relative;
+        }
+
+        .tr-profile-dropdown {
+            position: absolute;
+            top: 50px;
+            right: 0;
+            width: 220px;
+            background: white;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
+            border-radius: 4px;
+            padding: 15px 0;
+            display: none;
+            flex-direction: column;
+            z-index: 1001;
+            border: 1px solid #f0f0f0;
+        }
+
+        .tr-profile-dropdown.show {
+            display: flex;
+            animation: slideDown 0.4s ease forwards;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .tr-profile-dropdown a {
+            padding: 12px 25px !important;
+            font-size: 0.75rem !important;
+            text-transform: uppercase !important;
+            letter-spacing: 1px !important;
+            color: var(--charcoal) !important;
+            text-decoration: none;
+            display: block;
+        }
+
+        .tr-profile-dropdown a:hover {
+            background: #f9f9f9;
+            color: var(--bronze) !important;
+        }
+
+        /* Profile Dropdown */
+        .tr-profile-wrapper { position: relative; }
+        .tr-profile-dropdown {
+            position: absolute;
+            top: 50px;
+            right: 0;
+            width: 240px;
+            background: white;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.15);
+            border-radius: 8px;
+            padding: 20px 0;
+            display: none;
+            flex-direction: column;
+            z-index: 1001;
+            border: 1px solid #f0f0f0;
+            opacity: 0;
+            transform: translateY(10px);
+            transition: all 0.3s ease;
+        }
+        .tr-profile-dropdown.show {
+            display: flex;
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .tr-profile-dropdown a {
+            padding: 12px 25px;
+            display: block;
+            text-decoration: none;
+            color: var(--charcoal);
+            font-size: 0.8rem;
+            transition: 0.3s;
+        }
+        .tr-profile-dropdown a:hover {
+            background: #f9f9f9;
+            color: var(--bronze);
+        }
+
+        @media (max-width: 1200px) {
+            .tr-spec-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 991px) {
+            .tr-hero-grid {
+                grid-template-columns: 1fr;
+                gap: 50px;
+                text-align: center;
+            }
+
+            .tr-btn-group {
+                justify-content: center;
+            }
+
+            .tr-hero-text h1 {
+                font-size: 3.5rem;
+            }
+
+            .tr-spec-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- TOAST MESSAGES -->
+    <div id="toast-container" style="position: fixed; top: 100px; right: 20px; z-index: 10000; display: flex; flex-direction: column; gap: 10px;">
+        {% if messages %}
+        {% for message in messages %}
+            {% if 'login-popup' not in message.tags and 'logout-popup' not in message.tags and 'register-success' not in message.tags %}
+            <div class="tr-toast">
+                <i class="fa-solid {% if 'error' in message.tags %}fa-circle-xmark{% else %}fa-check-circle{% endif %} tr-toast-icon"></i> 
+                <span>{{ message }}</span>
+            </div>
+            {% endif %}
+        {% endfor %}
+        {% endif %}
+    </div>
+
+    <style>
+        .tr-toast {
+            background: #0a0a0a;
+            color: white;
+            border-left: 4px solid #d4af37;
+            padding: 15px 20px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            font-family: 'Inter', sans-serif;
+            font-size: 0.9rem;
+            animation: toastSlideIn 0.4s cubic-bezier(0.165, 0.84, 0.44, 1) forwards;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            min-width: 280px;
+        }
+        .tr-toast.removing {
+            animation: toastSlideOut 0.4s cubic-bezier(0.165, 0.84, 0.44, 1) forwards;
+        }
+        @keyframes toastSlideIn {
+            from { opacity: 0; transform: translateX(100%); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        @keyframes toastSlideOut {
+            from { opacity: 1; transform: translateX(0); }
+            to { opacity: 0; transform: translateX(100%); }
+        }
+        .tr-toast-icon { color: #d4af37; font-size: 1.2rem; }
+    </style>
+
+    <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const toasts = document.querySelectorAll('.tr-toast');
+        toasts.forEach(toast => {
+            setTimeout(() => {
+                toast.classList.add('removing');
+                setTimeout(() => toast.remove(), 400);
+            }, 3000);
+        });
+    });
+    </script>
+
+    <!-- NAVIGATION -->
+    <nav class="tr-nav" id="mainNav">
+        <span class="logo-text">TRIRATNA JEWELS</span>
+        <div style="display:flex; gap: 30px; align-items: center;">
+            <a href="{% url 'catalog' %}" title="Collection" style="color:var(--charcoal);"><i
+                    class="fa-solid fa-gem"></i></a>
+
+            <a href="{% url 'wishlist_view' %}" title="Wishlist" style="position:relative; color:var(--charcoal);">
+                <i class="fa-regular fa-heart"></i>
+                <span class="badge" id="wishlist-badge" {% if not wishlist_count %}style="display: none;"{% endif %}>{{ wishlist_count }}</span>
+            </a>
+
+            <a href="{% url 'cart_view' %}" title="Cart" style="position:relative; color:var(--charcoal);">
+                <i class="fa-solid fa-shopping-bag"></i>
+                <span class="badge" id="cart-badge" {% if not cart_count %}style="display: none;"{% endif %}>{{ cart_count }}</span>
+            </a>
+
+            {% if not request.session.first_name %}
+            <a href="{% url 'login' %}" style="color: var(--charcoal); font-size: 0.75rem; letter-spacing: 2px; text-decoration: none; font-weight: 700;">LOGIN</a>
+            {% endif %}
+        </div>
+    </nav>
+
+    <!-- MAIN PRODUCT HERO -->
+    <section class="tr-product-hero">
+        <div class="tr-hero-grid">
+            <div class="tr-hero-text">
+                <span class="tr-sku-label">Ref: TR-{{ jewellery.id|stringformat:"04d" }}</span>
+                <h1>{{ jewellery.name }}</h1>
+                <div style="display: flex; gap: 10px; align-items: center; margin-bottom: 20px;">
+                    <div style="color: #d4af37; font-size: 0.9rem;">
+                        <i class="fa-solid fa-star"></i> {{ avg_rating }} / 5.0
+                    </div>
+                    <a href="#reviews" style="font-size: 0.8rem; color: #888; text-decoration: none;">({{ reviews.count }} Reviews)</a>
+                </div>
+                
+                <div class="tr-hero-price" style="display: flex; align-items: center; gap: 20px;">
+                    <span>₹ {{ jewellery.current_price|floatformat:2 }}</span>
+                    <button onclick="openPriceModal()" style="background: transparent; border: 1px solid #d4af37; color: #d4af37; padding: 5px 10px; border-radius: 4px; font-size: 0.7rem; cursor: pointer; text-transform: uppercase; letter-spacing: 1px; transition: 0.3s;">View Price Breakdown</button>
+                </div>
+
+                <div class="tr-btn-group">
+                    {% if jewellery.is_in_stock %}
+                    <form id="addToCartForm" style="margin: 0;">
+                        {% csrf_token %}
+                        <input type="hidden" name="quantity" value="1">
+                        <button type="submit" class="tr-main-btn">ADD TO BAG</button>
+                    </form>
+                    {% else %}
+                    <button class="tr-main-btn" style="background:#888; cursor:not-allowed;" disabled>OUT OF
+                        STOCK</button>
+                    {% endif %}
+
+                    <button onclick="toggleWishlist(this, {{ jewellery.id }})"
+                        class="tr-wish-btn {% if jewellery.id in wishlist_ids %}filled{% endif %}">
+                        <i
+                            class="{% if jewellery.id in wishlist_ids %}fa-solid{% else %}fa-regular{% endif %} fa-heart"></i>
+                    </button>
+
+                    <button
+                        onclick="shareProduct('{{ jewellery.name }}', '{% url 'jewellery_detail' jewellery.name %}')"
+                        class="tr-wish-btn" title="Share Product">
+                        <i class="fa-solid fa-share-nodes"></i>
+                    </button>
+                </div>
+
+                <p style="line-height: 2; color: #555; max-width: 480px; font-size: 1rem;">
+                    {% if jewellery.description %}
+                    {{ jewellery.description }}
+                    {% else %}
+                    This exquisite {{ jewellery.name }} is a masterpiece of design, meticulously finished to highlight
+                    the natural brilliance of {{ jewellery.material_type }}.
+                    {% endif %}
+                </p>
+            </div>
+
+            <div class="tr-hero-image-box" id="zoomContainer" style="position: relative; overflow: hidden; cursor: crosshair;">
+                <img id="mainImage" src="{{ jewellery.image.url }}" alt="{{ jewellery.name }}" style="width: 100%; height: 100%; object-fit: contain; transition: transform 0.1s ease-out, transform-origin 0.1s ease-out;">
+            </div>
+            <script>
+                const zoomContainer = document.getElementById('zoomContainer');
+                const mainImg = document.getElementById('mainImage');
+                
+                zoomContainer.addEventListener('mousemove', function(e) {
+                    const rect = zoomContainer.getBoundingClientRect();
+                    const x = e.clientX - rect.left;
+                    const y = e.clientY - rect.top;
+                    
+                    const xPercent = (x / rect.width) * 100;
+                    const yPercent = (y / rect.height) * 100;
+                    
+                    mainImg.style.transformOrigin = `${xPercent}% ${yPercent}%`;
+                    mainImg.style.transform = 'scale(2.5)';
+                });
+
+                zoomContainer.addEventListener('mouseleave', function() {
+                    mainImg.style.transformOrigin = 'center center';
+                    mainImg.style.transform = 'scale(1)';
+                });
+            </script>
+        </div>
+    </section>
+
+    <!-- PRODUCT DETAILS: SIMPLE GRID -->
+    <section class="tr-anatomy-section">
+        <div class="tr-spec-grid">
+            <!-- PURITY -->
+            <div class="tr-spec-card">
+                <span class="tr-sku-label">Purity</span>
+                <div class="tr-spec-info">
+                    {% if jewellery.material_type == 'gold' %}
+                    {{ jewellery.karat }} Gold
+                    {% else %}
+                    {{ jewellery.material_type|capfirst }} Grade
+                    {% endif %}
+                </div>
+            </div>
+            <!-- MATERIAL -->
+            <div class="tr-spec-card">
+                <span class="tr-sku-label">Material</span>
+                <div class="tr-spec-info">{{ jewellery.material_type|capfirst }}</div>
+            </div>
+            <!-- WEIGHT -->
+            <div class="tr-spec-card">
+                <span class="tr-sku-label">Weight</span>
+                <div class="tr-spec-info">{{ jewellery.weight }} Grams</div>
+            </div>
+            <!-- STATUS -->
+            <div class="tr-spec-card">
+                <span class="tr-sku-label">Status</span>
+                <div class="tr-spec-info" style="color: {% if not jewellery.is_in_stock %}#d9534f{% endif %};">
+                    {% if jewellery.is_in_stock %}In Stock{% else %}Out of Stock{% endif %}
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- RELATED PRODUCTS SECTION -->
+    {% if related_products %}
+    <section style="padding: 80px 8%; background: #fff;">
+        <h2 style="font-family: 'Playfair Display', serif; font-size: 2.5rem; color: var(--charcoal); text-align: center; margin-bottom: 50px;">You May Also Like</h2>
+        
+        <div style="display: flex; gap: 30px; overflow-x: auto; padding-bottom: 20px; scroll-behavior: smooth; scrollbar-width: thin; scrollbar-color: #d4af37 #f0f0f0;">
+            {% for item in related_products %}
+            <a href="{% url 'jewellery_detail' item.name %}" style="flex: 0 0 calc(25% - 22.5px); min-width: 250px; text-decoration: none; color: inherit;">
+                <div style="background: #fdfcf8; padding: 20px; border-radius: 4px; transition: 0.4s; height: 100%; border: 1px solid transparent;" onmouseover="this.style.boxShadow='0 15px 30px rgba(0,0,0,0.05)'; this.style.borderColor='#eee';" onmouseout="this.style.boxShadow='none'; this.style.borderColor='transparent';">
+                    <div style="height: 250px; background: white; display: flex; align-items: center; justify-content: center; overflow: hidden; margin-bottom: 20px;">
+                        <img src="{{ item.image.url }}" alt="{{ item.name }}" style="max-width: 90%; max-height: 90%; object-fit: contain; transition: 0.6s;" onmouseover="this.style.transform='scale(1.08)'" onmouseout="this.style.transform='scale(1)'">
+                    </div>
+                    <div style="text-align: center;">
+                        <span style="font-size: 0.6rem; letter-spacing: 2px; color: var(--bronze); text-transform: uppercase;">{{ item.get_material_type_display }}</span>
+                        <h3 style="font-family: 'Playfair Display', serif; font-size: 1.1rem; margin: 10px 0; color: var(--charcoal);">{{ item.name }}</h3>
+                        <div style="color: #d4af37; font-weight: 600;">₹ {{ item.current_price|floatformat:2 }}</div>
+                    </div>
+                </div>
+            </a>
+            {% endfor %}
+        </div>
+    </section>
+    {% endif %}
+
+    <!-- REVIEWS SECTION -->
+    <section id="reviews" style="padding: 80px 8%; background: #fdfcf8;">
+        <div style="max-width: 1000px; margin: 0 auto;">
+            <div style="display: flex; justify-content: space-between; align-items: baseline; border-bottom: 1px solid #ddd; padding-bottom: 20px; margin-bottom: 40px;">
+                <h2 style="font-family: 'Playfair Display', serif; font-size: 2.5rem; color: var(--charcoal);">Customer Reviews</h2>
+                <div style="font-size: 1.2rem; color: #d4af37;"><i class="fa-solid fa-star"></i> {{ avg_rating }} / 5.0</div>
+            </div>
+
+            <!-- Add Review Form -->
+            <div style="background: white; padding: 30px; border: 1px solid #eee; margin-bottom: 50px;">
+                <h3 style="font-family: 'Playfair Display', serif; margin-bottom: 20px;">Write a Review</h3>
+                <form action="{% url 'submit_review' jewellery.id %}" method="POST">
+                    {% csrf_token %}
+                    <div style="margin-bottom: 15px;">
+                        <label style="display: block; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1px; color: #555; margin-bottom: 5px;">Rating (1-5)</label>
+                        <select name="rating" style="width: 100%; padding: 10px; border: 1px solid #ddd; outline: none; font-family: 'Inter', sans-serif;">
+                            <option value="5">★★★★★ - Excellent</option>
+                            <option value="4">★★★★☆ - Very Good</option>
+                            <option value="3">★★★☆☆ - Average</option>
+                            <option value="2">★★☆☆☆ - Poor</option>
+                            <option value="1">★☆☆☆☆ - Terrible</option>
+                        </select>
+                    </div>
+                    <div style="margin-bottom: 20px;">
+                        <label style="display: block; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1px; color: #555; margin-bottom: 5px;">Your Review</label>
+                        <textarea name="review_text" rows="4" style="width: 100%; padding: 10px; border: 1px solid #ddd; outline: none; font-family: 'Inter', sans-serif;" placeholder="Share your thoughts about this piece..."></textarea>
+                    </div>
+                    <button type="submit" class="tr-main-btn" style="width: auto; padding: 15px 40px; font-size: 0.8rem;">Submit Review</button>
+                </form>
+            </div>
+
+            <!-- Existing Reviews -->
+            <div style="display: flex; flex-direction: column; gap: 30px;">
+                {% for review in reviews %}
+                <div style="border-bottom: 1px solid #eee; padding-bottom: 20px;">
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
+                        <strong style="font-family: 'Playfair Display', serif; font-size: 1.2rem;">{{ review.user.first_name|default:"Customer" }}</strong>
+                        <span style="color: #d4af37;">
+                            {% for i in "12345" %}
+                                {% if forloop.counter <= review.rating %}<i class="fa-solid fa-star"></i>{% else %}<i class="fa-regular fa-star"></i>{% endif %}
+                            {% endfor %}
+                        </span>
+                    </div>
+                    <div style="font-size: 0.75rem; color: #888; margin-bottom: 15px;">{{ review.created_at|date:"F d, Y" }}</div>
+                    <p style="color: #444; line-height: 1.6;">{{ review.review_text }}</p>
+                </div>
+                {% empty %}
+                <div style="text-align: center; color: #888; padding: 40px 0;">
+                    <i class="fa-regular fa-comment-dots" style="font-size: 3rem; color: #ddd; margin-bottom: 15px;"></i>
+                    <p>No reviews yet. Be the first to share your thoughts!</p>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+
+    <!-- PRICE MODAL -->
+    <div id="priceModalOverlay" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); backdrop-filter: blur(5px); z-index: 3000; display: none; align-items: center; justify-content: center; padding: 20px;">
+        <div style="background: white; width: 100%; max-width: 450px; padding: 40px; border-radius: 4px; position: relative; color: var(--charcoal);">
+            <button onclick="closePriceModal()" style="position: absolute; top: 20px; right: 20px; background: none; border: none; font-size: 1.5rem; cursor: pointer; color: #888;">&times;</button>
+            <h2 style="font-family: 'Playfair Display', serif; text-align: center; margin-bottom: 30px;">Price Breakdown</h2>
+            
+            <div style="display: flex; justify-content: space-between; margin-bottom: 15px; border-bottom: 1px solid #eee; padding-bottom: 15px;">
+                <span style="color: #666;">Base Value ({{ jewellery.weight }}g x Rate)</span>
+                <span style="font-weight: 600;">₹ {{ jewellery.current_price|floatformat:2 }}</span>
+            </div>
+            <div style="display: flex; justify-content: space-between; margin-bottom: 15px; border-bottom: 1px solid #eee; padding-bottom: 15px;">
+                <span style="color: #666;">Making Charges ({{ making_percent }}%)</span>
+                <span style="font-weight: 600;">₹ {{ making_charges|floatformat:2 }}</span>
+            </div>
+            <div style="display: flex; justify-content: space-between; margin-bottom: 15px; border-bottom: 1px solid #eee; padding-bottom: 15px;">
+                <span style="color: #666;">Estimated GST (5%)</span>
+                <span style="font-weight: 600;">₹ {{ gst_amount|floatformat:2 }}</span>
+            </div>
+            <div style="display: flex; justify-content: space-between; margin-top: 30px; font-size: 1.3rem;">
+                <span style="font-family: 'Playfair Display', serif;">Total Price</span>
+                <span style="color: #d4af37; font-weight: 700;">₹ {{ total_price|floatformat:2 }}</span>
+            </div>
+            
+            <p style="text-align: center; font-size: 0.7rem; color: #888; margin-top: 30px; line-height: 1.5;">
+                *Prices are indicative and subject to change based on live metal rates at the time of checkout.
+            </p>
+        </div>
+    </div>
+
+    <script>
+        function openPriceModal() { document.getElementById('priceModalOverlay').style.display = 'flex'; }
+        function closePriceModal() { document.getElementById('priceModalOverlay').style.display = 'none'; }
+    </script>
+
+    <!-- FOOTER -->
+    {% include "editorial_footer.html" %}
+
+    <script>
+        // Nav Scroll Logic
+        window.addEventListener('scroll', () => {
+            const nav = document.getElementById('mainNav');
+            if (window.scrollY > 50) nav.classList.add('scrolled');
+            else nav.classList.remove('scrolled');
+        });
+
+        // Profile Toggle
+        function toggleProfile(e) {
+            e.stopPropagation();
+            document.getElementById('profileMenu').classList.toggle('show');
+        }
+        document.addEventListener('click', () => {
+            const menu = document.getElementById('profileMenu');
+            if (menu) menu.classList.remove('show');
+        });
+
+        // Wishlist Toggle
+        function toggleWishlist(btn, id) {
+            fetch(`/wishlist/toggle/${id}/`)
+                .then(res => {
+                    if (res.status === 401) {
+                        window.location.href = "{% url 'login' %}";
+                        return;
+                    }
+                    return res.json();
+                })
+                .then(data => {
+                    if (data && data.status === 'success') {
+                        const icon = btn.querySelector('i');
+                        if (data.action === 'added') {
+                            btn.classList.add('filled');
+                            icon.classList.replace('fa-regular', 'fa-solid');
+                        } else {
+                            btn.classList.remove('filled');
+                            icon.classList.replace('fa-solid', 'fa-regular');
+                        }
+                        window.location.reload();
+                    }
+                });
+        }
+
+        // Share Logic
+        async function shareProduct(name, url) {
+            const fullUrl = window.location.origin + url;
+            if (navigator.share) {
+                try {
+                    await navigator.share({
+                        title: name + ' | Triratna Jewels',
+                        text: 'Check out this beautiful piece from Triratna Jewels: ' + name,
+                        url: fullUrl,
+                    });
+                } catch (err) {
+                    console.log('Share cancelled or failed');
+                }
+            } else {
+                navigator.clipboard.writeText(fullUrl);
+                alert('Product link copied to clipboard!');
+            }
+        }
+
+        // Add to Cart Logic
+        const cartForm = document.getElementById('addToCartForm');
+        if (cartForm) {
+            cartForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                const formData = new FormData(cartForm);
+                fetch('{% url "add_to_cart" jewellery.id %}', {
+                    method: 'POST',
+                    body: formData,
+                    headers: { 'x-requested-with': 'XMLHttpRequest' }
+                })
+                    .then(res => res.json())
+                    .then(data => {
+                        if (data.status === 'success') {
+                            window.location.reload();
+                        }
+                    });
+            });
+        }
+
+        // Force reload on back button to update badges
+        window.addEventListener("pageshow", function (event) {
+            if (event.persisted) {
+                window.location.reload();
+            }
+        });
+    </script>
+</body>
+
+</html>

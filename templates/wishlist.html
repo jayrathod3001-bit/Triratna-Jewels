@@ -1,0 +1,523 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Wishlist | Triratna Jewels</title>
+
+    <!-- ICONS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <!-- GOOGLE FONTS -->
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;600&family=Italiana&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --bronze: #8e6d51;
+            --champagne: #f7e7ce;
+            --muted-rose: #d8a48f;
+            --charcoal: #1a1a1a;
+            --soft-peach: #f4d4c4;
+            --luxury-gold: #d4af37;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #000;
+            color: white;
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+            background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.8)), url("{% static 'images/luxury_bg_wishlist.png' %}");
+            background-attachment: fixed;
+            background-size: cover;
+            background-position: center;
+        }
+
+        /* NAVIGATION - Sync with Catalog */
+        .tr-nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 90px;
+            padding: 0 8%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 2000;
+            transition: 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
+            background: rgba(0, 0, 0, 0.15);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .tr-nav.scrolled {
+            height: 70px;
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(20px);
+            box-shadow: 0 5px 30px rgba(0, 0, 0, 0.05);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        .tr-nav .logo-text {
+            font-family: 'Inter', sans-serif;
+            font-size: 1.1rem;
+            letter-spacing: 5px;
+            color: white;
+            text-decoration: none;
+            transition: 0.5s;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        .tr-nav.scrolled .logo-text {
+            color: var(--charcoal);
+            letter-spacing: 5px;
+        }
+
+        .tr-nav-icon {
+            color: white;
+            font-size: 1.1rem;
+            text-decoration: none;
+            transition: 0.4s;
+        }
+
+        .tr-nav.scrolled .tr-nav-icon {
+            color: var(--charcoal);
+        }
+
+        .tr-nav-icon:hover {
+            color: var(--luxury-gold) !important;
+            transform: translateY(-2px);
+        }
+
+        /* BADGES */
+        .badge {
+            position: absolute;
+            top: -8px;
+            right: -10px;
+            background: var(--luxury-gold);
+            color: black;
+            font-size: 0.65rem;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+
+        /* HERO SECTION */
+        .tr-wish-hero {
+            height: 40vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding-top: 80px;
+        }
+
+        .tr-wish-hero span {
+            font-size: 0.7rem;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            color: var(--luxury-gold);
+            margin-bottom: 15px;
+            display: block;
+        }
+
+        .tr-wish-hero h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 3.5rem;
+            font-weight: 400;
+            line-height: 1.1;
+            margin-bottom: 20px;
+        }
+
+        /* WISHLIST ROW LAYOUT */
+        .tr-wish-container {
+            padding: 0 8% 100px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .tr-wish-list {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+        }
+
+        .tr-wish-row {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            display: grid;
+            grid-template-columns: 160px 1fr 220px;
+            padding: 20px;
+            gap: 30px;
+            align-items: center;
+            backdrop-filter: blur(20px);
+            transition: 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
+            animation: fadeIn 0.8s ease backwards;
+        }
+
+        .tr-wish-row:hover {
+            background: rgba(255, 255, 255, 0.06);
+            border-color: rgba(255, 255, 255, 0.15);
+            transform: translateX(10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .tr-wish-img-box {
+            width: 160px;
+            height: 160px;
+            background: white;
+            border-radius: 4px;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .tr-wish-img-box img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+            transition: 1s;
+        }
+
+        .tr-wish-row:hover .tr-wish-img-box img {
+            transform: scale(1.1);
+        }
+
+        .tr-wish-info h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.4rem;
+            font-weight: 400;
+            margin-bottom: 5px;
+            letter-spacing: 1px;
+        }
+
+        .tr-wish-info .tr-sku {
+            font-size: 0.6rem;
+            letter-spacing: 2px;
+            color: var(--bronze);
+            text-transform: uppercase;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        .tr-wish-info .tr-price {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.2rem;
+            color: var(--luxury-gold);
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+
+        .tr-wish-info .tr-specs-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-top: 20px;
+            max-width: 400px;
+        }
+
+        .tr-spec-item {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .tr-spec-label {
+            font-size: 0.6rem;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            color: var(--luxury-gold);
+            opacity: 0.8;
+        }
+
+        .tr-spec-value {
+            font-size: 0.85rem;
+            color: white;
+            font-weight: 500;
+        }
+
+        /* ACTIONS */
+        .tr-wish-actions {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .tr-add-btn {
+            background: var(--luxury-gold);
+            color: black;
+            border: none;
+            padding: 14px 20px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: 0.4s;
+            border-radius: 4px;
+            width: 100%;
+        }
+
+        .tr-add-btn:hover {
+            background: white;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .tr-remove-btn {
+            background: transparent;
+            color: #d9534f;
+            border: 1px solid rgba(217, 83, 79, 0.3);
+            padding: 12px 20px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: 0.4s;
+            border-radius: 4px;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .tr-remove-btn:hover {
+            background: rgba(217, 83, 79, 0.1);
+            border-color: #d9534f;
+        }
+
+        /* EMPTY STATE */
+        .tr-empty-state {
+            text-align: center;
+            padding: 100px 0;
+        }
+
+        .tr-empty-state i {
+            font-size: 4rem;
+            color: rgba(255, 255, 255, 0.1);
+            margin-bottom: 30px;
+        }
+
+        .tr-empty-state h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+        }
+
+        .tr-continue-btn {
+            display: inline-block;
+            margin-top: 30px;
+            padding: 15px 40px;
+            border: 1px solid white;
+            color: white;
+            text-decoration: none;
+            font-size: 0.8rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            transition: 0.4s;
+        }
+
+        .tr-continue-btn:hover {
+            background: white;
+            color: black;
+        }
+
+        /* ANIMATIONS */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .tr-wish-row {
+            animation: fadeIn 0.8s ease backwards;
+        }
+
+        @media (max-width: 768px) {
+            .tr-wish-hero h1 { font-size: 3rem; }
+            .tr-nav { padding: 20px 5%; }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- TOAST MESSAGES -->
+    <div id="toast-container" style="position: fixed; top: 100px; right: 20px; z-index: 10000; display: flex; flex-direction: column; gap: 10px;">
+        {% if messages %}
+        {% for message in messages %}
+            {% if 'login-popup' not in message.tags and 'logout-popup' not in message.tags and 'register-success' not in message.tags %}
+            <div class="tr-toast">
+                <i class="fa-solid {% if 'error' in message.tags %}fa-circle-xmark{% else %}fa-check-circle{% endif %} tr-toast-icon"></i> 
+                <span>{{ message }}</span>
+            </div>
+            {% endif %}
+        {% endfor %}
+        {% endif %}
+    </div>
+
+    <style>
+        .tr-toast {
+            background: #0a0a0a;
+            color: white;
+            border-left: 4px solid #d4af37;
+            padding: 15px 20px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            font-family: 'Inter', sans-serif;
+            font-size: 0.9rem;
+            animation: toastSlideIn 0.4s cubic-bezier(0.165, 0.84, 0.44, 1) forwards;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            min-width: 280px;
+        }
+        .tr-toast.removing {
+            animation: toastSlideOut 0.4s cubic-bezier(0.165, 0.84, 0.44, 1) forwards;
+        }
+        @keyframes toastSlideIn {
+            from { opacity: 0; transform: translateX(100%); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        @keyframes toastSlideOut {
+            from { opacity: 1; transform: translateX(0); }
+            to { opacity: 0; transform: translateX(100%); }
+        }
+        .tr-toast-icon { color: #d4af37; font-size: 1.2rem; }
+    </style>
+
+    <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const toasts = document.querySelectorAll('.tr-toast');
+        toasts.forEach(toast => {
+            setTimeout(() => {
+                toast.classList.add('removing');
+                setTimeout(() => toast.remove(), 400);
+            }, 3000);
+        });
+    });
+    </script>
+
+    <!-- NAVIGATION -->
+    <nav class="tr-nav" id="mainNav">
+        <span class="logo-text">TRIRATNA JEWELS</span>
+        <div style="display:flex; gap: 30px; align-items: center;">
+            <a href="{% url 'home' %}" title="Home" class="tr-nav-icon"><i class="fa-solid fa-house"></i></a>
+            <a href="{% url 'catalog' %}" title="Collection" class="tr-nav-icon"><i class="fa-solid fa-gem"></i></a>
+            <a href="{% url 'wishlist_view' %}" title="Wishlist" class="tr-nav-icon" style="position:relative; color: var(--luxury-gold);">
+                <i class="fa-solid fa-heart"></i>
+                <span class="badge" id="wishlist-badge" {% if not wishlist_count %}style="display:none;"{% endif %}>{{wishlist_count}}</span>
+            </a>
+            <a href="{% url 'cart_view' %}" title="Cart" class="tr-nav-icon" style="position:relative;">
+                <i class="fa-solid fa-shopping-bag"></i>
+                <span class="badge" id="cart-badge" {% if not cart_count %}style="display:none;"{% endif %}>{{cart_count}}</span>
+            </a>
+        </div>
+    </nav>
+
+    <!-- HERO SECTION -->
+    <section class="tr-wish-hero">
+        <span>Curated Favorites</span>
+        <h1>My Private<br>Collection</h1>
+    </section>
+
+    <!-- WISHLIST CONTENT -->
+    <div class="tr-wish-container">
+        {% if wishlist_items %}
+        <div class="tr-wish-list">
+            {% for item in wishlist_items %}
+            <div class="tr-wish-row">
+                <!-- IMAGE -->
+                <a href="{% url 'jewellery_detail' item.jewellery.name %}" class="tr-wish-img-box">
+                    <img src="{{ item.jewellery.image.url }}" alt="{{ item.jewellery.name }}">
+                </a>
+
+                <!-- INFO -->
+                <div class="tr-wish-info">
+                    <span class="tr-sku">Ref: TR-{{ item.jewellery.id|stringformat:"04d" }}</span>
+                    <h3>{{ item.jewellery.name }}</h3>
+                    <div class="tr-price">₹ {{ item.jewellery.current_price|floatformat:2 }}</div>
+                    <div class="tr-specs-grid">
+                        <div class="tr-spec-item">
+                            <span class="tr-spec-label">Material</span>
+                            <span class="tr-spec-value">{{ item.jewellery.get_material_type_display }}</span>
+                        </div>
+                        <div class="tr-spec-item">
+                            <span class="tr-spec-label">Purity</span>
+                            <span class="tr-spec-value">{{ item.jewellery.karat }}</span>
+                        </div>
+                        <div class="tr-spec-item">
+                            <span class="tr-spec-label">Weight</span>
+                            <span class="tr-spec-value">{{ item.jewellery.weight|floatformat:3 }}g</span>
+                        </div>
+                        <div class="tr-spec-item">
+                            <span class="tr-spec-label">Category</span>
+                            <span class="tr-spec-value">{{ item.jewellery.get_type_display }}</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- ACTIONS -->
+                <div class="tr-wish-actions">
+                    <button onclick="replaceNavigate('{% url 'add_to_cart' item.jewellery.id %}')" class="tr-add-btn" 
+                        {% if not item.jewellery.is_in_stock or item.jewellery.stock_quantity <= 0 %}disabled style="background: #555; cursor: not-allowed;"{% endif %}>
+                        {% if item.jewellery.is_in_stock and item.jewellery.stock_quantity > 0 %}Move to Bag{% else %}Sold Out{% endif %}
+                    </button>
+                    <button onclick="replaceNavigate('{% url 'remove_from_wishlist' item.id %}')" class="tr-remove-btn">
+                        <i class="fa-solid fa-trash-can"></i> Remove Item
+                    </button>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <div class="tr-empty-state">
+            <i class="fa-regular fa-heart"></i>
+            <h2>Your collection is awaiting its first piece.</h2>
+            <p style="color: rgba(255,255,255,0.6); letter-spacing: 1px;">Discover our latest arrivals and curate your favorites.</p>
+            <a href="{% url 'catalog' %}" class="tr-continue-btn">Explore Collection</a>
+        </div>
+        {% endif %}
+    </div>
+
+    <!-- SCRIPTS -->
+    <script>
+        // Header Scroll Effect
+        window.addEventListener('scroll', () => {
+            const nav = document.getElementById('mainNav');
+            if (window.scrollY > 50) nav.classList.add('scrolled');
+            else nav.classList.remove('scrolled');
+        });
+
+        // FORCE REFRESH ON BACK BUTTON
+        // This ensures that when a user goes back from the Cart to the Wishlist,
+        // the wishlist is refreshed to show items have been moved.
+        window.addEventListener('pageshow', function(event) {
+            if (event.persisted || (window.performance && window.performance.navigation.type === 2)) {
+                window.location.reload();
+            }
+        });
+
+        function replaceNavigate(url) {
+            window.location.replace(url);
+        }
+    </script>
+
+</body>
+
+</html>

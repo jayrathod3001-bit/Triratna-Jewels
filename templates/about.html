@@ -1,0 +1,117 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About | Triratna Jewels</title>
+    <meta name="description"
+        content="Discover the story of Triratna Jewels, where purity, prosperity, and promise meet master craftsmanship.">
+
+    <!-- ICONS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <!-- CUSTOM STYLES -->
+    <link rel="stylesheet" href="{% static 'css/editorial_pages.css' %}?v=1.0">
+</head>
+
+<body>
+
+    <!-- NAV -->
+    <nav class="tr-nav">
+        <span class="logo-text">TRIRATNA JEWELS</span>
+        <div style="display:flex; gap: 20px;">
+            <a href="{% url 'home' %}" title="Home"><i class="fa-solid fa-house"></i></a>
+            <a href="{% url 'catalog' %}" title="Collection"><i class="fa-solid fa-gem"></i></a>
+        </div>
+    </nav>
+
+    <!-- SECTION 1: REFINED HERO -->
+    <section class="tr-header-refined">
+        <div class="tr-bg-title">TJ</div>
+        
+        <div class="tr-refined-split">
+            <div class="tr-refined-text">
+                <span class="sub-label">Heritage</span>
+                <h1>Where Purity<br>Finds Form</h1>
+                <p style="font-family: 'Inter', sans-serif; font-size: 0.85rem; letter-spacing: 2px; color: var(--bronze); text-transform: uppercase;">The Story of Triratna Jewels</p>
+            </div>
+            <div class="tr-refined-image">
+                <img src="{% static 'images/triratna_header.png' %}" alt="Brand Heritage">
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 2: THE STORY -->
+    <section class="tr-story">
+        <div class="tr-story-left">
+            <img src="{% static 'images/triratna_story.png' %}" alt="Luxury Jewellery Model">
+        </div>
+        <div class="tr-story-right">
+            <h2>OUR STORY</h2>
+            <p>
+                FOUNDED ON THE PRINCIPLES OF PURITY, PROSPERITY, AND PROMISE, TRIRATNA JEWELS EMBODIES THE SPIRIT OF
+                TIMELESS ELEGANCE. OUR JOURNEY BEGAN WITH A VISION TO BLEND THE RICH TRADITIONS OF INDIAN JEWELLERY
+                CRAFT WITH A MODERN, SOPHISTICATED AESTHETIC THAT RESONATES WITH THE CONTEMPORARY WOMAN.
+            </p>
+            <p>
+                EVERY PIECE IN OUR COLLECTION IS A TESTAMENT TO THE ART OF HANDCRAFTSMANSHIP. FROM THE CAREFUL SELECTION
+                OF ETHICALLY SOURCED PEARLS AND PRECIOUS METALS TO THE INTRICATE DETAILING PERFORMED BY OUR MASTER
+                ARTISANS, WE ENSURE THAT EACH CREATION IS AS UNIQUE AS THE INDIVIDUAL WHO WEARS IT.
+            </p>
+            <p>
+                WE BELIEVE THAT JEWELLERY IS MORE THAN JUST AN ACCESSORY—IT IS A CHERISHED POSSESSION THAT CARRIES
+                STORIES, CELEBRATES MILESTONES, AND BECOMES A PART OF ONE'S LEGACY. OUR COMMITMENT TO TRANSPARENCY AND
+                QUALITY ENSURES THAT EVERY TRIRATNA CREATION IS AN INVESTMENT IN EXCELLENCE.
+            </p>
+            <div class="tr-accent-line"></div>
+        </div>
+    </section>
+
+    <!-- SECTION: PHILOSOPHY -->
+    <section class="tr-philosophy">
+        <h2 style="font-size: 2.5rem; letter-spacing: 4px; text-transform: uppercase;">Our Philosophy</h2>
+        <div class="tr-philosophy-grid">
+            <div class="tr-phi-item">
+                <h3>PURITY</h3>
+                <p>WE ADHERE TO THE HIGHEST STANDARDS OF ETHICAL SOURCING AND MATERIAL INTEGRITY. EVERY GEMSTONE AND
+                    PRECIOUS METAL IS RIGOROUSLY VETTED TO ENSURE IT MEETS OUR UNCOMPROMISING CRITERIA FOR BRILLIANCE
+                    AND AUTHENTICITY.</p>
+            </div>
+            <div class="tr-phi-item">
+                <h3>PROSPERITY</h3>
+                <p>WE BELIEVE THAT BEAUTY SHOULD BRING JOY AND ABUNDANCE. OUR DESIGNS ARE CRAFTED TO SYMBOLIZE GROWTH
+                    AND SUCCESS, ACTING AS TALISMANS FOR THE MODERN INDIVIDUAL'S JOURNEY TOWARDS THEIR GOALS.</p>
+            </div>
+            <div class="tr-phi-item">
+                <h3>PROMISE</h3>
+                <p>OUR PROMISE IS ONE OF LIFETIME EXCELLENCE. FROM THE MOMENT YOU CHOOSE A TRIRATNA PIECE, YOU BECOME
+                    PART OF OUR LEGACY—A COMMITMENT TO QUALITY THAT WE HONOUR THROUGH DEDICATED CARE AND ATTENTION.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 3: GALLERY/PRODUCT SHOWCASE -->
+    <section class="tr-gallery">
+        <div class="tr-grid">
+            <div class="tr-grid-item tr-main-image">
+                <img src="{% static 'images/triratna_lifestyle.png' %}" alt="Triratna Gallery Showcase 1">
+            </div>
+            <div class="tr-grid-item">
+                <img src="{% static 'images/triratna_lifestyle.png' %}" alt="Triratna Gallery Showcase 2"
+                    style="object-position: top;">
+            </div>
+            <div class="tr-grid-item">
+                <img src="{% static 'images/triratna_lifestyle.png' %}" alt="Triratna Gallery Showcase 3"
+                    style="object-position: bottom;">
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    {% include "editorial_footer.html" %}
+
+</body>
+
+</html>

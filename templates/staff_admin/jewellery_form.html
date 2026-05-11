@@ -1,0 +1,84 @@
+{% extends 'staff_admin/base.html' %}
+{% block title %}{% if jewellery %}Edit{% else %}Add{% endif %} Jewellery{% endblock %}
+{% block page_title %}{% if jewellery %}Edit: {{ jewellery.name }}{% else %}Add New Jewellery{% endif %}{% endblock %}
+
+{% block content %}
+<div class="form-card">
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="form-grid">
+            <div class="form-group">
+                <label>Product Name *</label>
+                <input type="text" name="name" value="{{ jewellery.name|default:'' }}" required placeholder="e.g. Diamond Ring Classic">
+            </div>
+            <div class="form-group">
+                <label>Type *</label>
+                <select name="type" required>
+                    {% for key, val in type_choices %}
+                    <option value="{{ key }}" {% if jewellery.type == key %}selected{% endif %}>{{ val }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Material *</label>
+                <select name="material_type" required>
+                    {% for key, val in material_choices %}
+                    <option value="{{ key }}" {% if jewellery.material_type == key %}selected{% endif %}>{{ val }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Weight (grams) *</label>
+                <input type="number" name="weight" step="0.001" value="{{ jewellery.weight|default:'0.000' }}" required>
+            </div>
+            <div class="form-group">
+                <label>Karat</label>
+                <select name="karat">
+                    <option value="22K" {% if jewellery.karat == '22K' %}selected{% endif %}>22 Karat</option>
+                    <option value="24K" {% if jewellery.karat == '24K' %}selected{% endif %}>24 Karat</option>
+                    <option value="NA" {% if jewellery.karat == 'NA' %}selected{% endif %}>Not Applicable</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Manual Rate (per gram)</label>
+                <input type="number" name="manual_rate" step="0.01" value="{{ jewellery.manual_rate|default:'0.00' }}">
+            </div>
+            <div class="form-group">
+                <label>Stock Quantity *</label>
+                <input type="number" name="stock_quantity" value="{{ jewellery.stock_quantity|default:'1' }}" min="0" required>
+            </div>
+            <div class="form-group">
+                <label>Product Image {% if not jewellery %}*{% endif %}</label>
+                <input type="file" name="image" accept="image/*" {% if not jewellery %}required{% endif %}>
+                {% if jewellery and jewellery.image %}
+                <img src="{{ jewellery.image.url }}" class="image-preview" alt="Current">
+                {% endif %}
+            </div>
+            <div class="form-group">
+                <div class="form-check">
+                    <input type="checkbox" name="is_featured" id="is_featured" {% if jewellery.is_featured %}checked{% endif %}>
+                    <label for="is_featured">Featured Product (Show on homepage)</label>
+                </div>
+            </div>
+            
+            <!-- Editorial Section -->
+            <div class="form-group" style="grid-column: span 2; border-top: 1px solid #eee; padding-top: 20px; margin-top: 10px;">
+                <h4 style="margin-bottom: 15px; color: #1a2a6c;">Luxury Editorial Details</h4>
+            </div>
+            <div class="form-group" style="grid-column: span 2;">
+                <label>Product Story / Description (Craftsmanship details)</label>
+                <textarea name="description" rows="5" placeholder="Tell the story behind this piece...">{{ jewellery.description|default:'' }}</textarea>
+            </div>
+        </div>
+
+        <div class="form-actions">
+            <button type="submit" class="action-btn btn-gold">
+                <i class="fa-solid fa-save"></i> {% if jewellery %}Update{% else %}Add{% endif %} Product
+            </button>
+            <a href="{% url 'staff_jewellery_list' %}" class="action-btn btn-outline">
+                <i class="fa-solid fa-arrow-left"></i> Cancel
+            </a>
+        </div>
+    </form>
+</div>
+{% endblock %}

@@ -1,0 +1,109 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Design & Craftsmanship | Triratna Jewels</title>
+    <meta name="description"
+        content="Explore the master artistry and traditional techniques behind every Triratna Jewels creation.">
+
+    <!-- ICONS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <!-- CUSTOM STYLES -->
+    <link rel="stylesheet" href="{% static 'css/editorial_pages.css' %}?v=1.0">
+</head>
+
+<body>
+
+    <!-- NAV -->
+    <nav class="tr-nav">
+        <span class="logo-text">TRIRATNA JEWELS</span>
+        <div style="display:flex; gap: 20px;">
+            <a href="{% url 'home' %}" title="Home"><i class="fa-solid fa-house"></i></a>
+            <a href="{% url 'catalog' %}" title="Collection"><i class="fa-solid fa-gem"></i></a>
+        </div>
+    </nav>
+    <!-- SECTION 1: REFINED HERO -->
+    <section class="tr-header-refined">
+        <div class="tr-bg-title">TJ</div>
+        
+        <div class="tr-refined-split">
+            <div class="tr-refined-text">
+                <span class="sub-label">Artistry</span>
+                <h1>Mastery of the<br>Sacred Arts</h1>
+                <p style="font-family: 'Inter', sans-serif; font-size: 0.85rem; letter-spacing: 2px; color: var(--bronze); text-transform: uppercase;">The Craft of Triratna Jewels</p>
+            </div>
+            <div class="tr-refined-image">
+                <img src="{% static 'images/triratna_story.png' %}" alt="Artisan at Work">
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 2: THE ARTISTRY -->
+    <section class="tr-story">
+        <div class="tr-story-left">
+            <img src="{% static 'images/triratna_story.png' %}" alt="Jeweler at work">
+        </div>
+        <div class="tr-story-right">
+            <h2>ARTISTRY</h2>
+            <p>
+                AT TRIRATNA JEWELS, CRAFTSMANSHIP IS NOT JUST A PROCESS; IT IS A SACRED DIALOGUE BETWEEN ARTISAN AND
+                MATERIAL. EVERY PIECE BEGINS AS A VISION, BROUGHT TO LIFE THROUGH CENTURIES-OLD TECHNIQUES PASSED DOWN
+                THROUGH GENERATIONS.
+            </p>
+            <p>
+                FROM THE INITIAL SKETCH TO THE FINAL POLISH, OUR MASTER CRAFTSMEN INVEST HUNDREDS OF HOURS INTO ENSURING
+                EVERY CURVE, EVERY SETTING, AND EVERY RADIANT DETAIL MEETS OUR UNCOMPROMISING STANDARDS OF PERFECTION.
+            </p>
+            <div class="tr-accent-line"></div>
+        </div>
+    </section>
+
+    <!-- SECTION 3: THE PRECISION -->
+    <section class="tr-philosophy" style="background-color: #fdfcf8;">
+        <h2 style="font-size: 2.5rem; letter-spacing: 4px; text-transform: uppercase;">The Master's Touch</h2>
+        <div class="tr-philosophy-grid">
+            <div class="tr-phi-item">
+                <h3>SCULPTING</h3>
+                <p>WE USE A COMBINATION OF TRADITIONAL WAX CARVING AND MODERN PRECISION MOULDING TO CREATE THE
+                    ARCHITECTURE OF OUR DESIGNS, ENSURING BOTH DURABILITY AND DELICATE BEAUTY.</p>
+            </div>
+            <div class="tr-phi-item">
+                <h3>SETTING</h3>
+                <p>OUR GEMSTONE SETTERS WORK UNDER HIGH-RESOLUTION MICROSCOPES, ENSURING THAT EVERY PEARL AND DIAMOND IS
+                    HELD WITH ABSOLUTE SECURITY AND OPTIMAL LIGHT REFLECTION.</p>
+            </div>
+            <div class="tr-phi-item">
+                <h3>POLISHING</h3>
+                <p>THE FINAL RADIANCE OF A TRIRATNA PIECE IS ACHIEVED THROUGH A MULTI-STAGE HAND-POLISHING PROCESS,
+                    GIVING THE METAL A MIRROR-LIKE FINISH THAT WILL LAST A LIFETIME.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 4: GALLERY -->
+    <section class="tr-gallery">
+        <div class="tr-grid">
+            <div class="tr-grid-item tr-main-image">
+                <img src="{% static 'images/triratna_lifestyle.png' %}" alt="Crafted jewelry detail">
+            </div>
+            <div class="tr-grid-item">
+                <img src="{% static 'images/triratna_lifestyle.png' %}" alt="Finished piece"
+                    style="object-position: center;">
+            </div>
+            <div class="tr-grid-item">
+                <img src="{% static 'images/triratna_lifestyle.png' %}" alt="Artisan tools"
+                    style="object-position: top;">
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    {% include "editorial_footer.html" %}
+
+</body>
+
+</html>

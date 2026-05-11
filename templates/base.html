@@ -1,0 +1,369 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Triratna Jewels{% endblock %}</title>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}?v=1.9">
+
+    {% block extra_css %}{% endblock %}
+
+    <style>
+        .user-dropdown {
+            position: relative;
+            display: inline-block;
+            cursor: pointer;
+        }
+
+        .user-icon-btn {
+            font-size: 20px;
+            color: #ead216;
+            /* using theme gold */
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            text-decoration: none;
+            transition: 0.3s;
+        }
+
+        .user-icon-btn:hover {
+            color: #1a2a6c;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            right: 0;
+            top: 30px;
+            background-color: #fff;
+            min-width: 150px;
+            box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+            border-radius: 8px;
+            overflow: hidden;
+            border: 1px solid #eee;
+        }
+
+        .dropdown-content.show {
+            display: block;
+        }
+
+        .dropdown-content a {
+            color: #333;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+            font-size: 14px;
+            font-weight: 500;
+            transition: 0.2s;
+        }
+
+        .dropdown-content a:hover {
+            background-color: #f5f5f5;
+            color: #ead216;
+        }
+
+        .dropdown-content .logout-link {
+            border-top: 1px solid #eee;
+            color: #dc3545;
+        }
+
+        .dropdown-content .logout-link:hover {
+            background-color: #ffeef0;
+            color: #c82333;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- ================= SEARCH BAR ================= -->
+    <section class="search-overlay" id="searchBar">
+        <form method="get" action="{{ request.path }}">
+            <div class="search-container">
+                <input type="text" name="search" placeholder="Search for jewellery..." value="{{ request.GET.search }}">
+                <button type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
+                <button type="button" class="close-search" onclick="toggleSearch()"><i
+                        class="fa-solid fa-xmark"></i></button>
+            </div>
+        </form>
+    </section>
+
+    <!-- ================= HEADER ================= -->
+    <header class="top-header">
+        <span class="logo">TRIRATNA JEWELS</span>
+        <nav class="header-icons">
+            <a href="{% url 'home' %}" title="Home" id="home-link-icon">
+                <i class="fa-solid fa-house"></i>
+            </a>
+            <a href="{% url 'catalog' %}" title="View Catalog" class="filter-icon-btn" style="text-decoration:none; display:flex; align-items:center; justify-content:center;">
+                <i class="fa-solid fa-gem"></i>
+            </a>
+            <button class="filter-icon-btn" onclick="toggleFilter()" title="Filter">
+                <i class="fa-solid fa-filter"></i>
+            </button>
+            <button class="filter-icon-btn" onclick="toggleSearch()" title="Search">
+                <i class="fa-solid fa-magnifying-glass"></i>
+            </button>
+
+            <a href="{% url 'wishlist_view' %}" title="Wishlist">
+                <i class="fa-regular fa-heart"></i>
+                <span class="badge" id="wishlist-badge" {% if not wishlist_count %}style="display: none;"{% endif %}>{{ wishlist_count }}</span>
+            </a>
+            <a href="{% url 'cart_view' %}" title="Cart">
+                <i class="fa-solid fa-cart-shopping"></i>
+                <span class="badge" id="cart-badge" {% if not cart_count %}style="display: none;"{% endif %}>{{ cart_count }}</span>
+            </a>
+
+            {% if request.session.first_name %}
+            <div class="user-dropdown" onclick="toggleProfileDropdown(event)">
+                <span class="user-icon-btn">
+                    <i class="fa-solid fa-circle-user"></i>
+                    {{ request.session.first_name }}
+                </span>
+                <div class="dropdown-content" id="profileDropdown">
+                    <a href="{% url 'order_history' %}">My Orders</a>
+                    <a href="{% url 'logout' %}" class="logout-link">Logout</a>
+                </div>
+            </div>
+            {% else %}
+            <a href="{% url 'login' %}" title="Login" style="color: #ead216; font-weight: 700;">Login</a>
+            {% endif %}
+        </nav>
+    </header>
+
+    {% if messages %}
+    {% for message in messages %}
+        {% if 'login-popup' in message.tags or 'logout-popup' in message.tags %}
+        <div class="tr-fancy-notify" id="globalPopup" onclick="this.remove()">
+            <div class="tr-fancy-content">
+                <div class="tr-fancy-icon">✦</div>
+                <div class="tr-fancy-text">{{ message }}</div>
+                <div class="tr-fancy-footer">TRIRATNA JEWELS</div>
+            </div>
+        </div>
+        {% endif %}
+    {% endfor %}
+    {% endif %}
+
+    <!-- TOAST MESSAGES -->
+    <div id="toast-container" style="position: fixed; top: 100px; right: 20px; z-index: 10000; display: flex; flex-direction: column; gap: 10px;">
+        {% if messages %}
+        {% for message in messages %}
+            {% if 'login-popup' not in message.tags and 'logout-popup' not in message.tags and 'register-success' not in message.tags %}
+            <div class="tr-toast">
+                <i class="fa-solid {% if 'error' in message.tags %}fa-circle-xmark{% else %}fa-check-circle{% endif %} tr-toast-icon"></i> 
+                <span>{{ message }}</span>
+            </div>
+            {% endif %}
+        {% endfor %}
+        {% endif %}
+    </div>
+
+    <style>
+        .tr-toast {
+            background: #0a0a0a;
+            color: white;
+            border-left: 4px solid #d4af37;
+            padding: 15px 20px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            font-family: 'Inter', sans-serif;
+            font-size: 0.9rem;
+            animation: toastSlideIn 0.4s cubic-bezier(0.165, 0.84, 0.44, 1) forwards;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            min-width: 280px;
+        }
+        .tr-toast.removing {
+            animation: toastSlideOut 0.4s cubic-bezier(0.165, 0.84, 0.44, 1) forwards;
+        }
+        @keyframes toastSlideIn {
+            from { opacity: 0; transform: translateX(100%); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        @keyframes toastSlideOut {
+            from { opacity: 1; transform: translateX(0); }
+            to { opacity: 0; transform: translateX(100%); }
+        }
+        .tr-toast-icon { color: #d4af37; font-size: 1.2rem; }
+    </style>
+
+    <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const toasts = document.querySelectorAll('.tr-toast');
+        toasts.forEach(toast => {
+            setTimeout(() => {
+                toast.classList.add('removing');
+                setTimeout(() => toast.remove(), 400);
+            }, 3000);
+        });
+    });
+    </script>
+
+    <style>
+        .tr-fancy-notify {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.4);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10000;
+            backdrop-filter: blur(4px);
+            animation: trFadeIn 0.5s ease;
+            cursor: pointer;
+        }
+
+        .tr-fancy-content {
+            background: #0a0a0a;
+            border: 1px solid #d4af37;
+            padding: 40px 60px;
+            text-align: center;
+            max-width: 550px;
+            width: 90%;
+            box-shadow: 0 40px 100px rgba(0, 0, 0, 0.8);
+            animation: trSlideIn 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+            position: relative;
+        }
+
+        @keyframes trSlideIn {
+            from { opacity: 0; transform: translateY(30px) scale(0.95); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+        @keyframes trFadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .tr-fancy-icon {
+            font-size: 24px;
+            color: #d4af37;
+            margin-bottom: 20px;
+            animation: pulseShimmer 2.5s infinite;
+        }
+
+        @keyframes pulseShimmer {
+            0%, 100% { opacity: 0.4; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.2); text-shadow: 0 0 15px #d4af37; }
+        }
+
+        .tr-fancy-text {
+            color: #ffffff;
+            font-family: 'Times New Roman', serif;
+            font-size: 1.6rem;
+            letter-spacing: 1px;
+            margin-bottom: 25px;
+            line-height: 1.4;
+        }
+
+        .tr-fancy-footer {
+            font-size: 0.75rem;
+            letter-spacing: 4px;
+            color: #d4af37;
+            text-transform: uppercase;
+            border-top: 1px solid rgba(212, 175, 55, 0.2);
+            padding-top: 20px;
+            display: inline-block;
+            margin-top: 10px;
+        }
+    </style>
+
+    <script>
+        // Auto close after 5 seconds if exists
+        setTimeout(() => {
+            const popup = document.getElementById('globalPopup');
+            if (popup) {
+                popup.style.opacity = '0';
+                popup.style.transition = 'opacity 0.5s ease';
+                setTimeout(() => popup.remove(), 500);
+            }
+        }, 5000);
+    </script>
+
+    <!-- ================= PAGE CONTENT ================= -->
+    {% block content %}{% endblock %}
+
+
+    {% block extra_js %}{% endblock %}
+
+    <script>
+        function toggleSearch() {
+            const sb = document.getElementById("searchBar");
+            sb.classList.toggle("open");
+            if (sb.classList.contains("open")) sb.querySelector("input").focus();
+        }
+
+        function toggleFilter() {
+            const fb = document.getElementById("filterBar");
+            if (fb) fb.classList.toggle("open");
+            else window.location.href = "{% url 'home' %}";
+        }
+
+        function toggleProfileDropdown(event) {
+            event.stopPropagation();
+            const pd = document.getElementById("profileDropdown");
+            if (pd) pd.classList.toggle("show");
+        }
+
+        document.addEventListener('click', function (event) {
+            const fb = document.getElementById("filterBar");
+            const sb = document.getElementById("searchBar");
+            const pd = document.getElementById("profileDropdown");
+            const fbtn = event.target.closest('button[onclick="toggleFilter()"]');
+            const sbtn = event.target.closest('button[onclick="toggleSearch()"]');
+
+            if (fb && fb.classList.contains('open') && !fb.contains(event.target) && !fbtn) fb.classList.remove('open');
+            if (sb && sb.classList.contains('open') && !sb.contains(event.target) && !sbtn) sb.classList.remove('open');
+            if (pd && pd.classList.contains('show') && !pd.contains(event.target)) pd.classList.remove('show');
+        });
+
+        function toggleWishlist(btn, id) {
+            fetch(`/wishlist/toggle/${id}/`)
+                .then(res => {
+                    if (res.status === 401) {
+                        window.location.href = "{% url 'login' %}";
+                        return;
+                    }
+                    return res.json();
+                })
+                .then(data => {
+                    if (data && data.status === 'success') {
+                        const icon = btn.querySelector('i');
+                        if (data.action === 'added') {
+                            btn.classList.add('filled');
+                            icon.classList.replace('fa-regular', 'fa-solid');
+                        } else {
+                            btn.classList.remove('filled');
+                            icon.classList.replace('fa-solid', 'fa-regular');
+                        }
+                        const badge = document.getElementById('wishlist-badge');
+                        if (badge) {
+                            badge.innerText = data.wishlist_count;
+                            badge.style.display = data.wishlist_count > 0 ? 'inline-block' : 'none';
+                        }
+                    }
+                });
+        }
+
+        // ================= FIX BROWSER BACK BUTTON CACHE =================
+        window.addEventListener("pageshow", function (event) {
+            // Force reload if the page is loaded from bfcache (Back/Forward Cache)
+            if (event.persisted) {
+                window.location.reload();
+            }
+        });
+        function replaceNavigate(url) {
+        window.location.replace(url);
+    }
+</script>
+</body>
+
+</html>

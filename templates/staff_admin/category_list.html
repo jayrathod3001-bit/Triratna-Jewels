@@ -1,0 +1,65 @@
+{% extends 'staff_admin/base.html' %}
+{% block title %}Categories{% endblock %}
+{% block page_title %}Category Management{% endblock %}
+
+{% block content %}
+<div class="data-section">
+    <div class="data-header">
+        <h3><i class="fa-solid fa-tags" style="color:var(--gold);margin-right:8px;"></i>Categories ({{ categories|length }})</h3>
+    </div>
+
+    <!-- Add Category -->
+    <form method="POST" action="{% url 'staff_category_add' %}" class="inline-form">
+        {% csrf_token %}
+        <input type="text" name="name" placeholder="Enter new category name..." required>
+        <button type="submit" class="btn-gold"><i class="fa-solid fa-plus"></i> Add Category</button>
+    </form>
+
+    <table class="data-table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Category Name</th>
+                <th>Products</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for cat in categories %}
+            <tr>
+                <td>#{{ cat.id }}</td>
+                <td>
+                    <form method="POST" action="{% url 'staff_category_edit' cat.pk %}" style="display:flex;gap:8px;align-items:center;" id="editForm{{ cat.pk }}">
+                        {% csrf_token %}
+                        <input type="text" name="name" value="{{ cat.name }}" 
+                            style="background:var(--bg-input);border:1px solid var(--border);border-radius:6px;padding:8px 12px;color:var(--text-primary);font-size:14px;font-family:inherit;width:250px;outline:none;">
+                        <button type="submit" class="action-btn btn-outline" style="padding:6px 12px;font-size:12px;"><i class="fa-solid fa-check"></i></button>
+                    </form>
+                </td>
+                <td>
+                    <span style="font-weight:600;">{{ cat.product_count }}</span>
+                    <span style="color:var(--text-muted);font-size:12px;"> products</span>
+                </td>
+                <td>
+                    <div class="table-actions">
+                        <a href="{% url 'staff_category_delete' cat.pk %}" class="delete-btn" 
+                            onclick="return confirm('Delete category \'{{ cat.name }}\'? All linked products will lose their category.')">
+                            <i class="fa-solid fa-trash"></i> Delete
+                        </a>
+                    </div>
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="4">
+                    <div class="table-empty">
+                        <i class="fa-solid fa-tags"></i>
+                        <p>No categories found. Add one above!</p>
+                    </div>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

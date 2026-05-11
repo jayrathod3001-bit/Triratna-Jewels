@@ -1,0 +1,48 @@
+{% extends 'staff_admin/base.html' %}
+{% block title %}Newsletter{% endblock %}
+{% block page_title %}Newsletter Subscribers{% endblock %}
+
+{% block content %}
+<div class="data-section">
+    <div class="data-header">
+        <h3><i class="fa-solid fa-envelope-open-text" style="color:var(--gold);margin-right:8px;"></i>Subscribers ({{ subscribers|length }})</h3>
+    </div>
+
+    <table class="data-table">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Email</th>
+                <th>Subscribed On</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for sub in subscribers %}
+            <tr>
+                <td>{{ forloop.counter }}</td>
+                <td style="font-weight:500;">{{ sub.email }}</td>
+                <td>{{ sub.subscribed_at|date:"d M Y, h:i A" }}</td>
+                <td>
+                    <div class="table-actions">
+                        <a href="{% url 'staff_newsletter_delete' sub.pk %}" class="delete-btn" title="Remove"
+                            onclick="return confirm('Remove subscriber {{ sub.email }}?')">
+                            <i class="fa-solid fa-trash"></i> Remove
+                        </a>
+                    </div>
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="4">
+                    <div class="table-empty">
+                        <i class="fa-solid fa-envelope"></i>
+                        <p>No subscribers yet</p>
+                    </div>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

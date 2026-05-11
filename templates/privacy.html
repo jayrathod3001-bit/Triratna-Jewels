@@ -1,0 +1,81 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Privacy Policy | Triratna Jewels</title>
+
+    <!-- ICONS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <!-- CUSTOM STYLES -->
+    <link rel="stylesheet" href="{% static 'css/editorial_pages.css' %}?v=1.0">
+</head>
+
+<body>
+
+    <!-- NAV -->
+    <nav class="tr-nav">
+        <span class="logo-text">TRIRATNA JEWELS</span>
+        <div style="display:flex; gap: 20px;">
+            <a href="{% url 'home' %}" title="Home"><i class="fa-solid fa-house"></i></a>
+            <a href="{% url 'catalog' %}" title="Collection"><i class="fa-solid fa-gem"></i></a>
+        </div>
+    </nav>
+    <!-- SECTION 1: REFINED HERO -->
+    <section class="tr-header-refined">
+        <div class="tr-bg-title">TJ</div>
+        
+        <div class="tr-refined-split">
+            <div class="tr-refined-text">
+                <span class="sub-label">Legal</span>
+                <h1>Standard of<br>Data Security</h1>
+                <p style="font-family: 'Inter', sans-serif; font-size: 0.85rem; letter-spacing: 2px; color: var(--bronze); text-transform: uppercase;">Triratna Jewels Privacy Standard</p>
+            </div>
+            <div class="tr-refined-image">
+                <img src="{% static 'images/triratna_privacy.png' %}" alt="Privacy & Security">
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION: EDITORIAL TEXT -->
+    <section class="tr-editorial-text">
+        <h2>PRIVACY POLICY</h2>
+
+        <p>AT TRIRATNA JEWELS, WE ARE COMMITTED TO PROTECTING YOUR PRIVACY. THIS POLICY OUTLINES HOW WE COLLECT, USE,
+            AND SAFEGUARD YOUR PERSONAL INFORMATION WHEN YOU VISIT OUR SITE OR PURCHASE OUR EXQUISITE PIECES.</p>
+
+        <h3>1. INFORMATION COLLECTION</h3>
+        <p>WE COLLECT INFORMATION THAT YOU PROVIDE DIRECTLY TO US, SUCH AS WHEN YOU CREATE AN ACCOUNT, PLACE AN ORDER,
+            OR SUBSCRIBE TO OUR NEWSLETTER. THIS MAY INCLUDE YOUR NAME, EMAIL ADDRESS, PHONE NUMBER, AND DELIVERY
+            DETAILS.</p>
+
+        <h3>2. USE OF INFORMATION</h3>
+        <p>YOUR DATA IS USED TO PROCESS TRANSACTIONS, IMPROVE OUR SERVICES, AND COMMUNICATE WITH YOU REGARDING YOUR
+            ORDERS OR EXCLUSIVE OFFERS. WE DO NOT SELL OR RENT YOUR PERSONAL INFORMATION TO THIRD PARTIES.</p>
+
+        <h3>3. DATA SECURITY</h3>
+        <p>WE IMPLEMENT A VARIETY OF SECURITY MEASURES TO MAINTAIN THE SAFETY OF YOUR PERSONAL INFORMATION. ALL
+            SENSITIVE DATA IS ENCRYPTED AND STORED SECURELY WITHIN OUR SYSTEMS.</p>
+
+        <h3>4. COOKIES</h3>
+        <p>OUR WEBSITE USES COOKIES TO ENHANCE YOUR BROWSING EXPERIENCE AND TRACK SITE ANALYTICS. YOU CAN CHOOSE TO
+            DISABLE COOKIES THROUGH YOUR BROWSER SETTINGS, ALTHOUGH THIS MAY AFFECT SITE FUNCTIONALITY.</p>
+
+        <h3>5. THIRD-PARTY DISCLOSURE</h3>
+        <p>WE MAY SHARE YOUR INFORMATION WITH TRUSTED THIRD-PARTY SERVICE PROVIDERS WHO ASSIST US IN OPERATING OUR
+            WEBSITE AND CONDUCTING OUR BUSINESS, PROVIDED THEY AGREE TO KEEP THIS INFORMATION CONFIDENTIAL.</p>
+
+        <h3>6. YOUR RIGHTS</h3>
+        <p>YOU HAVE THE RIGHT TO ACCESS, CORRECT, OR DELETE YOUR PERSONAL DATA AT ANY TIME. PLEASE CONTACT OUR SUPPORT
+            TEAM IF YOU WISH TO EXERCISE THESE RIGHTS.</p>
+    </section>
+
+    <!-- FOOTER -->
+    {% include "editorial_footer.html" %}
+
+</body>
+
+</html>

@@ -1,0 +1,792 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Selection | Triratna Jewels</title>
+
+    <!-- ICONS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <!-- GOOGLE FONTS -->
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;600&family=Italiana&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --bronze: #8e6d51;
+            --luxury-gold: #d4af37;
+            --charcoal: #1a1a1a;
+            --glass-bg: rgba(255, 255, 255, 0.03);
+            --glass-border: rgba(255, 255, 255, 0.05);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #000;
+            color: white;
+            font-family: 'Inter', sans-serif;
+            background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.9)), url("{% static 'images/luxury_bg_cart.png' %}");
+            background-attachment: fixed;
+            background-size: cover;
+            background-position: center;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* NAVIGATION */
+        .tr-nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 90px;
+            padding: 0 8%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 2000;
+            transition: 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
+            background: rgba(0, 0, 0, 0.15);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .tr-nav.scrolled {
+            height: 70px;
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(20px);
+            box-shadow: 0 5px 30px rgba(0, 0, 0, 0.05);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        .tr-nav .logo-text {
+            font-family: 'Inter', sans-serif;
+            font-size: 1.1rem;
+            letter-spacing: 5px;
+            color: white;
+            text-decoration: none;
+            transition: 0.5s;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        .tr-nav.scrolled .logo-text {
+            color: var(--charcoal);
+            letter-spacing: 5px;
+        }
+
+        .tr-nav-icon {
+            color: white;
+            font-size: 1.1rem;
+            text-decoration: none;
+            transition: 0.4s;
+        }
+
+        .tr-nav.scrolled .tr-nav-icon {
+            color: var(--charcoal);
+        }
+
+        .badge {
+            position: absolute;
+            top: -8px;
+            right: -10px;
+            background: var(--luxury-gold);
+            color: black;
+            font-size: 0.65rem;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+
+        /* HERO */
+        .tr-cart-hero {
+            height: 35vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding-top: 80px;
+        }
+
+        .tr-cart-hero span {
+            font-size: 0.7rem;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            color: var(--luxury-gold);
+            margin-bottom: 15px;
+        }
+
+        .tr-cart-hero h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 3.5rem;
+            font-weight: 400;
+        }
+
+        /* MAIN LAYOUT */
+        .tr-cart-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 8% 100px;
+            display: grid;
+            grid-template-columns: 1fr 400px;
+            gap: 60px;
+        }
+
+        /* ITEM LIST */
+        .tr-cart-list {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .tr-cart-item {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 8px;
+            padding: 20px;
+            display: grid;
+            grid-template-columns: 120px 1fr 150px 40px;
+            gap: 25px;
+            align-items: center;
+            backdrop-filter: blur(15px);
+            transition: 0.4s;
+        }
+
+        .tr-cart-item:hover {
+            background: rgba(255,255,255,0.06);
+            border-color: rgba(255,255,255,0.15);
+        }
+
+        .tr-item-img {
+            width: 120px;
+            height: 120px;
+            background: white;
+            border-radius: 4px;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .tr-item-img img {
+            max-width: 90%;
+            max-height: 90%;
+            object-fit: contain;
+        }
+
+        .tr-item-info h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.2rem;
+            margin-bottom: 5px;
+            font-weight: 400;
+        }
+
+        .tr-item-info .tr-sku {
+            font-size: 0.6rem;
+            letter-spacing: 1px;
+            color: rgba(255,255,255,0.4);
+            text-transform: uppercase;
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        .tr-qty-control {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-top: 10px;
+        }
+
+        .tr-qty-btn {
+            width: 28px;
+            height: 28px;
+            border: 1px solid rgba(255,255,255,0.1);
+            background: transparent;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            border-radius: 50%;
+            transition: 0.3s;
+            text-decoration: none;
+            font-size: 0.8rem;
+        }
+
+        .tr-qty-btn:hover {
+            background: var(--luxury-gold);
+            color: black;
+            border-color: var(--luxury-gold);
+        }
+
+        .tr-item-price {
+            text-align: right;
+            font-family: 'Playfair Display', serif;
+            font-size: 1.2rem;
+            color: var(--luxury-gold);
+            font-weight: 600;
+        }
+
+        .tr-remove-item {
+            color: #d9534f;
+            cursor: pointer;
+            font-size: 1.1rem;
+            transition: 0.3s;
+            background: none;
+            border: none;
+        }
+
+        .tr-remove-item:hover {
+            transform: scale(1.2);
+        }
+
+        /* SUMMARY PANEL */
+        .tr-summary-panel {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 12px;
+            padding: 40px;
+            height: fit-content;
+            position: sticky;
+            top: 120px;
+            backdrop-filter: blur(25px);
+        }
+
+        .tr-summary-panel h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .tr-summary-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+            font-size: 0.9rem;
+            color: rgba(255,255,255,0.7);
+        }
+
+        .tr-summary-row.total {
+            margin-top: 25px;
+            padding-top: 25px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            color: white;
+            font-size: 1.3rem;
+            font-weight: 600;
+        }
+
+        .tr-summary-row.total .price {
+            color: var(--luxury-gold);
+        }
+
+        .tr-checkout-btn {
+            width: 100%;
+            background: var(--luxury-gold);
+            color: black;
+            border: none;
+            padding: 20px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            cursor: pointer;
+            margin-top: 40px;
+            transition: 0.4s;
+            border-radius: 4px;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+        }
+
+        .tr-checkout-btn:hover {
+            background: white;
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(212, 175, 55, 0.2);
+        }
+
+        /* MODALS - Refined for Cinematic UI */
+        .tr-modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.85);
+            backdrop-filter: blur(15px);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+            padding: 20px;
+        }
+
+        .tr-modal {
+            background: #111;
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 12px;
+            padding: 40px;
+            width: 100%;
+            max-width: 500px;
+            position: relative;
+        }
+
+        .tr-modal h2 {
+            font-family: 'Playfair Display', serif;
+            margin-bottom: 25px;
+            text-align: center;
+        }
+
+        .tr-method-card {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            padding: 25px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            transition: 0.3s;
+        }
+
+        .tr-method-card:hover {
+            background: rgba(255,255,255,0.1);
+            border-color: var(--luxury-gold);
+        }
+
+        .tr-method-card i {
+            font-size: 1.5rem;
+            color: var(--luxury-gold);
+        }
+
+        .tr-modal-close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            cursor: pointer;
+            font-size: 1.5rem;
+            color: rgba(255,255,255,0.3);
+        }
+
+        .tr-input-group {
+            margin-bottom: 20px;
+        }
+
+        .tr-input-group label {
+            display: block;
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+            color: var(--luxury-gold);
+        }
+
+        .tr-input {
+            width: 100%;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            padding: 12px 15px;
+            color: white;
+            border-radius: 4px;
+            outline: none;
+        }
+
+        /* EMPTY STATE */
+        .tr-empty-cart {
+            text-align: center;
+            padding: 100px 0;
+            grid-column: 1 / -1;
+        }
+
+        .tr-empty-cart i {
+            font-size: 4rem;
+            color: rgba(255,255,255,0.1);
+            margin-bottom: 30px;
+        }
+
+        .tr-empty-cart h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            margin-bottom: 30px;
+        }
+
+        /* PAYMENT GATEWAY - Refined */
+        .tr-gateway-container {
+            text-align: center;
+        }
+
+        .tr-gateway-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            cursor: pointer;
+        }
+
+        .tr-gateway-btn {
+            background: #337ab7;
+            color: white;
+            padding: 15px;
+            width: 100%;
+            border: none;
+            border-radius: 4px;
+            margin-top: 20px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        .tr-spinner {
+            width: 40px;
+            height: 40px;
+            border: 3px solid rgba(255,255,255,0.1);
+            border-top: 3px solid var(--luxury-gold);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 20px auto;
+        }
+
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+        @media (max-width: 1024px) {
+            .tr-cart-container { grid-template-columns: 1fr; }
+            .tr-summary-panel { position: static; }
+        }
+
+        @media (max-width: 768px) {
+            .tr-cart-item { grid-template-columns: 80px 1fr; gap: 15px; }
+            .tr-item-price { text-align: left; grid-column: 2; }
+            .tr-remove-item { grid-column: 2; justify-self: end; }
+            .tr-cart-hero h1 { font-size: 2.5rem; }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- TOAST MESSAGES -->
+    <div id="toast-container" style="position: fixed; top: 100px; right: 20px; z-index: 10000; display: flex; flex-direction: column; gap: 10px;">
+        {% if messages %}
+        {% for message in messages %}
+            {% if 'login-popup' not in message.tags and 'logout-popup' not in message.tags and 'register-success' not in message.tags %}
+            <div class="tr-toast">
+                <i class="fa-solid {% if 'error' in message.tags %}fa-circle-xmark{% else %}fa-check-circle{% endif %} tr-toast-icon"></i> 
+                <span>{{ message }}</span>
+            </div>
+            {% endif %}
+        {% endfor %}
+        {% endif %}
+    </div>
+
+    <style>
+        .tr-toast {
+            background: #0a0a0a;
+            color: white;
+            border-left: 4px solid #d4af37;
+            padding: 15px 20px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            font-family: 'Inter', sans-serif;
+            font-size: 0.9rem;
+            animation: toastSlideIn 0.4s cubic-bezier(0.165, 0.84, 0.44, 1) forwards;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            min-width: 280px;
+        }
+        .tr-toast.removing {
+            animation: toastSlideOut 0.4s cubic-bezier(0.165, 0.84, 0.44, 1) forwards;
+        }
+        @keyframes toastSlideIn {
+            from { opacity: 0; transform: translateX(100%); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        @keyframes toastSlideOut {
+            from { opacity: 1; transform: translateX(0); }
+            to { opacity: 0; transform: translateX(100%); }
+        }
+        .tr-toast-icon { color: #d4af37; font-size: 1.2rem; }
+    </style>
+
+    <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const toasts = document.querySelectorAll('.tr-toast');
+        toasts.forEach(toast => {
+            setTimeout(() => {
+                toast.classList.add('removing');
+                setTimeout(() => toast.remove(), 400);
+            }, 3000);
+        });
+    });
+    </script>
+
+    <!-- NAVIGATION -->
+    <nav class="tr-nav" id="mainNav">
+        <span class="logo-text">TRIRATNA JEWELS</span>
+        <div style="display:flex; gap: 30px; align-items: center;">
+            <a href="{% url 'home' %}" title="Home" class="tr-nav-icon"><i class="fa-solid fa-house"></i></a>
+            <a href="{% url 'catalog' %}" title="Collection" class="tr-nav-icon"><i class="fa-solid fa-gem"></i></a>
+            <a href="{% url 'wishlist_view' %}" title="Wishlist" class="tr-nav-icon" style="position:relative;">
+                <i class="fa-regular fa-heart"></i>
+                <span class="badge" id="wishlist-badge" {% if not wishlist_count %}style="display:none;"{% endif %}>{{wishlist_count}}</span>
+            </a>
+            <a href="{% url 'cart_view' %}" title="Cart" class="tr-nav-icon" style="position:relative; color: var(--luxury-gold);">
+                <i class="fa-solid fa-shopping-bag"></i>
+                <span class="badge" id="cart-badge" {% if not cart_count %}style="display:none;"{% endif %}>{{cart_count}}</span>
+            </a>
+        </div>
+    </nav>
+
+    <!-- HERO -->
+    <section class="tr-cart-hero">
+        <span>Shopping Bag</span>
+        <h1>Your Selection</h1>
+    </section>
+
+    <!-- MAIN CONTENT -->
+    <main class="tr-cart-container">
+        {% if cart_items %}
+        <div class="tr-cart-list">
+            {% for item in cart_items %}
+            <div class="tr-cart-item">
+                <div class="tr-item-img">
+                    <img src="{{ item.jewellery.image.url }}" alt="{{ item.jewellery.name }}">
+                </div>
+                <div class="tr-item-info">
+                    <span class="tr-sku">Ref: TR-{{ item.jewellery.id|stringformat:"04d" }}</span>
+                    <h3>{{ item.jewellery.name }}</h3>
+                    <div class="tr-qty-control">
+                        <a href="javascript:void(0)" onclick="changeQty('{% url 'update_cart_quantity' item.id 'minus' %}')" class="tr-qty-btn"><i class="fa-solid fa-minus"></i></a>
+                        <span>{{ item.quantity }}</span>
+                        <a href="javascript:void(0)" onclick="changeQty('{% url 'update_cart_quantity' item.id 'plus' %}')" class="tr-qty-btn"><i class="fa-solid fa-plus"></i></a>
+                    </div>
+                </div>
+                <div class="tr-item-price">₹ {{ item.subtotal|floatformat:2 }}</div>
+                <button onclick="changeQty('{% url 'remove_from_cart' item.id %}')" class="tr-remove-item"><i class="fa-solid fa-trash-can"></i></button>
+            </div>
+            {% endfor %}
+        </div>
+
+        <div class="tr-summary-panel">
+            <h2>Summary</h2>
+            <div class="tr-summary-row">
+                <span>Subtotal</span>
+                <span>₹ {{ base_total|floatformat:2 }}</span>
+            </div>
+            <div class="tr-summary-row">
+                <span>Estimated GST (5%)</span>
+                <span>₹ {{ gst_amount|floatformat:2 }}</span>
+            </div>
+            <div class="tr-summary-row">
+                <span>Making Charges ({{ making_percent }}%)</span>
+                <span>₹ {{ making_charges|floatformat:2 }}</span>
+            </div>
+            <div class="tr-summary-row total">
+                <span>Total</span>
+                <span class="price">₹ {{ total_price|floatformat:2 }}</span>
+            </div>
+
+            <button class="tr-checkout-btn" onclick="openPaymentMethod()">Proceed to Checkout</button>
+            
+            <div style="margin-top: 30px; text-align: center; color: rgba(255,255,255,0.4); font-size: 0.7rem;">
+                <i class="fa-solid fa-lock" style="margin-right: 5px;"></i> SECURE CHECKOUT
+            </div>
+        </div>
+        {% else %}
+        <div class="tr-empty-cart">
+            <i class="fa-solid fa-shopping-bag"></i>
+            <h2>Your selection is empty.</h2>
+            <p style="color: rgba(255,255,255,0.5); margin-bottom: 40px;">Explore our collections and add masterpieces to your bag.</p>
+            <a href="{% url 'catalog' %}" class="tr-checkout-btn" style="width: auto; padding: 15px 40px;">Explore Collection</a>
+        </div>
+        {% endif %}
+    </main>
+
+    <!-- PAYMENT METHOD MODAL -->
+    <div class="tr-modal-overlay" id="paymentMethodModal">
+        <div class="tr-modal">
+            <span class="tr-modal-close" onclick="closeModals()">&times;</span>
+            <h2>Select Payment</h2>
+            <div class="tr-method-card" onclick="openOnlineModal()">
+                <i class="fa-solid fa-globe"></i>
+                <div>
+                    <div style="font-weight: 600;">Online Payment</div>
+                    <div style="font-size: 0.75rem; color: #888;">Credit Card, UPI, Netbanking</div>
+                </div>
+            </div>
+            <div class="tr-method-card" onclick="openPickupModal()">
+                <i class="fa-solid fa-store"></i>
+                <div>
+                    <div style="font-weight: 600;">Pay at Shop</div>
+                    <div style="font-size: 0.75rem; color: #888;">Order & Pay during Pickup</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- PICKUP MODAL -->
+    <div class="tr-modal-overlay" id="pickupModal">
+        <div class="tr-modal">
+            <span class="tr-modal-close" onclick="closeModals()">&times;</span>
+            <h2>Pickup Schedule</h2>
+            <div class="tr-input-group">
+                <label>Preferred Date</label>
+                <input type="date" id="pickupDate" class="tr-input">
+            </div>
+            <div class="tr-input-group">
+                <label>Preferred Time</label>
+                <input type="time" id="pickupTime" class="tr-input">
+            </div>
+            <button class="tr-checkout-btn" id="btnShop" onclick="submitOrder('pay_at_shop')">Confirm Order</button>
+        </div>
+    </div>
+
+    <!-- ONLINE PAYMENT MODAL -->
+    <div class="tr-modal-overlay" id="onlineModal">
+        <div class="tr-modal" style="max-width: 450px;">
+            <span class="tr-modal-close" onclick="closeModals()">&times;</span>
+            <h2>Complete Payment</h2>
+            
+            <div id="online-step-1">
+                <div class="tr-input-group">
+                    <label>Pickup/Delivery Date</label>
+                    <input type="date" id="onlineDate" class="tr-input">
+                </div>
+                <div class="tr-input-group">
+                    <label>Pickup/Delivery Time</label>
+                    <input type="time" id="onlineTime" class="tr-input">
+                </div>
+                <div style="margin-top: 30px;">
+                    <div class="tr-gateway-item" onclick="showGateway('card')">
+                        <span><i class="fa-regular fa-credit-card"></i> Card</span>
+                        <i class="fa-solid fa-chevron-right"></i>
+                    </div>
+                    <div class="tr-gateway-item" onclick="showGateway('upi')">
+                        <span><i class="fa-brands fa-google-pay"></i> UPI</span>
+                        <i class="fa-solid fa-chevron-right"></i>
+                    </div>
+                </div>
+            </div>
+
+            <div id="gateway-card" style="display:none;">
+                <div style="margin-bottom: 20px; cursor: pointer; color: var(--luxury-gold);" onclick="hideGateway()"><i class="fa-solid fa-arrow-left"></i> Back</div>
+                <div class="tr-input-group">
+                    <label>Card Number</label>
+                    <input type="text" class="tr-input" placeholder="XXXX XXXX XXXX XXXX">
+                </div>
+                <div style="display: flex; gap: 10px;">
+                    <div class="tr-input-group" style="flex:1;">
+                        <label>Expiry</label>
+                        <input type="text" class="tr-input" placeholder="MM/YY">
+                    </div>
+                    <div class="tr-input-group" style="flex:1;">
+                        <label>CVV</label>
+                        <input type="password" class="tr-input" placeholder="***">
+                    </div>
+                </div>
+                <button class="tr-checkout-btn" onclick="processPayment()">Pay ₹ {{ total_price|floatformat:2 }}</button>
+            </div>
+
+            <div id="gateway-upi" style="display:none;">
+                <div style="margin-bottom: 20px; cursor: pointer; color: var(--luxury-gold);" onclick="hideGateway()"><i class="fa-solid fa-arrow-left"></i> Back</div>
+                <div class="tr-input-group">
+                    <label>UPI ID</label>
+                    <input type="text" class="tr-input" placeholder="username@upi">
+                </div>
+                <button class="tr-checkout-btn" onclick="processPayment()">Verify & Pay ₹ {{ total_price|floatformat:2 }}</button>
+            </div>
+
+            <div id="gateway-processing" style="display:none; text-align: center;">
+                <div class="tr-spinner"></div>
+                <h3 id="statusText">Securely Processing...</h3>
+            </div>
+        </div>
+    </div>
+
+    <!-- SCRIPTS -->
+    <script>
+        window.addEventListener('scroll', () => {
+            const nav = document.getElementById('mainNav');
+            if (window.scrollY > 50) nav.classList.add('scrolled');
+            else nav.classList.remove('scrolled');
+        });
+
+        // Set min date
+        const today = new Date().toISOString().split('T')[0];
+        document.getElementById('pickupDate').setAttribute('min', today);
+        document.getElementById('onlineDate').setAttribute('min', today);
+
+        function openPaymentMethod() { document.getElementById('paymentMethodModal').style.display = 'flex'; }
+        function closeModals() {
+            document.querySelectorAll('.tr-modal-overlay').forEach(m => m.style.display = 'none');
+            hideGateway();
+        }
+        function openPickupModal() { closeModals(); document.getElementById('pickupModal').style.display = 'flex'; }
+        function openOnlineModal() { closeModals(); document.getElementById('onlineModal').style.display = 'flex'; }
+
+        function showGateway(type) {
+            document.getElementById('online-step-1').style.display = 'none';
+            document.getElementById('gateway-' + type).style.display = 'block';
+        }
+        function hideGateway() {
+            document.getElementById('online-step-1').style.display = 'block';
+            document.getElementById('gateway-card').style.display = 'none';
+            document.getElementById('gateway-upi').style.display = 'none';
+            document.getElementById('gateway-processing').style.display = 'none';
+        }
+
+        function changeQty(url) { window.location.replace(url); }
+
+        function processPayment() {
+            const date = document.getElementById('onlineDate').value;
+            const time = document.getElementById('onlineTime').value;
+            if(!date || !time) { alert("Please select Pickup/Delivery Date and Time!"); return; }
+
+            document.getElementById('gateway-card').style.display = 'none';
+            document.getElementById('gateway-upi').style.display = 'none';
+            document.getElementById('gateway-processing').style.display = 'block';
+
+            setTimeout(() => {
+                document.getElementById('statusText').innerText = "Payment Confirmed!";
+                submitOrder('online', date, time);
+            }, 2000);
+        }
+
+        function submitOrder(method, date, time) {
+            let payload = { method: method };
+            if (method === 'pay_at_shop') {
+                payload.pickup_date = document.getElementById('pickupDate').value;
+                payload.pickup_time = document.getElementById('pickupTime').value;
+                if (!payload.pickup_date || !payload.pickup_time) { alert("Select Date & Time!"); return; }
+            } else {
+                payload.pickup_date = date;
+                payload.pickup_time = time;
+            }
+
+            fetch("{% url 'process_checkout' %}", {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json', 'X-CSRFToken': '{{ csrf_token }}' },
+                body: JSON.stringify(payload)
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data.status === 'success') window.location.href = "/checkout/success/" + data.order_id + "/";
+                else { alert(data.message); window.location.reload(); }
+            });
+        }
+    </script>
+</body>
+</html>

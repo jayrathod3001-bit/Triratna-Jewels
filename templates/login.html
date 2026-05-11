@@ -1,0 +1,442 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Member Access | Triratna Jewels</title>
+
+    <!-- ICONS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <!-- GOOGLE FONTS -->
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;600;700&family=Italiana&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --luxury-gold: #d4af37;
+            --charcoal: #1a1a1a;
+            --bronze: #8e6d51;
+            --glass-white: rgba(255, 255, 255, 0.03);
+            --glass-border: rgba(255, 255, 255, 0.08);
+            --ease-cinematic: cubic-bezier(0.77, 0, 0.175, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #000;
+            color: white;
+            font-family: 'Inter', sans-serif;
+            height: 100vh;
+            overflow: hidden;
+            background: #050505;
+        }
+
+        /* Standard Cinematic Header */
+        .tr-nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 90px;
+            padding: 0 8%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 2000;
+        }
+
+        .tr-nav .logo-text {
+            font-family: 'Inter', sans-serif;
+            font-size: 1rem;
+            letter-spacing: 5px;
+            color: white;
+            text-decoration: none;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        /* Split Layout Wrapper */
+        .tr-auth-split {
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            position: relative;
+        }
+
+        /* Visual Side (The Sliding Door) */
+        .tr-visual-door {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 50%;
+            height: 100%;
+            background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.6)), url("{% static 'images/luxury_login_bg.png' %}");
+            background-size: cover;
+            background-position: center;
+            z-index: 100;
+            transition: 1.2s var(--ease-cinematic);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-right: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 20px 0 50px rgba(0, 0, 0, 0.5);
+        }
+
+        .tr-auth-split.toggled .tr-visual-door {
+            transform: translateX(100%);
+            border-right: none;
+            border-left: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: -20px 0 50px rgba(0, 0, 0, 0.5);
+        }
+
+        .tr-door-content {
+            text-align: center;
+            animation: fadeIn 2s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .tr-door-content h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 3.5rem;
+            font-weight: 400;
+            letter-spacing: -1px;
+            margin-bottom: 10px;
+        }
+
+        .tr-door-content p {
+            font-size: 0.8rem;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            color: var(--luxury-gold);
+            opacity: 0.8;
+        }
+
+        /* Form Side (Static background, content changes) */
+        .tr-form-side {
+            width: 50%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0 10%;
+            background: #0a0a0a;
+            position: relative;
+        }
+
+        .tr-form-side.right { background: #080808; }
+
+        .tr-auth-panel {
+            width: 100%;
+            max-width: 400px;
+            transition: 0.8s ease;
+        }
+
+        /* Forms Transitions */
+        .tr-signin-panel { z-index: 10; opacity: 1; transform: translateY(0); }
+        .tr-signup-panel { z-index: 10; opacity: 1; transform: translateY(0); }
+
+        .tr-auth-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            margin-bottom: 50px;
+            font-weight: 400;
+        }
+
+        /* Form Controls */
+        .tr-form-group {
+            margin-bottom: 35px;
+        }
+
+        .tr-form-group label {
+            display: block;
+            font-size: 0.65rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--bronze);
+            margin-bottom: 15px;
+            font-weight: 700;
+        }
+
+        .tr-form-group input {
+            width: 100%;
+            background: transparent;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-top: none; border-left: none; border-right: none;
+            padding: 15px 0;
+            color: white;
+            font-family: 'Inter', sans-serif;
+            font-size: 1rem;
+            transition: 0.5s;
+            border-radius: 0;
+        }
+
+        .tr-form-group input:focus {
+            outline: none;
+            border-bottom-color: var(--luxury-gold);
+            padding-left: 10px;
+        }
+
+        .tr-btn {
+            width: 100%;
+            padding: 20px;
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            transition: 0.5s;
+            cursor: pointer;
+            border-radius: 4px;
+            border: 1px solid var(--luxury-gold);
+            background: transparent;
+            color: var(--luxury-gold);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            margin-top: 30px;
+        }
+
+        .tr-btn:hover {
+            background: var(--luxury-gold);
+            color: #000;
+            box-shadow: 0 15px 40px rgba(212, 175, 55, 0.15);
+        }
+
+        .tr-switch-box {
+            margin-top: 40px;
+            text-align: center;
+        }
+
+        .tr-switch-text {
+            font-size: 0.75rem;
+            color: rgba(255, 255, 255, 0.3);
+        }
+
+        .tr-switch-link {
+            color: white;
+            text-decoration: none;
+            font-weight: 700;
+            margin-left: 10px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            font-size: 0.7rem;
+            border-bottom: 1px solid var(--luxury-gold);
+            padding-bottom: 2px;
+            transition: 0.3s;
+        }
+
+        .tr-switch-link:hover { color: var(--luxury-gold); }
+
+        /* Mobile Adjustments */
+        @media (max-width: 1024px) {
+            .tr-visual-door { display: none; }
+            .tr-form-side { width: 100%; padding: 0 5%; }
+            .tr-auth-split.toggled .tr-signin-panel { display: none; }
+            .tr-auth-split:not(.toggled) .tr-signup-panel { display: none; }
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav class="tr-nav">
+        <span class="logo-text">TRIRATNA JEWELS</span>
+    </nav>
+
+    <div class="tr-auth-split" id="authSplit">
+        
+        <!-- VISUAL DOOR -->
+        <div class="tr-visual-door">
+            <div class="tr-door-content">
+                <p>EST. 1995</p>
+                <h2>Triratna <br> Excellence.</h2>
+            </div>
+        </div>
+
+        <!-- LEFT SIDE (Registration appears here when toggled) -->
+        <div class="tr-form-side">
+            <div class="tr-auth-panel tr-signup-panel">
+                <h2 class="tr-auth-title">Register</h2>
+                <form method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <input type="hidden" name="form_type" value="register">
+                    <div class="tr-form-group">
+                        <label>Your Name</label>
+                        <input type="text" name="first_name" required placeholder="Enter full name">
+                    </div>
+                    <div class="tr-form-group">
+                        <label>Identity Email</label>
+                        <input type="email" name="email" required placeholder="email@example.com">
+                    </div>
+                    <div class="tr-form-group">
+                        <label>Security Key</label>
+                        <input type="password" name="password" required placeholder="Create password">
+                    </div>
+                    <div class="tr-form-group">
+                        <label>Confirm Security Key</label>
+                        <input type="password" name="confirm_password" required placeholder="Confirm password">
+                    </div>
+                    <button type="submit" class="tr-btn">
+                        Create Account <i class="fa-solid fa-gem"></i>
+                    </button>
+                </form>
+                <div class="tr-switch-box">
+                    <span class="tr-switch-text">Already a member?</span>
+                    <a href="#" class="tr-switch-link" id="toSignin">Resume Access</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- RIGHT SIDE (Login appears here by default) -->
+        <div class="tr-form-side right">
+            <div class="tr-auth-panel tr-signin-panel">
+                <h2 class="tr-auth-title">Sign In</h2>
+                <form method="post" action="{% url 'login' %}">
+                    {% csrf_token %}
+                    <div class="tr-form-group">
+                        <label>Identity Email</label>
+                        <input type="email" name="email" required placeholder="email@example.com">
+                    </div>
+                    <div class="tr-form-group">
+                        <label>Security Key</label>
+                        <input type="password" name="password" required placeholder="••••••••">
+                    </div>
+                    <button type="submit" class="tr-btn">
+                        Enter Triratna <i class="fa-solid fa-arrow-right"></i>
+                    </button>
+                </form>
+                <div class="tr-switch-box">
+                    <span class="tr-switch-text">New to the collection?</span>
+                    <a href="#" class="tr-switch-link" id="toSignup">Begin Journey</a>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    {% if messages %}
+    {% for message in messages %}
+        {% if 'register-success' in message.tags %}
+        <div class="tr-fancy-notify" id="registerPopup" onclick="this.remove()">
+            <div class="tr-fancy-content">
+                <div class="tr-fancy-icon">✦</div>
+                <div class="tr-fancy-text">{{ message }}</div>
+                <div class="tr-fancy-footer">BEGIN YOUR JOURNEY</div>
+            </div>
+        </div>
+        {% endif %}
+    {% endfor %}
+    {% endif %}
+
+    <style>
+        .tr-fancy-notify {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.4);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10000;
+            backdrop-filter: blur(4px);
+            animation: trFadeIn 0.5s ease;
+            cursor: pointer;
+        }
+
+        .tr-fancy-content {
+            background: #0a0a0a;
+            border: 1px solid var(--luxury-gold);
+            padding: 40px 60px;
+            text-align: center;
+            max-width: 550px;
+            width: 90%;
+            box-shadow: 0 40px 100px rgba(0, 0, 0, 0.8);
+            animation: trSlideIn 0.8s var(--ease-cinematic);
+            position: relative;
+        }
+
+        @keyframes trSlideIn {
+            from { opacity: 0; transform: translateY(30px) scale(0.95); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+        @keyframes trFadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .tr-fancy-icon {
+            font-size: 24px;
+            color: var(--luxury-gold);
+            margin-bottom: 20px;
+            animation: pulseShimmer 2.5s infinite;
+        }
+
+        @keyframes pulseShimmer {
+            0%, 100% { opacity: 0.4; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.2); text-shadow: 0 0 15px var(--luxury-gold); }
+        }
+
+        .tr-fancy-text {
+            color: #ffffff;
+            font-family: 'Playfair Display', 'Times New Roman', serif;
+            font-size: 1.6rem;
+            letter-spacing: 1px;
+            margin-bottom: 25px;
+            line-height: 1.4;
+        }
+
+        .tr-fancy-footer {
+            font-size: 0.75rem;
+            letter-spacing: 4px;
+            color: var(--luxury-gold);
+            text-transform: uppercase;
+            border-top: 1px solid rgba(212, 175, 55, 0.2);
+            padding-top: 20px;
+            display: inline-block;
+            margin-top: 10px;
+        }
+    </style>
+
+    <script>
+        const split = document.getElementById('authSplit');
+        const toSignup = document.getElementById('toSignup');
+        const toSignin = document.getElementById('toSignin');
+
+        toSignup.addEventListener('click', (e) => {
+            e.preventDefault();
+            split.classList.add('toggled');
+        });
+
+        toSignin.addEventListener('click', (e) => {
+            e.preventDefault();
+            split.classList.remove('toggled');
+        });
+
+        // Auto close after 5 seconds if exists
+        setTimeout(() => {
+            const popup = document.getElementById('registerPopup');
+            if (popup) {
+                popup.style.opacity = '0';
+                popup.style.transition = 'opacity 0.5s ease';
+                setTimeout(() => popup.remove(), 500);
+            }
+        }, 5000);
+    </script>
+
+</body>
+
+</html>

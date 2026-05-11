@@ -1,0 +1,1267 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Triratna Jewels | Where Purity Finds Form</title>
+    <meta name="description"
+        content="Welcome to Triratna Jewels. Explore our signature collection of handcrafted luxury jewellery.">
+
+    <!-- ICONS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <!-- CUSTOM STYLES -->
+    <link rel="stylesheet" href="{% static 'css/editorial_pages.css' %}?v=1.2">
+
+    <style>
+        /* Home Specific Editorial Styles */
+        body {
+            background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.6)),
+            url("{% static 'images/home_editorial_bg.png' %}");
+            background-attachment: fixed;
+            background-size: cover;
+            background-position: center;
+            color: white;
+            overflow-x: hidden;
+        }
+
+        /* Full Screen Banner Slider */
+        .tr-hero-slider {
+            position: relative;
+            width: 100%;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        .tr-slide-container {
+            display: flex;
+            width: 400%;
+            /* 4 slides */
+            height: 100%;
+            transition: transform 1.2s cubic-bezier(0.77, 0, 0.175, 1);
+        }
+
+        .tr-slide {
+            width: 25%;
+            height: 100%;
+            position: relative;
+        }
+
+        .tr-slide img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: brightness(0.85);
+        }
+
+        .tr-slide-content {
+            position: absolute;
+            top: 50%;
+            left: 10%;
+            transform: translateY(-50%);
+            color: white;
+            z-index: 10;
+            max-width: 600px;
+        }
+
+        .tr-slide-content span {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.8rem;
+            letter-spacing: 5px;
+            text-transform: uppercase;
+            margin-bottom: 20px;
+            display: block;
+        }
+
+        .tr-slide-content h1 {
+            font-size: 5rem;
+            font-family: 'Playfair Display', serif;
+            line-height: 1;
+            margin-bottom: 30px;
+            text-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .tr-slide-btn {
+            display: inline-block;
+            padding: 18px 40px;
+            border: 1px solid white;
+            color: white;
+            text-decoration: none;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.8rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            transition: 0.3s;
+        }
+
+        .tr-slide-btn:hover {
+            background: white;
+            color: var(--charcoal);
+        }
+
+        /* Section Headlines */
+        .tr-section-title {
+            padding: 100px 8% 40px;
+            text-align: center;
+        }
+
+        .tr-section-title span {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.7rem;
+            letter-spacing: 6px;
+            text-transform: uppercase;
+            color: var(--soft-peach);
+            margin-bottom: 15px;
+            display: block;
+        }
+
+        .tr-section-title h2 {
+            font-size: 3rem;
+            font-family: 'Playfair Display', serif;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: white;
+        }
+
+        /* Discover Narrative - Full Screen */
+        .tr-discover {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 100px;
+            padding: 0 8%;
+            align-items: center;
+            min-height: 100vh;
+            width: 100%;
+            margin: 0;
+            background: transparent;
+        }
+
+        .tr-discover-image {
+            position: relative;
+            height: 70vh;
+        }
+
+        .tr-discover-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            box-shadow: 40px 40px 0 var(--soft-peach);
+        }
+
+        .tr-discover-text h3 {
+            font-size: 2.5rem;
+            margin-bottom: 30px;
+        }
+
+        .tr-discover-text p {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 40px;
+        }
+
+        /* Product Section Area - Full Screen */
+        .tr-product-section-wrapper {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 0;
+            background: transparent;
+        }
+
+        /* Luxury Minimalist Grid */
+        .tr-editorial-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 50px;
+            padding: 0 8% 100px;
+            width: 100%;
+            max-width: 1600px;
+            margin: 0 auto;
+        }
+
+        .tr-product-card-editorial {
+            text-decoration: none;
+            color: inherit;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+
+        .tr-p-img-wrapper {
+            width: 100%;
+            aspect-ratio: 1/1;
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(10px);
+            margin-bottom: 25px;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            transition: all 0.5s cubic-bezier(0.19, 1, 0.22, 1);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .tr-p-img-wrapper img {
+            width: 80%;
+            height: 80%;
+            object-fit: contain;
+            transition: transform 0.8s cubic-bezier(0.19, 1, 0.22, 1);
+        }
+
+        /* Hover Effect: Floating Card */
+        .tr-product-card-editorial:hover .tr-p-img-wrapper {
+            transform: translateY(-10px);
+            border-color: var(--bronze);
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.08);
+        }
+
+        .tr-product-card-editorial:hover .tr-p-img-wrapper img {
+            transform: scale(1.15);
+        }
+
+        .tr-p-badge {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            font-size: 0.65rem;
+            padding: 5px 12px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            z-index: 5;
+        }
+
+        .tr-p-badge.oos {
+            background: #d9534f;
+            color: white;
+        }
+
+        .tr-p-badge.best {
+            background: var(--charcoal);
+            color: white;
+        }
+
+        .tr-p-badge.rec {
+            background: var(--bronze);
+            color: white;
+        }
+
+        .tr-p-meta {
+            text-align: center;
+        }
+
+        .tr-p-meta h4 {
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            margin-bottom: 10px;
+            font-family: 'Playfair Display', serif;
+            color: white;
+        }
+
+        .tr-p-meta .price {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.85rem;
+            color: var(--soft-peach);
+            letter-spacing: 2px;
+            font-weight: 500;
+        }
+
+        /* Fullscreen Video Section */
+        .tr-cinematic-video {
+            width: 100%;
+            height: 100vh;
+            background: black;
+            position: relative;
+            overflow: hidden;
+            margin: 0;
+        }
+
+        /* Brand Film Montage Styles */
+        .tr-brand-film {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            overflow: hidden;
+        }
+
+        .tr-film-layer {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+            opacity: 0;
+            animation: cinematicMontage 18s infinite ease-in-out;
+            transform: scale(1);
+        }
+
+        .tr-film-layer:nth-child(1) {
+            background-image: url("{% static 'images/film_frame1.png' %}");
+            animation-delay: 0s;
+        }
+
+        .tr-film-layer:nth-child(2) {
+            background-image: url("{% static 'images/film_frame2.png' %}");
+            animation-delay: 6s;
+        }
+
+        .tr-film-layer:nth-child(3) {
+            background-image: url("{% static 'images/film_frame3.png' %}");
+            animation-delay: 12s;
+        }
+
+        @keyframes cinematicMontage {
+            0% {
+                opacity: 0;
+                transform: scale(1);
+            }
+
+            5% {
+                opacity: 0.8;
+            }
+
+            28% {
+                opacity: 0.8;
+            }
+
+            33% {
+                opacity: 0;
+                transform: scale(1.1);
+            }
+
+            100% {
+                opacity: 0;
+            }
+        }
+
+        .tr-cinematic-video video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0.7;
+            position: relative;
+            z-index: 2;
+        }
+
+        .tr-video-overlay {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            color: white;
+            z-index: 5;
+        }
+
+        .tr-video-overlay h2 {
+            font-size: 4rem;
+            letter-spacing: 10px;
+            text-transform: uppercase;
+            margin-bottom: 20px;
+        }
+
+        /* Slider Nav */
+        .tr-slider-dots {
+            position: absolute;
+            bottom: 40px;
+            right: 8%;
+            display: flex;
+            gap: 15px;
+        }
+
+        .tr-dot {
+            width: 12px;
+            height: 12px;
+            border: 1px solid white;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .tr-dot.active {
+            background: white;
+            transform: scale(1.3);
+        }
+
+        /* Floating User Icons */
+        .tr-user-nav {
+            position: fixed;
+            top: 30px;
+            right: 40px;
+            z-index: 1000;
+            display: flex;
+            gap: 25px;
+            align-items: center;
+        }
+
+        .tr-user-nav a,
+        .tr-profile-btn {
+            color: white;
+            font-size: 1.2rem;
+            transition: 0.3s;
+            cursor: pointer;
+            background: none;
+            border: none;
+            outline: none;
+            padding: 0;
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            /* Removed the wishlist line */
+        }
+
+        .tr-user-nav.scrolled a,
+        .tr-user-nav.scrolled .tr-profile-btn {
+            color: var(--charcoal);
+        }
+
+        /* Filter Dropdown Styling */
+        .tr-filter-wrapper {
+            position: relative;
+        }
+
+        .tr-filter-dropdown {
+            position: absolute;
+            top: 50px;
+            right: 0;
+            width: 450px;
+            background: rgba(0, 0, 0, 0.95);
+            backdrop-filter: blur(20px);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+            border-radius: 12px;
+            padding: 30px;
+            display: none;
+            z-index: 1001;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: white;
+        }
+
+        .tr-filter-dropdown.show {
+            display: block;
+            animation: slideDown 0.4s ease forwards;
+        }
+
+        .tr-filter-dropdown h4 {
+            font-family: 'Playfair Display', serif;
+            font-size: 0.8rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: #d4af37;
+            margin-bottom: 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding-bottom: 10px;
+        }
+
+        .tr-filter-grid-compact {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .tr-filter-dropdown label {
+            display: block;
+            font-size: 0.85rem;
+            margin-bottom: 8px;
+            cursor: pointer;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .tr-filter-dropdown input {
+            margin-right: 8px;
+        }
+
+        .tr-apply-btn {
+            width: 100%;
+            margin-top: 25px;
+            padding: 12px;
+            background: var(--charcoal);
+            color: white;
+            border: none;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.75rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .tr-apply-btn:hover {
+            background: var(--bronze);
+        }
+
+        /* Profile Dropdown Styling */
+        .tr-profile-wrapper {
+            position: relative;
+        }
+
+        .tr-profile-dropdown {
+            position: absolute;
+            top: 50px;
+            right: 0;
+            width: 250px;
+            background: white;
+            box-shadow: 0 15px 45px rgba(0, 0, 0, 0.15);
+            border-radius: 8px;
+            padding: 20px 0;
+            display: none;
+            flex-direction: column;
+            z-index: 1001;
+            border: 1px solid #eee;
+        }
+
+        .tr-profile-dropdown a {
+            padding: 12px 25px;
+            color: #1a1a1a;
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: 0.3s;
+        }
+
+        .tr-profile-dropdown a:hover {
+            background: #f9f9f9;
+            color: #d4af37;
+        }
+
+        .tr-profile-dropdown.show {
+            display: flex;
+            animation: slideDown 0.4s ease forwards;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .tr-profile-dropdown a {
+            padding: 12px 25px !important;
+            font-size: 0.85rem !important;
+            font-family: 'Inter', sans-serif !important;
+            text-transform: uppercase !important;
+            letter-spacing: 1px !important;
+            color: var(--charcoal) !important;
+            display: block !important;
+            transition: 0.2s !important;
+        }
+
+        .tr-profile-dropdown a:hover {
+            background-color: #f9f9f9;
+            color: var(--bronze) !important;
+            padding-left: 30px !important;
+        }
+
+        .tr-profile-dropdown .logout-link {
+            border-top: 1px solid #eee;
+            margin-top: 10px;
+            padding-top: 15px !important;
+            color: #d9534f !important;
+        }
+
+        /* Fixed Header Bar with Standardized Style */
+        .tr-header-fixed {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 90px;
+            padding: 0 8%;
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
+            background: transparent;
+        }
+
+        .tr-header-fixed.scrolled {
+            height: 70px;
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(20px);
+            box-shadow: 0 5px 30px rgba(0, 0, 0, 0.05);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        .tr-nav-logo {
+            font-family: 'Inter', sans-serif;
+            font-size: 1.1rem;
+            letter-spacing: 5px;
+            color: white;
+            text-decoration: none;
+            transition: 0.5s;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        .tr-header-fixed.scrolled .tr-nav-logo {
+            color: var(--charcoal);
+            letter-spacing: 5px;
+        }
+
+        /* Floating User Icons */
+        .tr-user-nav {
+            display: flex;
+            gap: 30px;
+            align-items: center;
+        }
+
+        .tr-user-nav a,
+        .tr-profile-btn {
+            color: white;
+            font-size: 1.1rem;
+            transition: 0.4s;
+            cursor: pointer;
+            background: none;
+            border: none;
+            outline: none;
+            padding: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            line-height: 1;
+            height: 100%;
+        }
+
+        .tr-header-fixed.scrolled .tr-user-nav a,
+        .tr-header-fixed.scrolled .tr-profile-btn {
+            color: var(--charcoal);
+        }
+
+        .tr-login-link {
+            color: var(--luxury-gold);
+            font-size: 0.8rem;
+            letter-spacing: 3px;
+            text-decoration: none;
+            font-weight: 700;
+            font-family: 'Inter', sans-serif;
+            transition: 0.4s;
+        }
+
+        .tr-header-fixed.scrolled .tr-login-link {
+            color: var(--charcoal);
+        }
+
+        .badge {
+            position: absolute;
+            top: -10px;
+            right: -12px;
+            background: #d4af37;
+            color: black;
+            font-size: 0.65rem;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            pointer-events: none;
+            z-index: 100;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Product Card Icons */
+        .tr-p-actions {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            z-index: 5;
+            opacity: 0;
+            transform: translateX(10px);
+            transition: 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+        }
+
+        .tr-product-card-editorial:hover .tr-p-actions {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .tr-p-action-btn {
+            width: 40px;
+            height: 40px;
+            background: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--charcoal);
+            font-size: 0.9rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+            border: none;
+            transition: 0.3s;
+        }
+
+        .tr-p-action-btn:hover {
+            background: var(--bronze);
+            color: white;
+        }
+
+        .tr-p-action-btn.wishlist-btn.filled {
+            color: #d9534f;
+        }
+
+        .tr-p-action-btn.wishlist-btn.filled:hover {
+            color: white;
+        }
+
+        @media (max-width: 768px) {
+            .tr-discover {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+
+            .tr-slide-content h1 {
+                font-size: 3rem;
+            }
+
+            .tr-cinematic-video h2 {
+                font-size: 2rem;
+            }
+        }
+
+        /* Popup Notification Styles */
+        .tr-fancy-notify {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.4);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10000;
+            backdrop-filter: blur(4px);
+            animation: trFadeIn 0.5s ease;
+            cursor: pointer;
+        }
+        .tr-fancy-content {
+            background: #0a0a0a;
+            border: 1px solid #d4af37;
+            padding: 40px 60px;
+            text-align: center;
+            max-width: 550px;
+            width: 90%;
+            box-shadow: 0 40px 100px rgba(0, 0, 0, 0.8);
+            animation: trSlideIn 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+            position: relative;
+        }
+        @keyframes trSlideIn {
+            from { opacity: 0; transform: translateY(30px) scale(0.95); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+        @keyframes trFadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        .tr-fancy-icon {
+            font-size: 24px;
+            color: #d4af37;
+            margin-bottom: 20px;
+            animation: pulseShimmer 2.5s infinite;
+        }
+        @keyframes pulseShimmer {
+            0%, 100% { opacity: 0.4; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.2); text-shadow: 0 0 15px #d4af37; }
+        }
+        .tr-fancy-text {
+            color: #ffffff;
+            font-family: 'Times New Roman', serif;
+            font-size: 1.6rem;
+            letter-spacing: 1px;
+            margin-bottom: 25px;
+            line-height: 1.4;
+        }
+        .tr-fancy-footer {
+            font-size: 0.75rem;
+            letter-spacing: 4px;
+            color: #d4af37;
+            text-transform: uppercase;
+            border-top: 1px solid rgba(212, 175, 55, 0.2);
+            padding-top: 20px;
+            display: inline-block;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    {% if messages %}
+    {% for message in messages %}
+        {% if 'login-popup' in message.tags or 'logout-popup' in message.tags %}
+        <div class="tr-fancy-notify" id="globalPopup" onclick="this.remove()">
+            <div class="tr-fancy-content">
+                <div class="tr-fancy-icon">✦</div>
+                <div class="tr-fancy-text">{{ message }}</div>
+                <div class="tr-fancy-footer">TRIRATNA JEWELS</div>
+            </div>
+        </div>
+        {% endif %}
+    {% endfor %}
+    {% endif %}
+
+    <!-- TOAST MESSAGES -->
+    <div id="toast-container" style="position: fixed; top: 100px; right: 20px; z-index: 10000; display: flex; flex-direction: column; gap: 10px;">
+        {% if messages %}
+        {% for message in messages %}
+            {% if 'login-popup' not in message.tags and 'logout-popup' not in message.tags and 'register-success' not in message.tags %}
+            <div class="tr-toast">
+                <i class="fa-solid {% if 'error' in message.tags %}fa-circle-xmark{% else %}fa-check-circle{% endif %} tr-toast-icon"></i> 
+                <span>{{ message }}</span>
+            </div>
+            {% endif %}
+        {% endfor %}
+        {% endif %}
+    </div>
+
+    <style>
+        .tr-toast {
+            background: #0a0a0a;
+            color: white;
+            border-left: 4px solid #d4af37;
+            padding: 15px 20px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            font-family: 'Inter', sans-serif;
+            font-size: 0.9rem;
+            animation: toastSlideIn 0.4s cubic-bezier(0.165, 0.84, 0.44, 1) forwards;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            min-width: 280px;
+        }
+        .tr-toast.removing {
+            animation: toastSlideOut 0.4s cubic-bezier(0.165, 0.84, 0.44, 1) forwards;
+        }
+        @keyframes toastSlideIn {
+            from { opacity: 0; transform: translateX(100%); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        @keyframes toastSlideOut {
+            from { opacity: 1; transform: translateX(0); }
+            to { opacity: 0; transform: translateX(100%); }
+        }
+        .tr-toast-icon { color: #d4af37; font-size: 1.2rem; }
+    </style>
+
+    <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const toasts = document.querySelectorAll('.tr-toast');
+        toasts.forEach(toast => {
+            setTimeout(() => {
+                toast.classList.add('removing');
+                setTimeout(() => toast.remove(), 400);
+            }, 3000);
+        });
+    });
+    </script>
+
+
+    <!-- FIXED HEADER -->
+    <header class="tr-header-fixed" id="mainHeader">
+        <span class="tr-nav-logo" id="navLogo">TRIRATNA JEWELS</span>
+
+        <div class="tr-user-nav" id="userNav">
+            <!-- FILTER DROPDOWN -->
+            <div class="tr-filter-wrapper">
+                <button class="tr-profile-btn" onclick="toggleFilterMenu(event)" title="Filter">
+                    <i class="fa-solid fa-filter"></i>
+                </button>
+                <div class="tr-filter-dropdown" id="filterMenu">
+                    <form method="get" action="{% url 'home' %}#latestArrivals" id="filterFormHome">
+                        <div class="tr-filter-grid-compact">
+                            <div class="tr-filter-col">
+                                <h4>Type</h4>
+                                {% for t in all_types %}
+                                <label><input type="checkbox" name="type" value="{{ t }}"> {{ t|capfirst }}</label>
+                                {% endfor %}
+                            </div>
+                            <div class="tr-filter-col">
+                                <h4>Karat</h4>
+                                {% for k in all_karats %}
+                                <label><input type="checkbox" name="karat" value="{{ k }}"> {{ k }}</label>
+                                {% endfor %}
+                            </div>
+                        </div>
+                        <div style="margin-top: 20px;">
+                            <h4>Material</h4>
+                            <div style="display: flex; gap: 20px; flex-wrap: wrap;">
+                                {% for m in all_materials %}
+                                <label><input type="checkbox" name="material" value="{{ m }}"> {{ m|capfirst }}</label>
+                                {% endfor %}
+                            </div>
+                        </div>
+                        <button type="submit" class="tr-apply-btn">Apply Selection</button>
+                    </form>
+                </div>
+            </div>
+
+            <a href="{% url 'wishlist_view' %}" title="Wishlist" style="position:relative;">
+                <i class="fa-regular fa-heart"></i>
+                <span class="badge" id="wishlist-badge" {% if not wishlist_count %}style="display: none;"{% endif %}>{{wishlist_count}}</span>
+            </a>
+            <a href="{% url 'cart_view' %}" title="Cart" style="position:relative;">
+                <i class="fa-solid fa-shopping-bag"></i>
+                <span class="badge" id="cart-badge" {% if not cart_count %}style="display: none;"{% endif %}>{{cart_count}}</span>
+            </a>
+
+            {% if request.session.first_name %}
+            <div class="tr-profile-wrapper">
+                <button onclick="toggleProfile(event)" class="tr-profile-btn" style="font-size: 1.2rem;">
+                    <i class="fa-solid fa-circle-user"></i>
+                </button>
+                <div class="tr-profile-dropdown" id="profileMenu">
+                    <div style="padding: 10px 25px; border-bottom: 1px solid #eee; margin-bottom: 10px;">
+                        <span style="font-size: 0.65rem; letter-spacing: 2px; color: var(--bronze); text-transform: uppercase; display: block;">Welcome</span>
+                        <span style="font-family: 'Playfair Display', serif; font-size: 1.2rem; color: #1a1a1a; font-weight: 700; text-transform: capitalize;">{{ request.session.first_name }}</span>
+                    </div>
+                    <a href="{% url 'profile_view' %}">My Profile</a>
+                    <a href="{% url 'order_history' %}">My Purchases</a>
+                    <a href="{% url 'edit_profile' %}">Edit Profile</a>
+                    <a href="{% url 'cancel_order_form' %}">Cancel Order</a>
+                    <a href="{% url 'logout' %}" style="color:#d9534f !important;">Sign Out</a>
+                </div>
+            </div>
+            {% else %}
+            <a href="{% url 'login' %}" class="tr-login-link">LOGIN</a>
+            {% endif %}
+        </div>
+    </header>
+
+    <!-- SECTION 1: HERO SLIDER -->
+    <section class="tr-hero-slider">
+        <div class="tr-slide-container" id="heroSlider">
+            <!-- SLIDE 1 -->
+            <div class="tr-slide">
+                <img src="{% static 'images/banner1.png' %}" alt="Radiant Diamonds">
+                <div class="tr-slide-content">
+                    <span>Signature Collection</span>
+                    <h1>Where Purity Finds Form</h1>
+                    <a href="{% url 'catalog' %}" class="tr-slide-btn">Explore Now</a>
+                </div>
+            </div>
+            <!-- SLIDE 2 -->
+            <div class="tr-slide">
+                <img src="{% static 'images/banner2.png' %}" alt="Eternal Pearls">
+                <div class="tr-slide-content">
+                    <span>Crafted Elegance</span>
+                    <h1>The Art of Timeless Beauty</h1>
+                    <a href="{% url 'catalog' %}" class="tr-slide-btn">The Collection</a>
+                </div>
+            </div>
+            <!-- SLIDE 3 -->
+            <div class="tr-slide">
+                <img src="{% static 'images/banner3.png' %}" alt="Master Gold">
+                <div class="tr-slide-content">
+                    <span>Triratna Story</span>
+                    <h1>Sculpting Dreams in Gold</h1>
+                    <a href="{% url 'craftsmanship' %}" class="tr-slide-btn">Discover More</a>
+                </div>
+            </div>
+            <!-- SLIDE 4 -->
+            <div class="tr-slide">
+                <img src="{% static 'images/banner4.png' %}" alt="Heritage">
+                <div class="tr-slide-content">
+                    <span>Our Promises</span>
+                    <h1>A Legacy of Trust</h1>
+                    <a href="{% url 'promises' %}" class="tr-slide-btn">Read Our Vows</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="tr-slider-dots">
+            <div class="tr-dot active" onclick="goToSlide(0)"></div>
+            <div class="tr-dot" onclick="goToSlide(1)"></div>
+            <div class="tr-dot" onclick="goToSlide(2)"></div>
+            <div class="tr-dot" onclick="goToSlide(3)"></div>
+        </div>
+    </section>
+
+    <!-- SECTION 2: DISCOVER NARRATIVE -->
+    <section class="tr-discover">
+        <div class="tr-discover-image">
+            <img src="{% static 'images/discover_atelier.png' %}" alt="Heritage Craftsmanship">
+        </div>
+        <div class="tr-discover-text">
+            <span>The Triratna Jewels</span>
+            <h3>A Legacy of<br>Master Artistry</h3>
+            <p>
+                For generations, Triratna Jewels has stood as a beacon of purity and excellence. Our house combines
+                centuries-old traditional techniques with modern precision to create pieces that are not just jewelry,
+                but artifacts of emotion and heritage.
+            </p>
+            <a href="{% url 'about' %}" class="tr-slide-btn">Our Full Story</a>
+        </div>
+    </section>
+
+    <!-- SECTION 3: CINEMATIC BRAND FILM -->
+    <section class="tr-cinematic-video">
+        <div class="tr-brand-film">
+            <div class="tr-film-layer"></div>
+            <div class="tr-film-layer"></div>
+            <div class="tr-film-layer"></div>
+        </div>
+        <div class="tr-video-overlay">
+            <span>The Perspective</span>
+            <h2>TRIRATNA</h2>
+            <p style="text-transform: uppercase; letter-spacing: 5px;">A New Standard of Luxury</p>
+        </div>
+    </section>
+
+    <!-- SECTION 4: LATEST ARRIVALS - Editorial Grid -->
+    <div class="tr-product-section-wrapper" id="latestArrivals" style="min-height: auto; padding: 100px 0;">
+        <section class="tr-section-title" style="padding-top: 0; margin-bottom: 60px;">
+            <span>The Portfolio</span>
+            <h2>Latest Arrivals</h2>
+        </section>
+
+        <div class="tr-editorial-grid">
+            {% for j in jewellery|slice:":12" %}
+            <a href="{% url 'jewellery_detail' j.name %}" class="tr-product-card-editorial">
+                <div class="tr-p-img-wrapper">
+                    {% if j.stock_quantity <= 0 %} <div class="tr-p-badge oos">Out of Stock</div>
+                {% elif j.is_best_seller %}
+                <div class="tr-p-badge best">Best Seller</div>
+                {% elif j.is_recommended %}
+                <div class="tr-p-badge rec">Recommended</div>
+                {% endif %}
+                <img src="{{ j.image.url }}" alt="{{ j.name }}">
+
+                <div class="tr-p-actions">
+                    <button class="tr-p-action-btn wishlist-btn {% if j.id in wishlist_ids %}filled{% endif %}"
+                        onclick="event.preventDefault(); toggleWishlist(this, {{ j.id }});" title="Add to Wishlist">
+                        <i class="{% if j.id in wishlist_ids %}fa-solid{% else %}fa-regular{% endif %} fa-heart"></i>
+                    </button>
+                    <button class="tr-p-action-btn"
+                        onclick="event.preventDefault(); shareProduct('{{ j.name }}', '{% url 'jewellery_detail' j.name %}')"
+                        title="Share Product">
+                        <i class="fa-solid fa-share-nodes"></i>
+                    </button>
+                </div>
+        </div>
+        <div class="tr-p-meta">
+            <h4>{{ j.name }}</h4>
+            <p class="price">₹ {{ j.current_price|floatformat:2 }}</p>
+        </div>
+        </a>
+        {% empty %}
+        <div style="width: 100%; text-align: center; padding: 100px; grid-column: 1 / -1;">
+            <p style="letter-spacing: 2px; color: #999;">OUR COLLECTION IS BEING UPDATED. STAY TUNED.</p>
+        </div>
+        {% endfor %}
+    </div>
+
+    <!-- View All Button -->
+    <div style="text-align: center; margin-top: 60px;">
+        <a href="{% url 'catalog' %}" class="tr-slide-btn">View Entire Collection</a>
+    </div>
+    </div>
+
+    <!-- SECTION 5: THE PERSPECTIVE - Full Screen -->
+    <section class="tr-discover" style="background: transparent;">
+        <div class="tr-discover-text">
+            <span>Our Promises</span>
+            <h3>Purity,<br>Prosperity, Promise</h3>
+            <p>
+                Every Triratna creation is a vow of quality. We ensure that every diamond is ethically sourced and every
+                gram of gold is refined to the highest standards of purity, bringing prosperity to those who wear it.
+            </p>
+            <a href="{% url 'promises' %}" class="tr-slide-btn">View Our Commitments</a>
+        </div>
+        <div class="tr-discover-image" style="height: 60vh;">
+            <img src="{% static 'images/discover_vows.png' %}" alt="Luxury Lifestyle"
+                style="box-shadow: -40px 40px 0 rgba(255,255,255,0.1);">
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    {% include "editorial_footer.html" %}
+
+    <!-- METAL PRICE BAR -->
+    {% include "metal_price_bar.html" %}
+
+    <script>
+        // Hero Slider Logic
+        let currentSlide = 0;
+        const totalSlides = 4;
+        const slider = document.getElementById('heroSlider');
+        const dots = document.querySelectorAll('.tr-dot');
+
+        // Wishlist Toggle
+        function toggleWishlist(btn, id) {
+            fetch(`/wishlist/toggle/${id}/`)
+                .then(res => {
+                    if (res.status === 401) {
+                        window.location.href = "{% url 'login' %}";
+                        return;
+                    }
+                    return res.json();
+                })
+                .then(data => {
+                    if (data && data.status === 'success') {
+                        const icon = btn.querySelector('i');
+                        if (data.action === 'added') {
+                            btn.classList.add('filled');
+                            icon.classList.replace('fa-regular', 'fa-solid');
+                        } else {
+                            btn.classList.remove('filled');
+                            icon.classList.replace('fa-solid', 'fa-regular');
+                        }
+
+                        const badge = document.getElementById('wishlist-badge');
+                        if (badge) {
+                            badge.innerText = data.wishlist_count;
+                            badge.style.display = data.wishlist_count > 0 ? 'flex' : 'none';
+                        }
+                        window.location.reload();
+                    }
+                });
+        }
+
+        // Share Logic
+        async function shareProduct(name, url) {
+            const fullUrl = window.location.origin + url;
+            if (navigator.share) {
+                try {
+                    await navigator.share({
+                        title: name + ' | Triratna Jewels',
+                        text: 'Check out this beautiful piece from Triratna Jewels: ' + name,
+                        url: fullUrl,
+                    });
+                } catch (err) {
+                    console.log('Share cancelled or failed');
+                }
+            } else {
+                navigator.clipboard.writeText(fullUrl);
+                alert('Product link copied to clipboard!');
+            }
+        }
+
+        // Force reload on back button to update badges
+        window.addEventListener("pageshow", function (event) {
+            if (event.persisted) {
+                window.location.reload();
+            }
+        });
+
+        function goToSlide(n) {
+            currentSlide = n;
+            slider.style.transform = `translateX(-${currentSlide * 25}%)`;
+
+            // Update dots
+            dots.forEach(dot => dot.classList.remove('active'));
+            dots[currentSlide].classList.add('active');
+        }
+
+        // Auto slide
+        setInterval(() => {
+            currentSlide = (currentSlide + 1) % totalSlides;
+            goToSlide(currentSlide);
+        }, 6000);
+
+        // Overlay Toggles
+        function toggleOverlay(id) {
+            const overlay = document.getElementById(id);
+            overlay.classList.toggle('open');
+        }
+
+        // Filter Dropdown Toggle
+        function toggleFilterMenu(event) {
+            event.stopPropagation();
+            const menu = document.getElementById('filterMenu');
+            menu.classList.toggle('show');
+            // Close profile if open
+            const profile = document.getElementById('profileMenu');
+            if (profile) profile.classList.remove('show');
+        }
+
+        // Profile Dropdown Toggle
+        function toggleProfile(event) {
+            event.stopPropagation();
+            const menu = document.getElementById('profileMenu');
+            menu.classList.toggle('show');
+            // Close filter if open
+            const filter = document.getElementById('filterMenu');
+            if (filter) filter.classList.remove('show');
+        }
+
+        // Close all on outside click
+        window.addEventListener('click', (event) => {
+            const profileWrapper = document.querySelector('.tr-profile-wrapper');
+            const filterWrapper = document.querySelector('.tr-filter-wrapper');
+
+            // Close profile if click is outside the wrapper
+            if (profileWrapper && !profileWrapper.contains(event.target)) {
+                const profileMenu = document.getElementById('profileMenu');
+                if (profileMenu) profileMenu.classList.remove('show');
+            }
+
+            // Close filter if click is outside the wrapper
+            if (filterWrapper && !filterWrapper.contains(event.target)) {
+                const filterMenu = document.getElementById('filterMenu');
+                if (filterMenu) filterMenu.classList.remove('show');
+            }
+        });
+
+        // Nav Scroll Effect
+        window.addEventListener('scroll', () => {
+            const header = document.getElementById('mainHeader');
+            const logo = document.getElementById('navLogo');
+            if (window.scrollY > 80) {
+                header.classList.add('scrolled');
+                logo.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+                logo.classList.remove('scrolled');
+            }
+        });
+
+        // FORCE REFRESH ON BACK BUTTON
+        window.addEventListener('pageshow', function(event) {
+            if (event.persisted || (window.performance && window.performance.navigation.type === 2)) {
+                window.location.reload();
+            }
+        });
+
+        // Auto close popup after 5 seconds if exists
+        setTimeout(() => {
+            const popup = document.getElementById('globalPopup');
+            if (popup) {
+                popup.style.opacity = '0';
+                popup.style.transition = 'opacity 0.5s ease';
+                setTimeout(() => popup.remove(), 500);
+            }
+        }, 5000);
+    </script>
+    
+    <!-- WhatsApp Floating Button -->
+    <a href="https://wa.me/{{ whatsapp_number|default:'910000000000' }}" target="_blank" class="whatsapp-float" style="position: fixed; bottom: 30px; left: 30px; background-color: #25D366; color: white; border-radius: 50%; width: 60px; height: 60px; display: flex; align-items: center; justify-content: center; font-size: 35px; box-shadow: 0 4px 15px rgba(37,211,102,0.4); z-index: 1000; text-decoration: none; transition: transform 0.3s ease;">
+        <i class="fa-brands fa-whatsapp"></i>
+    </a>
+    <style>
+        .whatsapp-float:hover {
+            transform: scale(1.1);
+        }
+    </style>
+</body>
+
+</html>

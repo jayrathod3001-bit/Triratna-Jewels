@@ -1,0 +1,76 @@
+/* ================= HERO ================= */
+
+.terms-hero {
+    background: linear-gradient(135deg, #fff6e5, #efe1c1);
+    text-align: center;
+    padding: 140px 20px 100px;
+}
+
+.terms-hero h1 {
+    font-size: 50px;
+    letter-spacing: 2px;
+    color: #1a2a6c;
+}
+
+.terms-hero p {
+    margin-top: 10px;
+    font-size: 18px;
+    color: #1a2a6c;
+}
+
+/* ================= CONTENT ================= */
+
+.terms-content {
+    max-width: 900px;
+    margin: auto;
+    padding: 80px 20px;
+}
+
+.terms-block {
+    margin-bottom: 55px;
+}
+
+.terms-block h2 {
+    font-size: 26px;
+    margin-bottom: 15px;
+    position: relative;
+}
+
+.terms-block h2::after {
+    content: "";
+    width: 55px;
+    height: 3px;
+    background: linear-gradient(90deg, #c9a227, #ead216);
+    display: block;
+    margin-top: 10px;
+    border-radius: 2px;
+}
+
+.terms-block p {
+    font-size: 16px;
+    line-height: 1.9;
+}
+
+/* ================= FOOTER OVERRIDE ================= */
+
+.site-footer {
+    background: #fff6e5;
+    border-top: 1px solid #e6d9b8;
+}
+
+.footer-bottom {
+    border-top: 1px solid #e6d9b8;
+    color: #1a2a6c;
+}
+
+/* ================= RESPONSIVE ================= */
+
+@media (max-width: 768px) {
+    .terms-hero h1 {
+        font-size: 38px;
+    }
+
+    .terms-content {
+        padding: 60px 20px;
+    }
+}

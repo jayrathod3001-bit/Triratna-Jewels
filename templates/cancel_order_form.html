@@ -1,0 +1,387 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cancel Order | Triratna Jewels</title>
+
+    <!-- ICONS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <!-- GOOGLE FONTS -->
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;600;700&family=Italiana&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --luxury-gold: #d4af37;
+            --charcoal: #1a1a1a;
+            --bronze: #8e6d51;
+            --luxury-red: #c43a3a;
+            --glass-white: rgba(255, 255, 255, 0.03);
+            --glass-border: rgba(255, 255, 255, 0.08);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #000;
+            color: white;
+            font-family: 'Inter', sans-serif;
+            min-height: 100vh;
+            overflow-x: hidden;
+            background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.9)), url("{% static 'images/luxury_cancel_bg.png' %}");
+            background-attachment: fixed;
+            background-size: cover;
+            background-position: center;
+        }
+
+        /* Standard Cinematic Header */
+        .tr-nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 90px;
+            padding: 0 8%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 2000;
+            transition: 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
+            background: rgba(0, 0, 0, 0.2);
+            backdrop-filter: blur(15px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .tr-nav .logo-text {
+            font-family: 'Inter', sans-serif;
+            font-size: 1.1rem;
+            letter-spacing: 5px;
+            color: white;
+            text-decoration: none;
+            transition: 0.5s;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        .tr-nav-icon {
+            color: white;
+            font-size: 1.1rem;
+            text-decoration: none;
+            transition: 0.4s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+        }
+
+        /* Layout - Unified with Profile */
+        .tr-layout-wrapper {
+            max-width: 1100px;
+            margin: 140px auto 100px;
+            padding: 0 5%;
+            animation: fadeIn 1s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .tr-main-card {
+            background: rgba(255, 255, 255, 0.02);
+            backdrop-filter: blur(40px);
+            border: 1px solid var(--glass-border);
+            border-radius: 8px;
+            overflow: hidden;
+            display: grid;
+            grid-template-columns: 320px 1fr;
+            min-height: 600px;
+            box-shadow: 0 40px 100px rgba(0,0,0,0.5);
+            position: relative;
+        }
+
+        /* Sidebar - Same as Profile */
+        .tr-sidebar {
+            background: rgba(255, 255, 255, 0.02);
+            padding: 80px 40px;
+            text-align: center;
+            border-right: 1px solid var(--glass-border);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .tr-user-info h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            margin-bottom: 40px;
+            font-weight: 400;
+        }
+
+        .tr-side-menu {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .tr-menu-link {
+            padding: 18px 25px;
+            color: rgba(255, 255, 255, 0.5);
+            text-decoration: none;
+            font-size: 0.8rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            border-radius: 4px;
+            transition: 0.4s;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            border: 1px solid transparent;
+        }
+
+        .tr-menu-link:hover, .tr-menu-link.active {
+            background: rgba(255, 255, 255, 0.03);
+            color: white;
+            border-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .tr-menu-link.active i {
+            color: var(--luxury-red);
+        }
+
+        /* Main Content */
+        .tr-content-main {
+            padding: 80px;
+            position: relative;
+            z-index: 10;
+        }
+
+        .tr-section-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.8rem;
+            margin-bottom: 50px;
+            font-weight: 400;
+        }
+
+        .tr-red-line {
+            width: 60px;
+            height: 1px;
+            background: var(--luxury-red);
+            margin-bottom: 50px;
+        }
+
+        /* Policy Box */
+        .tr-policy-box {
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(196, 58, 58, 0.2);
+            border-radius: 4px;
+            padding: 30px;
+            margin-bottom: 50px;
+        }
+
+        .tr-policy-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .tr-policy-list li {
+            font-size: 0.85rem;
+            color: rgba(255, 255, 255, 0.6);
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .tr-policy-list li span { color: white; font-weight: 700; }
+
+        /* Form */
+        .tr-form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-bottom: 35px;
+        }
+
+        .tr-form-group label {
+            font-size: 0.65rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--bronze);
+            font-weight: 700;
+        }
+
+        .tr-form-group input {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            padding: 20px 0;
+            border-left: none; border-right: none; border-top: none;
+            color: white;
+            font-family: 'Inter', sans-serif;
+            font-size: 1.1rem;
+            transition: 0.5s;
+            border-radius: 0;
+        }
+
+        .tr-form-group input:focus {
+            outline: none;
+            border-bottom-color: var(--luxury-red);
+            padding-left: 15px;
+        }
+
+        .tr-btn {
+            padding: 20px 50px;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            transition: 0.5s;
+            cursor: pointer;
+            border-radius: 4px;
+            border: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            background: var(--luxury-red);
+            color: white;
+        }
+
+        .tr-btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(196, 58, 58, 0.3);
+            background: #e64545;
+        }
+
+        @media (max-width: 1024px) {
+            .tr-main-card { grid-template-columns: 1fr; }
+            .tr-sidebar { border-right: none; border-bottom: 1px solid var(--glass-border); padding: 50px 30px; }
+            .tr-content-main { padding: 50px 30px; }
+            
+            /* Horizontal Menu for Mobile */
+            .tr-side-menu {
+                flex-direction: row;
+                overflow-x: auto;
+                justify-content: flex-start;
+                padding-bottom: 15px;
+                gap: 10px;
+                width: 100vw;
+                margin-left: -30px;
+                padding-left: 30px;
+                -webkit-overflow-scrolling: touch;
+            }
+            .tr-menu-link {
+                white-space: nowrap;
+                padding: 12px 25px;
+                border-left: none;
+                border-bottom: 2px solid transparent;
+                background: rgba(255,255,255,0.03);
+                border-radius: 4px;
+            }
+            .tr-menu-link.active {
+                border-left: none;
+                border-bottom-color: var(--luxury-red);
+            }
+            .tr-side-menu::-webkit-scrollbar { display: none; }
+        }
+
+        @media (max-width: 480px) {
+            .tr-layout-wrapper { padding-top: 100px; }
+            .tr-section-title { font-size: 1.8rem; }
+            .tr-btn { width: 100%; justify-content: center; }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- NAVIGATION -->
+    <nav class="tr-nav" id="mainNav">
+        <span class="logo-text">TRIRATNA JEWELS</span>
+        <div style="display:flex; gap: 35px; align-items: center; height: 100%;">
+            <a href="{% url 'home' %}" title="Home" class="tr-nav-icon"><i class="fa-solid fa-house"></i></a>
+            <a href="{% url 'catalog' %}" title="Collection" class="tr-nav-icon"><i class="fa-solid fa-gem"></i></a>
+            <a href="{% url 'wishlist_view' %}" title="Wishlist" class="tr-nav-icon"><i class="fa-regular fa-heart"></i></a>
+            <a href="{% url 'cart_view' %}" title="Cart" class="tr-nav-icon"><i class="fa-solid fa-shopping-bag"></i></a>
+        </div>
+    </nav>
+
+    <div class="tr-layout-wrapper">
+        <div class="tr-main-card">
+            <!-- SIDEBAR -->
+            <aside class="tr-sidebar">
+                <div class="tr-user-info">
+                    <h2>{{ request.session.first_name }}</h2>
+                </div>
+
+                <nav class="tr-side-menu">
+                    <a href="javascript:void(0)" onclick="window.location.replace('{% url 'profile_view' %}')" class="tr-menu-link">
+                        <i class="fa-solid fa-id-card"></i> Account Suite
+                    </a>
+                    <a href="javascript:void(0)" onclick="window.location.replace('{% url 'order_history' %}')" class="tr-menu-link">
+                        <i class="fa-solid fa-bag-shopping"></i> My Selections
+                    </a>
+                    <a href="{% url 'edit_profile' %}?edit=1" class="tr-menu-link">
+                        <i class="fa-solid fa-pen-to-square"></i> Edit Identity
+                    </a>
+                    <a href="{% url 'cancel_order_form' %}" class="tr-menu-link active">
+                        <i class="fa-solid fa-ban"></i> Cancel Order
+                    </a>
+                    <a href="{% url 'logout' %}" class="tr-menu-link" style="color: #ff4d4d; margin-top: 40px;">
+                        <i class="fa-solid fa-power-off"></i> Sign Out
+                    </a>
+                </nav>
+            </aside>
+
+            <!-- MAIN CONTENT AREA -->
+            <main class="tr-content-main">
+                <h1 class="tr-section-title">Cancel Selection</h1>
+                <div class="tr-red-line"></div>
+
+                <div class="tr-policy-box">
+                    <ul class="tr-policy-list">
+                        <li>Within 24 Hours <span>100% Refund</span></li>
+                        <li>24 - 48 Hours <span>1% Charge</span></li>
+                        <li>After 48 Hours <span>No Refund Available</span></li>
+                    </ul>
+                    <p style="font-size: 0.7rem; color: var(--luxury-red); margin-top: 15px; text-transform: uppercase; letter-spacing: 1px; font-weight: 700;">Refund apply online payment only</p>
+                </div>
+
+                <form method="POST" class="tr-form">
+                    {% csrf_token %}
+                    <div class="tr-form-group">
+                        <label>Order Reference #</label>
+                        <input type="number" name="order_id" placeholder="Enter Order Number" required>
+                    </div>
+                    <div class="tr-form-group">
+                        <label>Authenticated Email</label>
+                        <input type="email" name="email" value="{% if request.session.email %}{{ request.session.email }}{% endif %}" {% if request.session.email %}readonly style="background: rgba(255,255,255,0.05); color: rgba(255,255,255,0.5); cursor: not-allowed;"{% endif %} placeholder="Enter Registered Email" required>
+                    </div>
+                    <button type="submit" class="tr-btn">
+                        <i class="fa-solid fa-magnifying-glass"></i> Find My Order
+                    </button>
+                </form>
+            </main>
+        </div>
+    </div>
+
+    <script>
+        function navigateAccount(url) {
+            window.location.replace(url);
+        }
+
+        // Force back button to go Home
+        window.addEventListener('popstate', function() {
+            window.location.replace('{% url "home" %}');
+        });
+    </script>
+</body>
+
+</html>

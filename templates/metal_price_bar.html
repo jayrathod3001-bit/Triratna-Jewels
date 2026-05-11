@@ -1,0 +1,68 @@
+<!-- PERSISTENT METAL PRICE BAR -->
+<div id="metalPriceBar" style="
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background: rgba(26, 26, 26, 0.98);
+    backdrop-filter: blur(15px);
+    color: #fdfcf8;
+    z-index: 1000;
+    padding: 12px 5%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 40px;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.75rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    border-top: 1px solid rgba(142, 109, 81, 0.3);
+    box-shadow: 0 -10px 30px rgba(0,0,0,0.2);
+">
+    <div style="display: flex; align-items: center; gap: 10px;">
+        <span style="color: #8e6d51; font-weight: 700;">Live Market</span>
+        <div style="width: 6px; height: 6px; background: #2ecc71; border-radius: 50%; animation: pulse 2s infinite;"></div>
+    </div>
+    
+    <div style="display: flex; gap: 30px;">
+        <div id="goldPriceDisplay">Gold 24K: Loading...</div>
+        <div id="silverPriceDisplay">Silver: Loading...</div>
+    </div>
+    
+    <div id="priceTimestamp" style="color: #666; font-size: 0.65rem;"></div>
+</div>
+
+<style>
+    @keyframes pulse {
+        0% { transform: scale(1); opacity: 1; }
+        50% { transform: scale(1.5); opacity: 0.5; }
+        100% { transform: scale(1); opacity: 1; }
+    }
+    
+    /* Ensure footer doesn't get covered by the fixed bar */
+    body { padding-bottom: 50px; }
+    
+    @media (max-width: 768px) {
+        #metalPriceBar { gap: 15px; font-size: 0.65rem; padding: 10px 2%; }
+    }
+</style>
+
+<script>
+    function updateMetalPrices() {
+        fetch('{% url "metal-price-api" %}')
+            .then(res => res.json())
+            .then(data => {
+                if(data.gold && data.silver) {
+                    document.getElementById('goldPriceDisplay').innerHTML = `Gold 24K: <span style="color: white; font-weight: 700; font-family:'Playfair Display',serif; font-size: 0.9rem;">₹ ${data.gold.toLocaleString()}</span>`;
+                    document.getElementById('silverPriceDisplay').innerHTML = `Silver: <span style="color: white; font-weight: 700; font-family:'Playfair Display',serif; font-size: 0.9rem;">₹ ${data.silver.toLocaleString()}</span>`;
+                    document.getElementById('priceTimestamp').innerText = `Updated: ${data.updated_at}`;
+                }
+            })
+            .catch(err => console.error('Error fetching prices:', err));
+    }
+    
+    updateMetalPrices();
+    // Refresh every 5 minutes
+    setInterval(updateMetalPrices, 300000);
+</script>

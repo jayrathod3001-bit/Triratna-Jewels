@@ -1,0 +1,55 @@
+{% extends 'staff_admin/base.html' %}
+{% block title %}Customers{% endblock %}
+{% block page_title %}Customer Management{% endblock %}
+
+{% block content %}
+<div class="data-section">
+    <div class="data-header">
+        <h3><i class="fa-solid fa-users" style="color:var(--gold);margin-right:8px;"></i>All Customers ({{ customers|length }})</h3>
+    </div>
+
+    <form method="GET" class="data-filters" style="padding:15px 22px;border-bottom:1px solid var(--border);">
+        <input type="text" name="search" placeholder="Search name, email, phone..." value="{{ search }}" style="min-width:300px;">
+        <button type="submit" class="btn-search"><i class="fa-solid fa-search"></i> Search</button>
+        {% if search %}
+        <a href="{% url 'staff_customer_list' %}" class="btn-clear"><i class="fa-solid fa-xmark"></i> Clear</a>
+        {% endif %}
+    </form>
+
+    <table class="data-table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Phone</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for c in customers %}
+            <tr>
+                <td>#{{ c.id }}</td>
+                <td style="font-weight:600;">{{ c.first_name }} {{ c.last_name|default:'' }}</td>
+                <td>{{ c.email }}</td>
+                <td>{{ c.phone_number|default:"—" }}</td>
+                <td>
+                    <div class="table-actions">
+                        <a href="{% url 'staff_customer_detail' c.pk %}" title="View"><i class="fa-solid fa-eye"></i> View</a>
+                    </div>
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="5">
+                    <div class="table-empty">
+                        <i class="fa-solid fa-users"></i>
+                        <p>No customers found</p>
+                    </div>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

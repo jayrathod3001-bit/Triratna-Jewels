@@ -1,0 +1,125 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Admin Panel{% endblock %} - Triratna Jewels</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="{% static 'css/staff_admin.css' %}?v=1.0">
+    {% block extra_css %}{% endblock %}
+</head>
+<body>
+    <div class="admin-layout">
+
+        <!-- SIDEBAR OVERLAY (Mobile) -->
+        <div class="sidebar-overlay" id="sidebarOverlay" onclick="closeSidebar()"></div>
+
+        <!-- SIDEBAR -->
+        <aside class="admin-sidebar" id="adminSidebar">
+            <div class="sidebar-brand">
+                <i class="fa-solid fa-gem"></i>
+                <div class="brand-text">
+                    <h3>TRIRATNA</h3>
+                    <span>Staff Panel</span>
+                </div>
+            </div>
+
+            <nav class="sidebar-nav">
+                <div class="nav-section-title">Main</div>
+                <a href="{% url 'staff_dashboard' %}" class="nav-item {% if active_page == 'dashboard' %}active{% endif %}">
+                    <i class="fa-solid fa-gauge-high"></i> Dashboard
+                </a>
+
+                <div class="nav-section-title">Catalog</div>
+                <a href="{% url 'staff_jewellery_list' %}" class="nav-item {% if active_page == 'jewellery' %}active{% endif %}">
+                    <i class="fa-solid fa-ring"></i> Jewellery
+                </a>
+                <a href="{% url 'staff_banner_list' %}" class="nav-item {% if active_page == 'banners' %}active{% endif %}">
+                    <i class="fa-solid fa-images"></i> Banners
+                </a>
+
+                <div class="nav-section-title">Sales</div>
+                <a href="{% url 'staff_order_list' %}" class="nav-item {% if active_page == 'orders' %}active{% endif %}">
+                    <i class="fa-solid fa-bag-shopping"></i> Orders
+                </a>
+                <a href="{% url 'staff_cancelled_orders' %}" class="nav-item {% if active_page == 'cancelled' %}active{% endif %}">
+                    <i class="fa-solid fa-ban"></i> Cancelled Orders
+                </a>
+                <a href="{% url 'staff_customer_list' %}" class="nav-item {% if active_page == 'customers' %}active{% endif %}">
+                    <i class="fa-solid fa-users"></i> Customers
+                </a>
+
+                <div class="nav-section-title">Settings</div>
+                <a href="{% url 'staff_metal_price' %}" class="nav-item {% if active_page == 'metal_price' %}active{% endif %}">
+                    <i class="fa-solid fa-coins"></i> Metal Prices
+                </a>
+                <a href="{% url 'staff_site_settings' %}" class="nav-item {% if active_page == 'settings' %}active{% endif %}">
+                    <i class="fa-solid fa-gear"></i> Site Settings
+                </a>
+                <a href="{% url 'staff_manage_list' %}" class="nav-item {% if active_page == 'staff' %}active{% endif %}">
+                    <i class="fa-solid fa-user-shield"></i> Staff Members
+                </a>
+                <a href="{% url 'staff_newsletter_list' %}" class="nav-item {% if active_page == 'newsletter' %}active{% endif %}">
+                    <i class="fa-solid fa-envelope-open-text"></i> Newsletter
+                </a>
+            </nav>
+
+            <div class="sidebar-footer">
+                <div class="sidebar-user">
+                    <div class="user-avatar">{{ request.session.staff_name|first|upper }}</div>
+                    <div class="user-info">
+                        <h4>{{ request.session.staff_name }}</h4>
+                        <span>{{ request.session.staff_role }}</span>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- MAIN -->
+        <main class="admin-main">
+            <header class="admin-header">
+                <div style="display:flex;align-items:center;gap:12px;">
+                    <button class="mobile-menu-btn" onclick="toggleSidebar()">
+                        <i class="fa-solid fa-bars"></i>
+                    </button>
+                    <h2 class="page-title">{% block page_title %}Dashboard{% endblock %}</h2>
+                </div>
+                <div class="header-actions">
+                    <a href="{% url 'home' %}" class="action-btn btn-outline" target="_blank">
+                        <i class="fa-solid fa-external-link-alt"></i> View Site
+                    </a>
+                    <a href="{% url 'staff_logout' %}" class="action-btn btn-outline" style="color:var(--accent-red);border-color:rgba(239,68,68,0.3);">
+                        <i class="fa-solid fa-right-from-bracket"></i> Logout
+                    </a>
+                </div>
+            </header>
+
+            <div class="admin-content">
+                {% if messages %}
+                {% for message in messages %}
+                <div class="admin-alert {{ message.tags }}">
+                    <i class="fa-solid {% if 'success' in message.tags %}fa-check-circle{% elif 'error' in message.tags %}fa-circle-exclamation{% elif 'warning' in message.tags %}fa-triangle-exclamation{% else %}fa-info-circle{% endif %}"></i>
+                    {{ message }}
+                </div>
+                {% endfor %}
+                {% endif %}
+
+                {% block content %}{% endblock %}
+            </div>
+        </main>
+    </div>
+
+    <script>
+        function toggleSidebar() {
+            document.getElementById('adminSidebar').classList.toggle('open');
+            document.getElementById('sidebarOverlay').classList.toggle('open');
+        }
+        function closeSidebar() {
+            document.getElementById('adminSidebar').classList.remove('open');
+            document.getElementById('sidebarOverlay').classList.remove('open');
+        }
+    </script>
+    {% block extra_js %}{% endblock %}
+</body>
+</html>

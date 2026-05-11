@@ -1,0 +1,98 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Terms & Conditions | Triratna Jewels</title>
+
+    <!-- ICONS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <!-- CUSTOM STYLES -->
+    <link rel="stylesheet" href="{% static 'css/editorial_pages.css' %}?v=1.0">
+</head>
+
+<body>
+
+    <!-- NAV -->
+    <nav class="tr-nav">
+        <span class="logo-text">TRIRATNA JEWELS</span>
+        <div style="display:flex; gap: 20px;">
+            <a href="{% url 'home' %}" title="Home"><i class="fa-solid fa-house"></i></a>
+            <a href="{% url 'catalog' %}" title="Collection"><i class="fa-solid fa-gem"></i></a>
+        </div>
+    </nav>
+    <!-- SECTION 1: REFINED HERO -->
+    <section class="tr-header-refined">
+        <div class="tr-bg-title">TJ</div>
+        
+        <div class="tr-refined-split">
+            <div class="tr-refined-text">
+                <span class="sub-label">Agreement</span>
+                <h1>Operational<br>Guidelines</h1>
+                <p style="font-family: 'Inter', sans-serif; font-size: 0.85rem; letter-spacing: 2px; color: var(--bronze); text-transform: uppercase;">Triratna Jewels Terms of Use</p>
+            </div>
+            <div class="tr-refined-image">
+                <img src="{% static 'images/triratna_terms.png' %}" alt="Terms of Service">
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION: EDITORIAL TEXT -->
+    <section class="tr-editorial-text">
+        <h2>TERMS & CONDITIONS</h2>
+
+        <p>WELCOME TO TRIRATNA JEWELS. BY USING OUR WEBSITE AND SERVICES, YOU AGREE TO BE BOUND BY THESE TERMS. OUR
+            POLICIES ENSURE A SECURE AND TRANSPARENT EXPERIENCE FOR ALL OUR VALUED CLIENTS.</p>
+
+        <h3>1. VOUCHERS & PAY AT SHOP</h3>
+        <p>FOR ALL 'PAY AT SHOP' RESERVATIONS, THE FOLLOWING TERMS ARE ABSOLUTE:</p>
+        <ul style="list-style: none; padding-left: 0; line-height: 2;">
+            <li>• 1. THIS IS A <strong>PAY AT SHOP VOUCHER</strong> ONLY, NOT A FINAL BILL/INVOICE.</li>
+            <li>• 2. THE FINAL BILL WILL BE GENERATED AT THE TIME OF PICKUP BASED ON THAT DAY'S PREVAILING GOLD/SILVER
+                RATES.</li>
+            <li>• 3. THE GOLD/SILVER PRICE APPLICABLE WILL BE THE <strong>RATE ON THE PICKUP DATE</strong>, NOT THE
+                ORDER DATE.</li>
+            <li>• 4. PRICES SHOWN ON THE VOUCHER ARE ESTIMATED BASED ON CURRENT RATES AND ARE SUBJECT TO CHANGE.</li>
+            <li>• 5. THE <strong>QUANTITY OF ITEMS IS FIXED</strong> AS PER THIS VOUCHER AND CANNOT BE MODIFIED.</li>
+            <li>• 6. IF ITEMS BECOME UNAVAILABLE OR SOLD OUT BEFORE PICKUP, THIS RESERVATION WILL BE
+                <strong>AUTOMATICALLY CANCELLED</strong> WITH EMAIL NOTIFICATION.</li>
+            <li>• 7. PLEASE CARRY THIS VOUCHER (PRINT OR DIGITAL) WHEN VISITING THE SHOP TO COMPLETE YOUR PURCHASE.</li>
+        </ul>
+
+        <h3>2. CANCELLATION & REFUND POLICY</h3>
+        <p>OUR CANCELLATION POLICY IS BASED ON THE TIME ELAPSED SINCE THE ORDER WAS PLACED:</p>
+        <ul style="list-style: none; padding-left: 0; line-height: 2;">
+            <li>• <strong>100% REFUND:</strong> WITHIN 24 HOURS OF PLACING THE ORDER.</li>
+            <li>• <strong>99% REFUND:</strong> WITHIN 48 HOURS OF PLACING THE ORDER (1% CANCELLATION CHARGE APPLIES).
+            </li>
+            <li>• <strong>NO REFUND:</strong> AFTER 48 HOURS OF PLACING THE ORDER, NO REFUNDS WILL BE ISSUED.</li>
+        </ul>
+
+        <h3>3. PRODUCT AUTHENTICITY</h3>
+        <p>EVERY PIECE OF JEWELLERY FROM TRIRATNA JEWELS IS GUARANTEED FOR ITS PURITY AND AUTHENTICITY. AS OUR PRODUCTS
+            ARE HANDCRAFTED, SLIGHT VARIATIONS MAY OCCUR, WHICH ONLY ADDS TO THE CHARACTER AND UNIQUENESS OF THE PIECE.
+        </p>
+
+        <h3>4. USER RESPONSIBILITIES</h3>
+        <p>USERS ARE RESPONSIBLE FOR MAINTAINING THE CONFIDENTIALITY OF THEIR ACCOUNT INFORMATION. TRIRATNA JEWELS
+            RESERVES THE RIGHT TO REFUSE SERVICE OR CANCEL ORDERS AT OUR DISCRETION IF FRAUDULENT ACTIVITY IS SUSPECTED.
+        </p>
+
+        <h3>5. INTELLECTUAL PROPERTY</h3>
+        <p>ALL CONTENT ON THIS WEBSITE, INCLUDING IMAGES, LOGOS, AND TEXT, IS THE PROPERTY OF TRIRATNA JEWELS AND IS
+            PROTECTED BY COPYRIGHT LAWS. UNAUTHORIZED USE IS STRICTLY PROHIBITED.</p>
+
+        <h3>6. AMENDMENTS</h3>
+        <p>TRIRATNA JEWELS RESERVES THE RIGHT TO MODIFY THESE TERMS AT ANY TIME. CONTINUED USE OF THE SITE CONSTITUTES
+            ACCEPTANCE OF THE UPDATED TERMS.</p>
+    </section>
+
+    <!-- FOOTER -->
+    {% include "editorial_footer.html" %}
+
+</body>
+
+</html>

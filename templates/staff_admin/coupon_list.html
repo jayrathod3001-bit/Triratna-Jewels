@@ -1,0 +1,98 @@
+{% extends 'staff_admin/base.html' %}
+{% block title %}Coupons Management{% endblock %}
+{% block page_title %}Coupons Management{% endblock %}
+
+{% block content %}
+<div class="data-section">
+    <div class="data-header">
+        <h3>Create New Coupon</h3>
+    </div>
+    <div class="data-filters" style="padding: 20px;">
+        <form method="POST" action="{% url 'staff_coupon_add' %}" style="display: flex; gap: 15px; align-items: flex-end; flex-wrap: wrap;">
+            {% csrf_token %}
+            <div style="flex: 1; min-width: 200px;">
+                <label style="display: block; font-size: 11px; margin-bottom: 5px; color: var(--text-secondary);">COUPON CODE (Upper Case)</label>
+                <input type="text" name="code" placeholder="E.G. SAVE2PERCENT" required style="width: 100%;">
+            </div>
+            <div style="flex: 1; min-width: 200px;">
+                <label style="display: block; font-size: 11px; margin-bottom: 5px; color: var(--text-secondary);">ASSIGN TO CUSTOMER (OPTIONAL)</label>
+                <select name="user_id" style="width: 100%;">
+                    <option value="">General Coupon (All Users)</option>
+                    {% for customer in customers %}
+                    <option value="{{ customer.id }}">{{ customer.first_name }} ({{ customer.email }})</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <button type="submit" class="btn-gold">
+                <i class="fa-solid fa-plus"></i> Create Code
+            </button>
+        </form>
+    </div>
+</div>
+
+<div class="data-section" style="margin-top: 30px;">
+    <div class="data-header">
+        <h3>Active / Used Coupons</h3>
+    </div>
+    <div class="table-container">
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Code</th>
+                    <th>Assigned User</th>
+                    <th>Status</th>
+                    <th>Created</th>
+                    <th>Used On</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for coupon in coupons %}
+                <tr>
+                    <td>#{{ coupon.id }}</td>
+                    <td><strong style="color: var(--gold); letter-spacing: 1px;">{{ coupon.code }}</strong></td>
+                    <td>
+                        {% if coupon.user %}
+                            {{ coupon.user.first_name }} ({{ coupon.user.email }})
+                        {% else %}
+                            <span style="color: var(--text-muted);">General</span>
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if coupon.is_used %}
+                            <span class="status-badge error">Used</span>
+                        {% elif not coupon.is_active %}
+                            <span class="status-badge pending">Inactive</span>
+                        {% else %}
+                            <span class="status-badge success">Active</span>
+                        {% endif %}
+                    </td>
+                    <td>{{ coupon.created_at|date:"d M Y" }}</td>
+                    <td>{{ coupon.used_at|date:"d M Y, H:i"|default:"-" }}</td>
+                    <td>
+                        <a href="{% url 'staff_coupon_delete' coupon.id %}" class="btn-clear" onclick="return confirm('Delete this coupon?')" title="Delete">
+                            <i class="fa-solid fa-trash-can"></i>
+                        </a>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="7" style="text-align: center; padding: 40px; color: var(--text-muted);">
+                        <i class="fa-solid fa-ticket" style="font-size: 30px; margin-bottom: 10px; display: block;"></i>
+                        No coupons found.
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="info-alert" style="margin-top: 25px; background: rgba(212, 168, 67, 0.05); border: 1px dashed var(--gold); padding: 15px; border-radius: 8px;">
+    <p style="font-size: 13px; color: var(--gold-light);">
+        <i class="fa-solid fa-lightbulb"></i> 
+        <strong>Logic Note:</strong> Applying a valid coupon removes the <strong>3% Making Charges</strong> and adds an additional <strong>2% Discount</strong> to the total bill. Coupons are strictly <strong>one-time use</strong>.
+    </p>
+</div>
+{% endblock %}
