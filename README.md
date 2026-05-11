@@ -1,54 +1,38 @@
 # Triratna
 
-A modern web-based application developed using Django that provides a secure, scalable, and user-friendly platform for managing digital operations efficiently.
+A modern Django-based web application designed to provide a secure, scalable, and user-friendly platform for managing digital operations and data efficiently.
 
 ---
 
 ## 🚀 Features
 
 - User Authentication System
-- Responsive User Interface
-- Dashboard Management
 - CRUD Operations
+- Dynamic Dashboard
 - Database Integration
-- Secure Backend Functionality
 - Admin Panel
-- Dynamic Data Handling
-- Clean Project Architecture
+- Form Validation
+- Responsive User Interface
 
 ---
 
 ## 🛠️ Technologies Used
 
-### Frontend
+- Python
+- Django
 - HTML5
 - CSS3
 - JavaScript
-
-### Backend
-- Python
-- Django
-
-### Database
-- SQLite / MySQL
-
-### Tools
+- SQLite
 - Git & GitHub
-- VS Code
 
 ---
 
-## 📂 Project Structure
+## ⚙️ Installation
 
 ```bash
-Triratna/
-│
-├── manage.py
-├── requirements.txt
-├── db.sqlite3
-├── templates/
-├── static/
-├── media/
-├── app/
-├── triratna/
-└── README.md
+git clone https://github.com/jayrathod3001-bit/triratna.git
+cd triratna
+pip install -r requirements.txt
+python manage.py migrate
+python manage.py runserver
